@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_scan"
+    app:startDestination="@id/scanFragment">
+    <action
+        android:id="@+id/global_action_scan"
+        app:destination="@id/show_scan" />
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.dougie.wallet.feature.sharing.ScannerFragment"
+        tools:layout="@layout/fragment_tabbed_scanning" />
+</navigation>

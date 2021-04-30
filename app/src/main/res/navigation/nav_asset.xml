@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_asset"
+    app:startDestination="@id/homeFragment"
+    tools:ignore="UnusedNavigation">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.dougie.wallet.feature.home.HomeFragment">
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/nav_settings" />
+
+        <action
+            android:id="@+id/action_home_to_coin_list"
+            app:destination="@id/coinListFragment" />
+
+        <action
+            android:id="@+id/action_home_to_transaction_history"
+            app:destination="@id/txHistoryFragment">
+            <argument
+                android:name="currencyInfo"
+                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/coinListFragment"
+        android:name="com.dougie.wallet.feature.coin.CoinListFragment"
+        tools:layout="@layout/fragment_coin_list" />
+
+    <fragment
+        android:id="@+id/sendFragment"
+        android:name="com.dougie.wallet.feature.send.SendFragment"
+        tools:layout="@layout/fragment_send">
+        <argument
+            android:name="currencyInfo"
+            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+
+        <action
+            android:id="@+id/action_continue_to_confirm"
+            app:destination="@id/txPreviewFragment">
+            <argument
+                android:name="previewModel"
+                app:argType="com.dougie.wallet.model.bean.SendModelWrap" />
+            <argument
+                android:name="currencyInfo"
+                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+        </action>
+    </fragment>
+
+    <dialog
+        android:id="@+id/txPreviewFragment"
+        android:name="com.dougie.wallet.feature.send.preview.TxPreviewFragment"
+        tools:layout="@layout/fragment_tx_preview">
+        <argument
+            android:name="previewModel"
+            app:argType="com.dougie.wallet.model.bean.SendModelWrap" />
+
+        <argument
+            android:name="currencyInfo"
+            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/txHistoryFragment"
+        android:name="com.dougie.wallet.feature.transaction.TransactionFragment"
+        tools:layout="@layout/fragment_transaction_history">
+        <argument
+            android:name="currencyInfo"
+            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+
+        <action
+            android:id="@+id/action_to_send"
+            app:destination="@id/sendFragment">
+            <argument
+                android:name="currencyInfo"
+                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+        </action>
+    </fragment>
+
+    <!--  Global action start -->
+    <include app:graph="@navigation/global_qrcode" />
+
+    <action
+        android:id="@+id/action_show_qrcode"
+        app:destination="@id/show_qr_code">
+        <argument
+            android:name="content"
+            app:argType="string" />
+    </action>
+
+    <include app:graph="@navigation/global_scan" />
+
+    <action
+        android:id="@+id/global_action_scan"
+        app:destination="@id/show_scan" />
+    <include app:graph="@navigation/global_walletconnect" />
+    <action
+        android:id="@+id/action_show_wallet_connect_action"
+        app:destination="@id/show_wc_action_view" >
+        <argument
+            android:name="wrapData"
+            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+    </action>
+
+    <!--  Global action end -->
+</navigation>

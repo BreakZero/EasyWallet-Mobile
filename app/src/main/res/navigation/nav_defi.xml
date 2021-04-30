@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_defi"
+    app:startDestination="@id/fragmentDefiIndex">
+    <fragment
+        android:id="@+id/fragmentDefiIndex"
+        android:name="com.dougie.wallet.feature.defi.TestDefiFragment"
+        tools:layout="@layout/fragment_defi_index">
+        <action
+            android:id="@+id/action_to_uniswap"
+            app:destination="@id/fragmentUniswap" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentUniswap"
+        android:name="com.dougie.wallet.feature.sharing.BrowserFragment"
+        tools:layout="@layout/fragment_webview" />
+
+    <include app:graph="@navigation/global_walletconnect" />
+    <action
+        android:id="@+id/action_show_wallet_connect_action"
+        app:destination="@id/show_wc_action_view">
+        <argument
+            android:name="wrapData"
+            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+    </action>
+</navigation>

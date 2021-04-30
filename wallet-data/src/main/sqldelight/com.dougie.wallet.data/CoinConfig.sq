@@ -1,0 +1,49 @@
+import com.dougie.wallet.data.constant.CurrencyType;
+
+CREATE TABLE coinConfig(
+    coin_symbol TEXT NOT NULL PRIMARY KEY,
+    coin_name TEXT NOT NULL,
+    coin_decimal INTEGER AS Int NOT NULL,
+    display_decimal INTEGER AS Int NOT NULL,
+    accent_color TEXT NOT NULL,
+    token_type TEXT AS CurrencyType NOT NULL,
+    is_active INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+insertConfig:
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES (?,?,?,?,?,?,?);
+
+getAll:
+SELECT *
+FROM coinConfig;
+
+toggleBySymbol:
+UPDATE coinConfig
+SET is_active = (is_active == 0)
+WHERE coin_symbol = ?;
+
+getActives:
+SELECT *
+FROM coinConfig
+WHERE is_active = ?;
+
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('BTC', 'Bitcoin', 8, 8, '#E8963F', 'BTC', 1);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('ETH', 'Ethereum', 18, 8, '#5F6CBA', 'ETH', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('CRO', 'Crypto.com Coin', 8, 8, '#0000CD', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('ATOM', 'Cosmos', 6, 6, '#0066CD', 'COSMOS', 0);
+
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('COMP', 'Compound', 18, 8, '#64ffda', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('UNI', 'Uniswap', 18, 8, '#e57373', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('DAI', 'Dai Stablecoin', 18, 8, '#b2ebf2', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('DOT', 'Polkadot', 10, 8, '#b2eb33', 'POLKADOT', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('TCRO', 'CALVIN COIN', 8, 8, '#b2eb88', 'ERC20TOKEN', 0);

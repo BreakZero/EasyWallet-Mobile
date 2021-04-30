@@ -1,0 +1,8 @@
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('COMP', 'Compound', 18, 8, '#64ffda', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('UNI', 'Uniswap', 18, 8, '#e57373', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('DAI', 'Dai Stablecoin', 18, 8, '#b2ebf2', 'ERC20TOKEN', 0);
+INSERT INTO coinConfig (coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('DOT', 'Polkadot', 10, 8, '#b2eb33', 'POLKADOT', 0);

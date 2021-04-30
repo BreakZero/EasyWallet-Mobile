@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_start"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.dougie.wallet.feature.start.splash.SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_import"
+            app:destination="@id/importWalletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/importWalletFragment"
+        android:name="com.dougie.wallet.feature.start.restore.ImportWalletFragment"
+        tools:layout="@layout/fragment_start_import" />
+</navigation>

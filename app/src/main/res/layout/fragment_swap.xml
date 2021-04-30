@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivWCIcon"
+        android:layout_width="@dimen/spacing_64"
+        android:layout_height="@dimen/spacing_64"
+        android:layout_marginTop="128dp"
+        android:padding="@dimen/spacing_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCActionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivWCIcon" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCOrgName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:textColor="#8009142b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWCActionName"
+        tools:text="https://app.uniswap.org/" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCTipsMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:gravity="center"
+        android:paddingStart="@dimen/spacing_16"
+        android:paddingEnd="@dimen/spacing_16"
+        android:textColor="#800b1426"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWCOrgName" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSpendLimitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_32"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWCTipsMessage" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvLinkSpendDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:ellipsize="middle"
+        android:gravity="end"
+        android:singleLine="true"
+        android:textColor="#1199FA"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvSpendLimitLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvWCToAddressLabel" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCToAddressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSpendLimitLabel" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCToAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:ellipsize="middle"
+        android:gravity="end"
+        android:singleLine="true"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvWCToAddressLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvWCToAddressLabel"
+        tools:text="0x52bc40x52bc40x52bc40x52bc40x52bc40x52bc40x52bc40x52bc4d7be3b5" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvFeeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWCToAddressLabel"
+        tools:text="Network Fee" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCFee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_16"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvFeeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="0.02 ETH" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWCOrgLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:textColor="#1199FA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvFeeLabel"
+        tools:text="payload" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWCPositive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_32"
+        android:backgroundTint="#e8ecee"
+        android:text="Approve"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/centerGuideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWCNegative"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Reject"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/centerGuideline" />
+</androidx.constraintlayout.widget.ConstraintLayout>

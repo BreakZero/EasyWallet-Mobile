@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/flChainNetwork"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_48"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="ChainNetwork" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvChainNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center_vertical"
+            android:text="MainNet"
+            app:drawableEndCompat="@drawable/ic_navigate_next_24" />
+    </FrameLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvUniSwap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="UniSwap"
+        android:textColor="@color/black"
+        app:drawableEndCompat="@drawable/ic_qr_code" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swtEnableBiometric"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Enable Biometric" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="About Wallet"
+        android:textColor="@color/black"
+        app:drawableEndCompat="@drawable/ic_navigate_next_24" />
+</androidx.appcompat.widget.LinearLayoutCompat>

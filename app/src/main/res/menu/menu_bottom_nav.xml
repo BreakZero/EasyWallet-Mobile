@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_defi"
+        android:icon="@drawable/ic_view_list_24"
+        android:title="DeFi" />
+    <item
+        android:id="@+id/nav_asset"
+        android:icon="@drawable/ic_assets"
+        android:title="Assets" />
+    <item
+        android:id="@+id/nav_nft"
+        android:icon="@drawable/ic_nft"
+        android:title="NFT" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings_24"
+        android:title="Settings" />
+</menu>

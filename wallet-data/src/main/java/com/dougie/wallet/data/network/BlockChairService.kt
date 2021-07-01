@@ -53,4 +53,17 @@ internal interface BlockChairService {
         @Query("offset") offset: Int = 10,
         @Query("apikey") apikey: String = APIKey.ETHERSCAN_API_KEY
     ): EtherScanResponse
+
+    @GET("https://api{chain_name}.bscscan.com/api")
+    suspend fun getBSCScanTransactions(
+        @Path("chain_name") chainName: String,
+        @Query("module") module: String = "account",
+        @Query("action") action: String = "txlist",
+        @Query("contractaddress") contractaddress: String? = null,
+        @Query("address") address: String,
+        @Query("sort") sort: String = "desc",
+        @Query("page") page: Int = 1,
+        @Query("offset") offset: Int = 10,
+        @Query("apikey") apikey: String = APIKey.BSCSCAN_API_KEY
+    ): EtherScanResponse
 }

@@ -5,7 +5,9 @@ enum class ChainId(val id: Int) {
     ROPSTEN(3),
     RINKEBY(4),
     GÖRLI(5),
-    KOVAN(42)
+    KOVAN(42),
+    BINANCEMAIN(56),
+    BINANCETEST(97)
 }
 
 internal const val CHAINID_STORE_KEY = "chain-store-value"

@@ -30,11 +30,14 @@ class NFTAssetViewModel : BaseViewModel() {
 
     fun send() {
         if (_asset.value.isEmpty()) return
-        nftManager.buildSendModel(_asset.value, "0xE82bc6A5364D16D23645054cda1e694F8B69f688", "120".toBigInteger())
-            .flatMapConcat {
-                nftManager.broadcastTransaction(it.rawData)
-            }.onEach {
-                Timber.d("nft transaction hash: $it")
-            }.launchIn(viewModelScope)
+        nftManager.buildSendModel(
+            _asset.value,
+            "0xE82bc6A5364D16D23645054cda1e694F8B69f688",
+            "120".toBigInteger()
+        ).flatMapConcat {
+            nftManager.broadcastTransaction(it.rawData)
+        }.onEach {
+            Timber.d("nft transaction hash: $it")
+        }.launchIn(viewModelScope)
     }
 }

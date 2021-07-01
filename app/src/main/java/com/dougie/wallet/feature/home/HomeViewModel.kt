@@ -43,6 +43,7 @@ class HomeViewModel(
                     coinInfo = CurrencyInfo.mapping(it),
                     balance = ResultStatus.Loading,
                     provider = DeFiWalletSDK.injectProvider(
+                        it.coin_slug,
                         it.coin_symbol,
                         it.coin_decimal
                     )

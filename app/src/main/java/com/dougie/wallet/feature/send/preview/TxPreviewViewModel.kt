@@ -15,12 +15,14 @@ class TxPreviewViewModel(
 ) : BaseViewModel() {
     fun broadcastTransaction(
         rawData: String,
-        onSuccess: (String) -> Unit
+        onSuccess: (String) -> Unit,
+        onError: () -> Unit
     ) {
         coinProvider.broadcastTransaction(rawData)
             .flowOn(Dispatchers.IO)
             .catch {
                 Timber.e(it)
+                onError.invoke()
             }
             .onEach {
                 onSuccess.invoke(it)

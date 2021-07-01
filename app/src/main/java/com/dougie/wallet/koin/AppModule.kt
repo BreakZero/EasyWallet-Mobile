@@ -78,6 +78,7 @@ val appModule = module {
 
     factory { (currency: CurrencyInfo) ->
         DeFiWalletSDK.injectProvider(
+            currency.slug,
             currency.symbol,
             currency.decimal
         )
@@ -98,6 +99,7 @@ val scopeModule = module {
     scope(named(ScopeConst.FLOW_SESSION_NAME)) {
         scoped { (currency: CurrencyInfo) ->
             DeFiWalletSDK.injectProvider(
+                currency.slug,
                 currency.symbol,
                 currency.decimal
             )

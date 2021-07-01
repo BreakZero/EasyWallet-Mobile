@@ -67,15 +67,18 @@ object DeFiWalletSDK {
     }
 
     fun injectProvider(
+        slug: String,
         symbol: String,
         decimals: Int
     ): IProvider {
-        return provideMap[symbol] ?: kotlin.run {
-            val currProvider = when (symbol) {
-                "BTC" -> BitcoinProvider()
-                "ETH" -> EthereumProvider(chainId())
-                "ATOM" -> CosmosProvider()
-                "DOT" -> PolkadotProvide()
+        return provideMap[slug] ?: kotlin.run {
+            val currProvider = when (slug) {
+                "btc-main" -> BitcoinProvider()
+                "eth-main" -> EthereumProvider(chainId())
+                "atom-main" -> CosmosProvider()
+                "dot-main" -> PolkadotProvide()
+                "bnb-smart" -> BinanceSmartProvider()
+                "bnb-smart-legacy" -> BinanceSmartLegacyProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals,

@@ -31,4 +31,9 @@ internal interface PolkadotService {
     suspend fun getFeeInfo(
         @Body reqBody: PolkadotRPCRequestBody
     ): DOTFeeResponse
+
+    @POST("https://polkadot.subscan.io/api/scan/blocks")
+    suspend fun getBlockInfo(
+        @Body reqBody: RequestBody
+    ): BlockInfoResponse
 }

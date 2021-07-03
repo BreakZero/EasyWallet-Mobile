@@ -43,6 +43,7 @@ class HomeViewModel(
                     coinInfo = CurrencyInfo.mapping(it),
                     balance = ResultStatus.Loading,
                     provider = DeFiWalletSDK.injectProvider(
+                        it.coin_slug,
                         it.coin_symbol,
                         it.coin_decimal
                     )
@@ -56,7 +57,6 @@ class HomeViewModel(
                 assets.postValue(_assets)
                 it.forEach { item ->
                     item.provider.getBalance(item.provider.getAddress(false)).map {
-                        Timber.d("===== $it")
                         bChannel.send(
                             item.copy(
                                 balance = ResultStatus.Success(
@@ -81,7 +81,6 @@ class HomeViewModel(
     }
 
     private fun updateItem(asset: Asset) {
-        Timber.d("===== ${asset.balance}")
         _assets.indexOfFirst { asset.coinInfo == it.coinInfo }.let {
             if (it >= 0) _assets[it] = asset
         }

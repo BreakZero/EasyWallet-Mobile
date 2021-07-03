@@ -23,7 +23,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private var currentNavController: LiveData<NavController>? = null
 
     private val wcBroadcastReceiver = WCBroadcastReceiver {
-        Timber.d("====== WC DATA: $it")
         val action = ShowWcActionViewDirections.actionShowWalletConnectAction(it)
         currentNavController?.value?.navigate(action)
     }

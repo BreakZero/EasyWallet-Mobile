@@ -40,7 +40,6 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
                         toImport()
                     }
                     else -> {
-                        Timber.d("===== loading")
                     }
                 }
             }

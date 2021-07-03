@@ -2,6 +2,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.dougie.version.BuildConfig
 import com.dougie.version.dependencies.Other
 import com.dougie.version.dependencies.Special
+import com.dougie.version.keyStoreProperties
 
 plugins {
     id("com.android.library")
@@ -32,11 +33,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
     }
+    val keysProperties = keyStoreProperties()
 
     buildTypes {
-        val infuraApiKey = gradleLocalProperties(rootDir).getProperty("apikey.infura")
-        val etherscanApiKey = gradleLocalProperties(rootDir).getProperty("apikey.etherscan")
-        val figmentApiKey = gradleLocalProperties(rootDir).getProperty("apikey.figment")
+        val infuraApiKey = keysProperties.getProperty("apikey.infura")
+        val etherscanApiKey = keysProperties.getProperty("apikey.etherscan")
+        val figmentApiKey = keysProperties.getProperty("apikey.figment")
+        val bscscanApikey = keysProperties.getProperty("apikey.bscscan")
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
@@ -45,7 +48,8 @@ android {
             )
             buildConfigField("String", "INFURA_APIKEY", infuraApiKey)
             buildConfigField("String", "ETHERSCAN_APIKEY", etherscanApiKey)
-            buildConfigField("String", "FIGMENT_APIKEY", etherscanApiKey)
+            buildConfigField("String", "FIGMENT_APIKEY", figmentApiKey)
+            buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
         getByName("debug") {
             isMinifyEnabled = false
@@ -55,7 +59,8 @@ android {
             )
             buildConfigField("String", "INFURA_APIKEY", infuraApiKey)
             buildConfigField("String", "ETHERSCAN_APIKEY", etherscanApiKey)
-            buildConfigField("String", "FIGMENT_APIKEY", etherscanApiKey)
+            buildConfigField("String", "FIGMENT_APIKEY", figmentApiKey)
+            buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
     }
     compileOptions {
@@ -84,6 +89,7 @@ dependencies {
 
     implementation(Other.SQLDelight.sqlDelight)
     implementation(Other.SQLDelight.sqlCoroutine)
+    implementation("net.zetetic:android-database-sqlcipher:4.4.3")
     api(Special.Web3J)
     api(Special.ERC20)
 

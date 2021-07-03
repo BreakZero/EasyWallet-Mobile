@@ -39,7 +39,6 @@ class NFTAssetFragment : BaseFragment(R.layout.fragment_nft_asset) {
         lifecycleScope.launchWhenStarted {
             viewModel.loadAssetDetail(args.nftAssetParam)
             viewModel.asset().collect {
-                Timber.d("===== $it")
                 binding.ivNFTAssetImage.load(it.imagePreviewUrl)
                 binding.tvAssetDescription.text = it.description.orEmpty()
                 binding.tvNFTAssetName.text = it.name

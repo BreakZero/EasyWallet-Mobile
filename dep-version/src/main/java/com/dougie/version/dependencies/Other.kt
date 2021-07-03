@@ -27,7 +27,7 @@ object Other {
     }
 
     object SQLDelight {
-        private const val sql_version = "1.4.4"
+        private const val sql_version = "1.5.0"
         const val sqlDelight = "com.squareup.sqldelight:android-driver:$sql_version"
         const val sqlCoroutine = "com.squareup.sqldelight:coroutines-extensions-jvm:$sql_version"
     }

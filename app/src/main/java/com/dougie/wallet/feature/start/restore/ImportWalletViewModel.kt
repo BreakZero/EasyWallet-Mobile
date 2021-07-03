@@ -23,7 +23,10 @@ class ImportWalletViewModel : BaseViewModel(), KoinComponent {
     }
 
     fun done(callback: () -> Unit) {
-        val mnemonic = words.joinToString(" ")
+        val mnemonic = words.joinToString(" ") {
+            if (it.endsWith(",")) it.removeSuffix(",")
+            else it
+        }
         sharedPres.edit {
             putString(StoreKey.KEY_MNEMONIC, mnemonic)
         }

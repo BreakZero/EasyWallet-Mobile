@@ -57,15 +57,22 @@ class TxPreviewFragment : BaseBottomSheetFragment(), KoinScopeComponent {
                         buttonText = "sending"
                         progressColor = Color.WHITE
                     }
-                    viewModel.broadcastTransaction(args.previewModel.rawData) {
-                        Timber.d("===$it")
-                        binding.btnContinue.isEnabled = true
-                        binding.btnContinue.hideProgress("Continue")
-                        findNavController().popBackStack(
-                            findNavController().graph.startDestination,
-                            false
-                        )
-                    }
+                    viewModel.broadcastTransaction(
+                        args.previewModel.rawData,
+                        onSuccess = {
+                            Timber.d("===$it")
+                            binding.btnContinue.isEnabled = true
+                            binding.btnContinue.hideProgress("Continue")
+                            findNavController().popBackStack(
+                                findNavController().graph.startDestination,
+                                false
+                            )
+                        },
+                        onError = {
+                            binding.btnContinue.isEnabled = true
+                            binding.btnContinue.hideProgress("Send")
+                        }
+                    )
                 }.authenticate(
                     BiometricPromptUtils.createPromptInfo(),
                     BiometricPrompt.CryptoObject(cipher)

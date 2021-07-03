@@ -48,6 +48,14 @@ class PolkadotProvide : BaseProvider(DeFiWalletSDK.currWallet()) {
         }
     }
 
+    private val validators = listOf(
+        "12U3bXJpPyLwHfUcsyh5iwmzkzEYU3XKB4eNVqm6QNsukq1g",
+        "13YNhNr6GU9YkHabngRx5SXMcwhPkXuzapywp7pyYtM9ktZS",
+        "16SSTPeD2UW3hhnuRBS6HjpxhzRFBrRf2Wupxf1iJgMkhBSD",
+        "12U3bXJpPyLwHfUcsyh5iwmzkzEYU3XKB4eNVqm6QNsukq1g",
+        "1zugcacYFxX3HveFpJVUShjfb3KyaomfVqMTFoxYuUWCdD8"
+    )
+
     override fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel> {
         val prvKey = ByteString.copyFrom(hdWallet.getKeyForCoin(CoinType.POLKADOT).data())
         val call = Polkadot.Balance.newBuilder().apply {
@@ -57,6 +65,34 @@ class PolkadotProvide : BaseProvider(DeFiWalletSDK.currWallet()) {
                 )
                 this.toAddress = sendModel.to
             }.build()
+        }
+
+        val call1 = Polkadot.Staking.newBuilder().apply {
+            /*this.bondAndNominate = Polkadot.Staking.BondAndNominate.newBuilder().apply {
+                this.value = ByteString.copyFrom(
+                    sendModel.amount.toHexByteArray()
+                )
+                this.addNominators("13YNhNr6GU9YkHabngRx5SXMcwhPkXuzapywp7pyYtM9ktZS")
+                this.controller = getAddress(false)
+                this.rewardDestination = Polkadot.RewardDestination.STASH
+            }.build()*/
+            this.bondExtra = Polkadot.Staking.BondExtra.newBuilder().apply {
+                this.value = ByteString.copyFrom(
+                    sendModel.amount.toHexByteArray()
+                )
+            }.build().apply {
+                Timber.d(this.value.toStringUtf8())
+            }
+            /*this.bond = Polkadot.Staking.Bond.newBuilder().apply {
+                this.value = ByteString.copyFrom(
+                    sendModel.amount.toHexByteArray()
+                )
+                this.controller = getAddress(false)
+                this.rewardDestination = Polkadot.RewardDestination.STAKED
+            }.build()*/
+            /*this.nominate = Polkadot.Staking.Nominate.newBuilder().apply {
+                this.addNominators("14dZ2xjivzSC49oTMjc8VViU5gL66BVrohN6E2MJ7E585iWB")
+            }.build()*/
         }
 
         return flow {
@@ -69,15 +105,22 @@ class PolkadotProvide : BaseProvider(DeFiWalletSDK.currWallet()) {
                     params = listOf(getAddress(false))
                 )
             ).result
+            val blockInfo = dotClient.getBlockInfo(
+                "{\"row\": 1,\"page\": 0}".toRequestBody("application/json".toMediaTypeOrNull())
+            ).result.blocks.first()
             val input = Polkadot.SigningInput.newBuilder().apply {
                 genesisHash = genesisHashStr
-                blockHash = genesisHashStr
+                blockHash = blockInfo.hash.toHexBytesInByteString()
+                this.era = Polkadot.Era.newBuilder().apply {
+                    this.blockNumber = blockInfo.blockNum.toLong()
+                    this.period = 64L
+                }.build()
                 nonce = mNonce.toLong()
                 specVersion = basicInfo.specVersion
                 network = Polkadot.Network.POLKADOT
                 transactionVersion = basicInfo.transactionVersion
                 privateKey = prvKey
-                balanceCall = call.build()
+                stakingCall = call1.build()
             }
             val output =
                 AnySigner.sign(input.build(), CoinType.POLKADOT, Polkadot.SigningOutput.parser())

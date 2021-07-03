@@ -72,7 +72,7 @@ class NFTManager(private val hdWallet: HDWallet, chainId: ChainId) {
                     name = result.name,
                     description = result.description,
                     contractAddress = result.assetContract.address,
-                    quantity = result.ownership.quantity.toIntOrNull() ?: 0,
+                    quantity = result.ownership.quantity.toIntOrNull() ?: 1,
                     imageUrl = result.imageUrl,
                     imagePreviewUrl = result.imagePreviewUrl,
                     animationUrl = result.animationUrl,
@@ -196,20 +196,13 @@ class NFTManager(private val hdWallet: HDWallet, chainId: ChainId) {
     }
 
     private suspend fun estimateGasLimitNeed(
-        isContract: Boolean,
-        toAddress: String,
-        nonce: BigInteger,
+        eoaAddress: String,
         gasPrice: BigInteger,
+        ethValue: BigInteger,
         payload: String
     ): BigInteger {
-        return if (!isContract) "21000".toBigInteger()
-        else web3JService.ethEstimateGas(
-            Transaction.createContractTransaction(
-                toAddress,
-                nonce,
-                gasPrice,
-                payload
-            )
+        return web3JService.ethEstimateGas(
+            Transaction(owner, null, gasPrice, null, eoaAddress, ethValue, payload)
         ).sendAsync().get().amountUsed
     }
 }

@@ -25,7 +25,7 @@ data class CurrencyInfo(
                 displayDecimal = config.display_decimal,
                 accentColor = config.accent_color,
                 feeMin = 20,
-                feeMax = 200
+                feeMax = 1000
             )
         }
     }

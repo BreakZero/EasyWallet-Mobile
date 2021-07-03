@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import org.web3j.utils.Numeric
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
-import wallet.core.jni.BitcoinAddress
+import wallet.core.jni.BitcoinScript
 import wallet.core.jni.BitcoinSigHashType
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Bitcoin
@@ -17,15 +17,16 @@ import wallet.core.jni.proto.Common
 import java.math.BigDecimal
 import java.math.BigInteger
 
-class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
+class BitcoinCashProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
     companion object {
         private const val DECIMALS = 8
     }
+
     @ExperimentalUnsignedTypes
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
             val balance = blockChairService.bitcoinRelatedInfoByAddress(
-                "bitcoin",
+                "bitcoin-cash",
                 address,
                 limit = 0,
                 offset = 0
@@ -41,12 +42,15 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
     ): Flow<List<TransactionDataModel>> {
         return flow {
             val result =
-                blockChairService.bitcoinRelatedInfoByAddress("bitcoin", address, limit, offset)
+                blockChairService.bitcoinRelatedInfoByAddress(
+                    "bitcoin-cash",
+                    address, limit, offset
+                )
                     .data.values.first().transactionsHash
             emit(result.joinToString(separator = ","))
         }.flatMapConcat { it ->
             flow {
-                val result = blockChairService.bitcoinTxsByHash("bitcoin", it)
+                val result = blockChairService.bitcoinTxsByHash("bitcoin-cash", it)
                     .data.values.map { it ->
                         val isSend = address.equals(it.inputs.first().recipient, true).not()
                         TransactionDataModel(
@@ -73,7 +77,7 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
                                 else -> TxStatus.FAILURE
                             },
                             decimal = DECIMALS,
-                            symbol = "BTC"
+                            symbol = "BCH"
                         )
                     }
                 emit(result)
@@ -87,7 +91,10 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
 
         return flow {
             val info =
-                blockChairService.bitcoinRelatedInfoByAddress("bitcoin", from).data.values.first()
+                blockChairService.bitcoinRelatedInfoByAddress(
+                    "bitcoin-cash",
+                    from
+                ).data.values.first()
             emit(info)
         }.map {
             if ((it.addressInfo.balance.toBigInteger() < sendAmount)
@@ -98,14 +105,14 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
             val utxos = it.utxos
             val input = Bitcoin.SigningInput.newBuilder().apply {
                 amount = sendAmount.toLong()
-                hashType = BitcoinSigHashType.ALL.value().or(BitcoinSigHashType.FORK.value())
+                hashType = BitcoinScript.hashTypeForCoin(CoinType.BITCOINCASH)
                 toAddress = sendModel.to
                 changeAddress = from
                 byteFee = sendModel.feeByte.toLong()
                 useMaxAmount = sendModel.useMax
-                coinType = CoinType.BITCOIN.value()
+                coinType = CoinType.BITCOINCASH.value()
             }
-            val prvData = hdWallet.getKeyForCoin(CoinType.BITCOIN)
+            val prvData = hdWallet.getKeyForCoin(CoinType.BITCOINCASH)
             utxos.forEach {
                 input.addPrivateKey(ByteString.copyFrom(prvData.data()))
                 val outPoint = Bitcoin.OutPoint.newBuilder()
@@ -126,7 +133,7 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
                     Bitcoin.UnspentTransaction
                         .newBuilder()
                         .setOutPoint(outPoint)
-                        .setAmount(it.value.toLong())
+                        .setAmount(it.value)
                         .setScript(script)
                         .build()
 
@@ -134,13 +141,13 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
             }
             val plan = AnySigner.plan(
                 input.build(),
-                CoinType.BITCOIN,
+                CoinType.BITCOINCASH,
                 Bitcoin.TransactionPlan.parser()
             )
             input.plan = plan
             val output = AnySigner.sign(
                 input.build(),
-                CoinType.BITCOIN,
+                CoinType.BITCOINCASH,
                 Bitcoin.SigningOutput.parser()
             )
             val rawData = Numeric.toHexString(output.encoded.toByteArray())
@@ -165,20 +172,16 @@ class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
         return flow {
-            val result = blockChairService.pushTransaction("bitcoin", rawData).data.txHash
+            val result = blockChairService.pushTransaction("bitcoin-cash", Numeric.cleanHexPrefix(rawData)).data.txHash
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
 
     override fun getAddress(isLegacy: Boolean): String {
-        return if (!isLegacy) hdWallet.getAddressForCoin(CoinType.BITCOIN)
-        else hdWallet.getKey(CoinType.BITCOIN, "m/44'/0'/0'/0/0").getPublicKeySecp256k1(true)
-            .let { publicKey ->
-                BitcoinAddress(publicKey, 0.toByte()).description()
-            }
+        return hdWallet.getAddressForCoin(CoinType.BITCOINCASH)
     }
 
     override fun validateAddress(address: String): Boolean {
-        return AnyAddress.isValid(address, CoinType.BITCOIN)
+        return AnyAddress.isValid(address, CoinType.BITCOINCASH)
     }
 }

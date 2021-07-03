@@ -30,27 +30,31 @@ FROM coinConfig
 WHERE is_active = ?;
 
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('btc-main','BTC', 'Bitcoin', 8, 8, '#E8963F', 'MAIN_COIN', 1);
+VALUES ('btc-main','BTC', 'Bitcoin', 8, 8, '#F9A825', 'MAIN_COIN', 1);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('eth-main','ETH', 'Ethereum', 18, 8, '#5F6CBA', 'MAIN_COIN', 0);
+VALUES ('eth-main','ETH', 'Ethereum', 18, 8, '#757575', 'MAIN_COIN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('cro-erc20','CRO','Crypto.com Coin', 8, 8, '#0000CD', 'ERC20TOKEN', 0);
+VALUES ('cro-erc20','CRO','Crypto.com Coin', 8, 8, '#1A237E', 'ERC20TOKEN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('atom-main','ATOM', 'Cosmos', 6, 6, '#0066CD', 'MAIN_COIN', 0);
+VALUES ('atom-main','ATOM', 'Cosmos', 6, 6, '#263238', 'MAIN_COIN', 0);
 
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('comp-erc20','COMP', 'Compound', 18, 8, '#64ffda', 'ERC20TOKEN', 0);
+VALUES ('comp-erc20','COMP', 'Compound', 18, 8, '#00E676', 'ERC20TOKEN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('uni-erc20','UNI', 'Uniswap', 18, 8, '#e57373', 'ERC20TOKEN', 0);
+VALUES ('uni-erc20','UNI', 'Uniswap', 18, 8, '#EC407A', 'ERC20TOKEN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('dai-erc20','DAI', 'Dai Stablecoin', 18, 8, '#b2ebf2', 'ERC20TOKEN', 0);
+VALUES ('dai-erc20','DAI', 'Dai Stablecoin', 18, 8, '#FFEB3B', 'ERC20TOKEN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('dot-main','DOT', 'Polkadot', 10, 8, '#b2eb33', 'MAIN_COIN', 0);
+VALUES ('dot-main','DOT', 'Polkadot', 10, 8, '#000000', 'MAIN_COIN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('tcro-erc20','TCRO', 'CALVIN COIN', 8, 8, '#b2eb88', 'ERC20TOKEN', 0);
+VALUES ('bnb-smart','BNB', 'Binance Smart', 18, 8, '#FFAB00', 'MAIN_COIN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('bnb-smart','BNB', 'Binance Smart', 18, 8, '#b2ff33', 'MAIN_COIN', 0);
-INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
-VALUES ('bnb-smart-legacy','BNB', 'Binance Smart Legacy', 8, 8, '#b2ffff', 'MAIN_COIN', 0);
+VALUES ('bnb-smart-legacy','BNB', 'Binance Smart Legacy', 18, 8, '#FFAB00', 'MAIN_COIN', 0);
 -- INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
 -- VALUES ('bnb','BNB', 'Binance', 8, 8, '#b2ff88', 'MAIN_COIN', 0);
+INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('doge-main','DOGE', 'Dogecoin', 8, 8, '#FFD54F', 'MAIN_COIN', 0);
+INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('bitcoin-cash-main','BCH', 'Bitcoin Cash', 8, 8, '#F9A825', 'MAIN_COIN', 0);
+INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('ada-main','ADA', 'Cardano', 6, 8, '#00BCD4', 'MAIN_COIN', 0);

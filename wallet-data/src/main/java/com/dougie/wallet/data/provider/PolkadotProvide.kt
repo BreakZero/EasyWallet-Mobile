@@ -76,7 +76,6 @@ class PolkadotProvide : BaseProvider(DeFiWalletSDK.currWallet()) {
                 this.controller = getAddress(false)
                 this.rewardDestination = Polkadot.RewardDestination.STASH
             }.build()*/
-            Timber.d("===== ${sendModel.amount}")
             this.bondExtra = Polkadot.Staking.BondExtra.newBuilder().apply {
                 this.value = ByteString.copyFrom(
                     sendModel.amount.toHexByteArray()

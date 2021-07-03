@@ -41,7 +41,7 @@ internal data class AddressRelatedInfo(
     @field:Json(name = "script_hex")
     val scriptHex: String,
     @field:Json(name = "spent")
-    val spent: Int,
+    val spent: Long,
     @field:Json(name = "spent_usd")
     val spentUsd: String,
     @field:Json(name = "transaction_count")
@@ -59,6 +59,6 @@ internal data class UTXOInfo(
     val index: Int,
     @field:Json(name = "transaction_hash")
     val transactionHash: String,
-    @field:Json(name = "values")
-    val value: Int
+    @field:Json(name = "value")
+    val value: Long
 )

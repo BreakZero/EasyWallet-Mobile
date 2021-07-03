@@ -118,8 +118,6 @@ class CosmosProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
                 addAmounts(feeAmount)
             }.build()
 
-            Timber.d("======= ${it.accountNumber}, ${getAddress(false)}")
-
             val signingInput = Cosmos.SigningInput.newBuilder().apply {
                 accountNumber = it.accountNumber.toLong()
                 chainId = "cosmoshub-3"
@@ -133,7 +131,6 @@ class CosmosProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
 
             val output =
                 AnySigner.sign(signingInput, CoinType.COSMOS, Cosmos.SigningOutput.parser())
-            Timber.d("===== ${output.json}")
             SendPlanModel(
                 amount = sendModel.amount.toBigDecimal().movePointLeft(DECIMALS),
                 fromAddress = getAddress(false),
@@ -147,7 +144,6 @@ class CosmosProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
     }
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
-        Timber.d("=== $rawData")
         return flow {
             val body = rawData.toRequestBody("application/json".toMediaTypeOrNull())
             emit(figmentClient.broadcastTransaction(body))

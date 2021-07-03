@@ -79,6 +79,9 @@ object DeFiWalletSDK {
                 "dot-main" -> PolkadotProvide()
                 "bnb-smart" -> BinanceSmartProvider()
                 "bnb-smart-legacy" -> BinanceSmartLegacyProvider()
+                "doge-main" -> DogecoinProvider()
+                "bitcoin-cash-main" -> BitcoinCashProvider()
+                "ada-main" -> CardanoProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals,

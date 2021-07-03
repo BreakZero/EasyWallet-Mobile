@@ -9,20 +9,22 @@ import com.dougie.wallet.data.data.remote.blockchair.erctoken.TokenRelatedInfoRe
 import retrofit2.http.*
 
 internal interface BlockChairService {
-    @GET("bitcoin/dashboards/address/{address}")
+    @GET("{currency_chain}/dashboards/address/{address}")
     suspend fun bitcoinRelatedInfoByAddress(
+        @Path("currency_chain") chain: String,
         @Path("address") address: String,
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: Int? = null
     ): BitcoinRelatedInfoResponse
 
-    @GET("bitcoin/dashboards/transaction/{txId}")
+    @GET("{currency_chain}/dashboards/transaction/{txId}")
     suspend fun bitcoinTxByHash(
         @Path("txId") txHash: String
     ): BitcoinTxResponse
 
-    @GET("bitcoin/dashboards/transactions/{txHashs}")
+    @GET("{currency_chain}/dashboards/transactions/{txHashs}")
     suspend fun bitcoinTxsByHash(
+        @Path("currency_chain") chain: String,
         @Path("txHashs") txHashs: String
     ): BitcoinTxResponse
 

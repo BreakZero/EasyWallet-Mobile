@@ -1,11 +1,11 @@
 package com.easy.wallet.data
 
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.data.data.remote.testnet.DataInfo
-import com.dougie.wallet.data.data.remote.testnet.StateResponse
-import com.dougie.wallet.data.etx.toHexByteArray
-import com.dougie.wallet.data.network.testnet.TestNetService
-import com.dougie.wallet.data.provider.EthereumProvider
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.data.data.remote.testnet.DataInfo
+import com.easy.wallet.data.data.remote.testnet.StateResponse
+import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.network.testnet.TestNetService
+import com.easy.wallet.data.provider.EthereumProvider
 import com.google.protobuf.ByteString
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

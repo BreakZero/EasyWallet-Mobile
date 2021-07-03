@@ -1,7 +1,7 @@
-import com.dougie.version.BuildConfig
-import com.dougie.version.dependencies.AndroidX
-import com.dougie.version.dependencies.Other
-import com.dougie.version.keyStoreProperties
+import com.easy.version.BuildConfig
+import com.easy.version.dependencies.AndroidX
+import com.easy.version.dependencies.Other
+import com.easy.version.keyStoreProperties
 
 plugins {
     id("com.android.application")
@@ -19,7 +19,7 @@ android {
     buildToolsVersion(BuildConfig.buildToolsVersion)
 
     defaultConfig {
-        applicationId = "com.dougie.wallet"
+        applicationId = "com.easy.wallet"
         minSdkVersion(BuildConfig.minSdkVersion)
         targetSdkVersion(BuildConfig.targetSdkVersion)
         versionCode = BuildConfig.versionCode

@@ -1,11 +1,11 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.data.model.*
-import com.dougie.wallet.data.data.remote.cosmos.request.CosmosTxRequest
-import com.dougie.wallet.data.error.InsufficientBalanceException
-import com.dougie.wallet.data.network.cosmos.FigmentClient
-import com.dougie.wallet.data.network.cosmos.FigmentService
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.remote.cosmos.request.CosmosTxRequest
+import com.easy.wallet.data.error.InsufficientBalanceException
+import com.easy.wallet.data.network.cosmos.FigmentClient
+import com.easy.wallet.data.network.cosmos.FigmentService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

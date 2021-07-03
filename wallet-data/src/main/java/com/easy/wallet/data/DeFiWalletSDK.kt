@@ -1,13 +1,13 @@
 package com.easy.wallet.data
 
 import android.content.Context
-import com.dougie.framework.common.BasicStore
-import com.dougie.wallet.WalletDatabase
-import com.dougie.wallet.data.constant.CHAINID_STORE_KEY
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.data.defi.NFTManager
-import com.dougie.wallet.data.provider.*
-import comdougiewalletdata.CoinConfig
+import com.easy.framework.common.BasicStore
+import com.easy.wallet.WalletDatabase
+import com.easy.wallet.data.constant.CHAINID_STORE_KEY
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.data.defi.NFTManager
+import com.easy.wallet.data.provider.*
+import comeasywalletdata.CoinConfig
 import wallet.core.jni.HDWallet
 import kotlin.properties.Delegates
 

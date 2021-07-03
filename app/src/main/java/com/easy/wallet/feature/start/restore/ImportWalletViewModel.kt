@@ -2,9 +2,9 @@ package com.easy.wallet.feature.start.restore
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.constant.StoreKey
-import com.dougie.wallet.data.DeFiWalletSDK
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.constant.StoreKey
+import com.easy.wallet.data.DeFiWalletSDK
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get

@@ -5,11 +5,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.framework.ext.onSingleClick
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentTabbedScanningBinding
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.framework.ext.onSingleClick
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentTabbedScanningBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory

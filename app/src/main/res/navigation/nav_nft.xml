@@ -6,39 +6,39 @@
     app:startDestination="@id/fragmentNFTIndex">
     <fragment
         android:id="@+id/fragmentNFTIndex"
-        android:name="com.dougie.wallet.feature.nft.NFTCollectionsFragment"
+        android:name="com.easy.wallet.feature.nft.NFTCollectionsFragment"
         tools:layout="@layout/fragment_nft_index">
         <action
             android:id="@+id/action_to_collection_assets"
             app:destination="@id/fragmentNFTAssets">
             <argument
                 android:name="collectionInfo"
-                app:argType="com.dougie.wallet.data.data.model.nft.NFTCollectionDataModel" />
+                app:argType="com.easy.wallet.data.data.model.nft.NFTCollectionDataModel" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/fragmentNFTAssets"
-        android:name="com.dougie.wallet.feature.nft.assets.NFTAssetsFragment"
+        android:name="com.easy.wallet.feature.nft.assets.NFTAssetsFragment"
         tools:layout="@layout/fragment_nft_asset_list">
         <argument
             android:name="collectionInfo"
-            app:argType="com.dougie.wallet.data.data.model.nft.NFTCollectionDataModel" />
+            app:argType="com.easy.wallet.data.data.model.nft.NFTCollectionDataModel" />
         <action
             android:id="@+id/action_to_asset_detail"
             app:destination="@id/fragmentNFTAsset">
             <argument
                 android:name="nftAssetParam"
-                app:argType="com.dougie.wallet.data.param.NFTAssetParameter" />
+                app:argType="com.easy.wallet.data.param.NFTAssetParameter" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/fragmentNFTAsset"
-        android:name="com.dougie.wallet.feature.nft.asset.NFTAssetFragment"
+        android:name="com.easy.wallet.feature.nft.asset.NFTAssetFragment"
         tools:layout="@layout/rv_item_nft_asset">
         <argument
             android:name="nftAssetParam"
-            app:argType="com.dougie.wallet.data.param.NFTAssetParameter" />
+            app:argType="com.easy.wallet.data.param.NFTAssetParameter" />
     </fragment>
 </navigation>

@@ -2,11 +2,11 @@ package com.easy.wallet.feature.nft
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentNftIndexBinding
-import com.dougie.wallet.feature.nft.adapter.NFTCollectionController
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentNftIndexBinding
+import com.easy.wallet.feature.nft.adapter.NFTCollectionController
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel

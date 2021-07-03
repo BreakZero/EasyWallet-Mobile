@@ -2,8 +2,8 @@ package com.easy.framework.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dougie.framework.model.Event
-import com.dougie.framework.model.RequestState
+import com.easy.framework.model.Event
+import com.easy.framework.model.RequestState
 
 typealias StatefulLiveData<T> = LiveData<RequestState<T>>
 typealias StatefulMutableLiveData<T> = MutableLiveData<RequestState<T>>

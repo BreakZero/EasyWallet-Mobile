@@ -6,11 +6,11 @@ import android.graphics.Color
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.dougie.framework.ext.onSingleClick
-import com.dougie.framework.model.ResultStatus
-import com.dougie.wallet.R
-import com.dougie.wallet.data.Asset
-import com.dougie.wallet.helper.KotlinEpoxyHolder
+import com.easy.framework.ext.onSingleClick
+import com.easy.framework.model.ResultStatus
+import com.easy.wallet.R
+import com.easy.wallet.data.Asset
+import com.easy.wallet.helper.KotlinEpoxyHolder
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.MainScope

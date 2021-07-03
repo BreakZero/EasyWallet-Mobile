@@ -1,14 +1,14 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.data.model.SendModel
-import com.dougie.wallet.data.data.model.SendPlanModel
-import com.dougie.wallet.data.data.model.TransactionDataModel
-import com.dougie.wallet.data.etx.toHexByteArray
-import com.dougie.wallet.data.etx.toHexBytesInByteString
-import com.dougie.wallet.data.network.polkadot.PolkadotClient
-import com.dougie.wallet.data.network.polkadot.PolkadotRPCRequestBody
-import com.dougie.wallet.data.network.polkadot.PolkadotService
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.data.model.SendModel
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.etx.toHexBytesInByteString
+import com.easy.wallet.data.network.polkadot.PolkadotClient
+import com.easy.wallet.data.network.polkadot.PolkadotRPCRequestBody
+import com.easy.wallet.data.network.polkadot.PolkadotService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat

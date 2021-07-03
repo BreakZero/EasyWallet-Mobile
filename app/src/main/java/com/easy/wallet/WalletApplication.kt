@@ -7,9 +7,9 @@ import coil.ImageLoaderFactory
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.util.CoilUtils
-import com.dougie.framework.common.CrashCollection
-import com.dougie.wallet.koin.appModule
-import com.dougie.wallet.koin.scopeModule
+import com.easy.framework.common.CrashCollection
+import com.easy.wallet.koin.appModule
+import com.easy.wallet.koin.scopeModule
 import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext

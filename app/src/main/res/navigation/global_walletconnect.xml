@@ -10,15 +10,15 @@
         app:destination="@id/walletConnectActionView">
         <argument
             android:name="wrapData"
-            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+            app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />
     </action>
 
     <dialog
         android:id="@+id/walletConnectActionView"
-        android:name="com.dougie.wallet.feature.wallectconnet.ActionHandleFragment"
+        android:name="com.easy.wallet.feature.wallectconnet.ActionHandleFragment"
         tools:layout="@layout/fragment_swap">
         <argument
             android:name="wrapData"
-            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+            app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />
     </dialog>
 </navigation>

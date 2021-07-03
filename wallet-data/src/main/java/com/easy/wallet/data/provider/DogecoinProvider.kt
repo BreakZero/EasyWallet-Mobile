@@ -1,8 +1,8 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.data.model.*
-import com.dougie.wallet.data.error.InsufficientBalanceException
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.error.InsufficientBalanceException
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

@@ -1,10 +1,10 @@
 package com.easy.wallet.feature.start
 
 import android.content.SharedPreferences
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.framework.model.ResultStatus
-import com.dougie.wallet.constant.StoreKey
-import com.dougie.wallet.data.DeFiWalletSDK
+import com.easy.framework.base.BaseViewModel
+import com.easy.framework.model.ResultStatus
+import com.easy.wallet.constant.StoreKey
+import com.easy.wallet.data.DeFiWalletSDK
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent

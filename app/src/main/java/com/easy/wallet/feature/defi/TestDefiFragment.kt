@@ -6,11 +6,11 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import coil.load
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.framework.ext.onSingleClick
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentDefiIndexBinding
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.framework.ext.onSingleClick
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentDefiIndexBinding
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

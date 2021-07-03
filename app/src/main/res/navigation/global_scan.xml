@@ -9,6 +9,6 @@
         app:destination="@id/show_scan" />
     <fragment
         android:id="@+id/scanFragment"
-        android:name="com.dougie.wallet.feature.sharing.ScannerFragment"
+        android:name="com.easy.wallet.feature.sharing.ScannerFragment"
         tools:layout="@layout/fragment_tabbed_scanning" />
 </navigation>

@@ -1,8 +1,7 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import com.dougie.version.BuildConfig
-import com.dougie.version.dependencies.Other
-import com.dougie.version.dependencies.Special
-import com.dougie.version.keyStoreProperties
+import com.easy.version.BuildConfig
+import com.easy.version.dependencies.Other
+import com.easy.version.dependencies.Special
+import com.easy.version.keyStoreProperties
 
 plugins {
     id("com.android.library")
@@ -16,7 +15,7 @@ plugins {
 
 sqldelight {
     database("WalletDatabase") {
-        packageName = "com.dougie.wallet"
+        packageName = "com.easy.wallet"
     }
 }
 

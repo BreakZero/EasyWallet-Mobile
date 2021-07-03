@@ -1,6 +1,6 @@
 package com.easy.wallet.data.data.remote.blockchair.btc
 
-import com.dougie.wallet.data.data.remote.CoinContext
+import com.easy.wallet.data.data.remote.CoinContext
 import com.squareup.moshi.Json
 
 internal data class BitcoinTxResponse(

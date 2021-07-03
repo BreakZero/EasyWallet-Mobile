@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentDefiIndex">
     <fragment
         android:id="@+id/fragmentDefiIndex"
-        android:name="com.dougie.wallet.feature.defi.TestDefiFragment"
+        android:name="com.easy.wallet.feature.defi.TestDefiFragment"
         tools:layout="@layout/fragment_defi_index">
         <action
             android:id="@+id/action_to_uniswap"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/fragmentUniswap"
-        android:name="com.dougie.wallet.feature.sharing.BrowserFragment"
+        android:name="com.easy.wallet.feature.sharing.BrowserFragment"
         tools:layout="@layout/fragment_webview" />
 
     <include app:graph="@navigation/global_walletconnect" />
@@ -24,6 +24,6 @@
         app:destination="@id/show_wc_action_view">
         <argument
             android:name="wrapData"
-            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+            app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />
     </action>
 </navigation>

@@ -3,10 +3,10 @@ package com.easy.wallet.feature.sharing
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.navigation.fragment.navArgs
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentQrCodeBinding
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentQrCodeBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter

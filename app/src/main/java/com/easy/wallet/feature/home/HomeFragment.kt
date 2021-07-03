@@ -2,13 +2,13 @@ package com.easy.wallet.feature.home
 
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.framework.model.ResultStatus
-import com.dougie.wallet.R
-import com.dougie.wallet.ShowQrCodeDirections
-import com.dougie.wallet.databinding.FragmentHomeBinding
-import com.dougie.wallet.feature.home.adapter.AssetController
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.framework.model.ResultStatus
+import com.easy.wallet.R
+import com.easy.wallet.ShowQrCodeDirections
+import com.easy.wallet.databinding.FragmentHomeBinding
+import com.easy.wallet.feature.home.adapter.AssetController
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.androidx.viewmodel.scope.emptyState

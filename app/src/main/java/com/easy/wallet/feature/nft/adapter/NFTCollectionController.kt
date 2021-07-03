@@ -1,7 +1,7 @@
 package com.easy.wallet.feature.nft.adapter
 
 import com.airbnb.epoxy.TypedEpoxyController
-import com.dougie.wallet.data.data.model.nft.NFTCollectionDataModel
+import com.easy.wallet.data.data.model.nft.NFTCollectionDataModel
 
 class NFTCollectionController(
     private val itemListener: (NFTCollectionDataModel) -> Unit

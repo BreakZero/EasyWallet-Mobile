@@ -1,11 +1,11 @@
 package com.easy.wallet.data.network
 
-import com.dougie.wallet.data.constant.APIKey
-import com.dougie.wallet.data.data.remote.EtherScanResponse
-import com.dougie.wallet.data.data.remote.blockchair.PushTxResponse
-import com.dougie.wallet.data.data.remote.blockchair.btc.BitcoinRelatedInfoResponse
-import com.dougie.wallet.data.data.remote.blockchair.btc.BitcoinTxResponse
-import com.dougie.wallet.data.data.remote.blockchair.erctoken.TokenRelatedInfoResponse
+import com.easy.wallet.data.constant.APIKey
+import com.easy.wallet.data.data.remote.EtherScanResponse
+import com.easy.wallet.data.data.remote.blockchair.PushTxResponse
+import com.easy.wallet.data.data.remote.blockchair.btc.BitcoinRelatedInfoResponse
+import com.easy.wallet.data.data.remote.blockchair.btc.BitcoinTxResponse
+import com.easy.wallet.data.data.remote.blockchair.erctoken.TokenRelatedInfoResponse
 import retrofit2.http.*
 
 internal interface BlockChairService {

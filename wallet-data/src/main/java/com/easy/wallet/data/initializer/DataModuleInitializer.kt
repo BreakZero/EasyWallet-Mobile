@@ -2,14 +2,14 @@ package com.easy.wallet.data.initializer
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.dougie.wallet.WalletDatabase
+import com.easy.wallet.WalletDatabase
 import com.easy.wallet.data.BuildConfig
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.constant.CurrencyType
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.constant.CurrencyType
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.AfterVersion
-import comdougiewalletdata.CoinConfig
+import comeasywalletdata.CoinConfig
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
 import timber.log.Timber
@@ -19,7 +19,7 @@ class DataModuleInitializer : Initializer<Unit> {
     override fun create(context: Context) {
         System.loadLibrary("TrustWalletCore")
 
-        if (_root_ide_package_.com.easy.wallet.data.BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
         DeFiWalletSDK.injectBasicStore(context)

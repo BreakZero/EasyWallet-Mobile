@@ -1,7 +1,7 @@
 package com.easy.wallet.data.network.web3j
 
-import com.dougie.wallet.data.constant.APIKey
-import com.dougie.wallet.data.constant.ChainId
+import com.easy.wallet.data.constant.APIKey
+import com.easy.wallet.data.constant.ChainId
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.web3j.protocol.Web3j

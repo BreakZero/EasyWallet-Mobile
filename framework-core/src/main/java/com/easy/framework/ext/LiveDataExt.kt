@@ -3,10 +3,10 @@ package com.easy.framework.ext
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.dougie.framework.common.EventLiveData
-import com.dougie.framework.common.StatefulLiveData
-import com.dougie.framework.model.Event
-import com.dougie.framework.model.RequestState
+import com.easy.framework.common.EventLiveData
+import com.easy.framework.common.StatefulLiveData
+import com.easy.framework.model.Event
+import com.easy.framework.model.RequestState
 
 @MainThread
 inline fun <T> EventLiveData<T>.observeEvent(

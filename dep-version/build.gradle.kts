@@ -27,7 +27,7 @@ gradlePlugin {
     plugins {
         create("VersionPlugin") {
             id = "version-plugin"
-            implementationClass = "com.dougie.version.DependencyVersionPlugin"
+            implementationClass = "com.easy.version.DependencyVersionPlugin"
         }
     }
 }

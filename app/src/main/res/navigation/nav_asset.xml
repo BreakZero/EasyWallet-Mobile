@@ -7,7 +7,7 @@
     tools:ignore="UnusedNavigation">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.dougie.wallet.feature.home.HomeFragment">
+        android:name="com.easy.wallet.feature.home.HomeFragment">
         <action
             android:id="@+id/action_home_to_settings"
             app:destination="@id/nav_settings" />
@@ -21,63 +21,63 @@
             app:destination="@id/txHistoryFragment">
             <argument
                 android:name="currencyInfo"
-                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+                app:argType="com.easy.wallet.data.CurrencyInfo" />
         </action>
 
     </fragment>
 
     <fragment
         android:id="@+id/coinListFragment"
-        android:name="com.dougie.wallet.feature.coin.CoinListFragment"
+        android:name="com.easy.wallet.feature.coin.CoinListFragment"
         tools:layout="@layout/fragment_coin_list" />
 
     <fragment
         android:id="@+id/sendFragment"
-        android:name="com.dougie.wallet.feature.send.SendFragment"
+        android:name="com.easy.wallet.feature.send.SendFragment"
         tools:layout="@layout/fragment_send">
         <argument
             android:name="currencyInfo"
-            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+            app:argType="com.easy.wallet.data.CurrencyInfo" />
 
         <action
             android:id="@+id/action_continue_to_confirm"
             app:destination="@id/txPreviewFragment">
             <argument
                 android:name="previewModel"
-                app:argType="com.dougie.wallet.model.bean.SendModelWrap" />
+                app:argType="com.easy.wallet.model.bean.SendModelWrap" />
             <argument
                 android:name="currencyInfo"
-                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+                app:argType="com.easy.wallet.data.CurrencyInfo" />
         </action>
     </fragment>
 
     <dialog
         android:id="@+id/txPreviewFragment"
-        android:name="com.dougie.wallet.feature.send.preview.TxPreviewFragment"
+        android:name="com.easy.wallet.feature.send.preview.TxPreviewFragment"
         tools:layout="@layout/fragment_tx_preview">
         <argument
             android:name="previewModel"
-            app:argType="com.dougie.wallet.model.bean.SendModelWrap" />
+            app:argType="com.easy.wallet.model.bean.SendModelWrap" />
 
         <argument
             android:name="currencyInfo"
-            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+            app:argType="com.easy.wallet.data.CurrencyInfo" />
     </dialog>
 
     <fragment
         android:id="@+id/txHistoryFragment"
-        android:name="com.dougie.wallet.feature.transaction.TransactionFragment"
+        android:name="com.easy.wallet.feature.transaction.TransactionFragment"
         tools:layout="@layout/fragment_transaction_history">
         <argument
             android:name="currencyInfo"
-            app:argType="com.dougie.wallet.data.CurrencyInfo" />
+            app:argType="com.easy.wallet.data.CurrencyInfo" />
 
         <action
             android:id="@+id/action_to_send"
             app:destination="@id/sendFragment">
             <argument
                 android:name="currencyInfo"
-                app:argType="com.dougie.wallet.data.CurrencyInfo" />
+                app:argType="com.easy.wallet.data.CurrencyInfo" />
         </action>
     </fragment>
 
@@ -103,7 +103,7 @@
         app:destination="@id/show_wc_action_view" >
         <argument
             android:name="wrapData"
-            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+            app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />
     </action>
 
     <!--  Global action end -->

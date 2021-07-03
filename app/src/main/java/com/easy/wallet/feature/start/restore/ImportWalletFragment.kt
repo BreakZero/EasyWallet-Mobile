@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentStartImportBinding
-import com.dougie.wallet.feature.MainActivity
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentStartImportBinding
+import com.easy.wallet.feature.MainActivity
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip

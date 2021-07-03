@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.dougie.framework.base.BaseActivity
-import com.dougie.wallet.R
+import com.easy.framework.base.BaseActivity
+import com.easy.wallet.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
 import kotlin.properties.Delegates

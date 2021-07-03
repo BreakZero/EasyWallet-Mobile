@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dougie.wallet.data">
+    package="com.easy.wallet.data">
 
     <application>
         <provider
@@ -10,7 +10,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="com.dougie.wallet.data.initializer.DataModuleInitializer"
+                android:name="com.easy.wallet.data.initializer.DataModuleInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>

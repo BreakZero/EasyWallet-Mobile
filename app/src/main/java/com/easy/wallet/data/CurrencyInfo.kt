@@ -1,7 +1,7 @@
 package com.easy.wallet.data
 
 import android.os.Parcelable
-import comdougiewalletdata.CoinConfig
+import comeasywalletdata.CoinConfig
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

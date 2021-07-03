@@ -1,8 +1,8 @@
 package com.easy.wallet.feature.send.preview
 
 import androidx.lifecycle.viewModelScope
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.data.provider.IProvider
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.provider.IProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn

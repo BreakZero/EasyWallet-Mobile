@@ -6,10 +6,10 @@ import coil.load
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.dougie.framework.ext.onSingleClick
-import com.dougie.wallet.R
-import com.dougie.wallet.data.data.model.nft.NFTCollectionDataModel
-import com.dougie.wallet.helper.KotlinEpoxyHolder
+import com.easy.framework.ext.onSingleClick
+import com.easy.wallet.R
+import com.easy.wallet.data.data.model.nft.NFTCollectionDataModel
+import com.easy.wallet.helper.KotlinEpoxyHolder
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.MainScope

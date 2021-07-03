@@ -1,8 +1,8 @@
 package com.easy.wallet.feature.coin
 
 import androidx.lifecycle.liveData
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.data.DeFiWalletSDK
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.DeFiWalletSDK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 

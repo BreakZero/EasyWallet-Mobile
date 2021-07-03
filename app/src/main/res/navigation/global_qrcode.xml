@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/qrCodeFragment"
-        android:name="com.dougie.wallet.feature.sharing.QRCodeFragment"
+        android:name="com.easy.wallet.feature.sharing.QRCodeFragment"
         tools:layout="@layout/fragment_qr_code">
         <argument
             android:name="content"

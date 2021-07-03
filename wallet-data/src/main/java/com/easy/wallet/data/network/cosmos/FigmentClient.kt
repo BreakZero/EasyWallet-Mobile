@@ -1,6 +1,6 @@
 package com.easy.wallet.data.network.cosmos
 
-import com.dougie.wallet.data.constant.APIKey
+import com.easy.wallet.data.constant.APIKey
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,11 +1,11 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.data.data.model.*
-import com.dougie.wallet.data.error.InsufficientBalanceException
-import com.dougie.wallet.data.etx.toHexByteArray
-import com.dougie.wallet.data.network.web3j.Web3JService
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.error.InsufficientBalanceException
+import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.network.web3j.Web3JService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

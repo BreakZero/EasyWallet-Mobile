@@ -1,8 +1,8 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.data.model.SendModel
-import com.dougie.wallet.data.data.model.SendPlanModel
-import com.dougie.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.data.model.SendModel
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.TransactionDataModel
 import kotlinx.coroutines.flow.Flow
 import java.math.BigInteger
 

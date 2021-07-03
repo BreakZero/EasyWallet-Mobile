@@ -1,7 +1,7 @@
 package com.easy.wallet.feature.defi
 
 import androidx.lifecycle.viewModelScope
-import com.dougie.framework.base.BaseViewModel
+import com.easy.framework.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 
 class TestDefiViewModel : BaseViewModel() {

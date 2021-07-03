@@ -3,10 +3,10 @@ package com.easy.wallet.feature.wallectconnet
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.data.provider.EthereumProvider
-import com.dougie.wallet.feature.wallectconnet.data.WCActionType
-import com.dougie.wallet.feature.wallectconnet.data.WCDataWrap
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.data.provider.EthereumProvider
+import com.easy.wallet.feature.wallectconnet.data.WCActionType
+import com.easy.wallet.feature.wallectconnet.data.WCDataWrap
 import com.trustwallet.walletconnect.WCClient
 import com.trustwallet.walletconnect.models.WCPeerMeta
 import com.trustwallet.walletconnect.models.session.WCSession

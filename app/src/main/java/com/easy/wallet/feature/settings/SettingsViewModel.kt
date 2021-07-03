@@ -1,7 +1,7 @@
 package com.easy.wallet.feature.settings
 
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.data.DeFiWalletSDK
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.DeFiWalletSDK
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 

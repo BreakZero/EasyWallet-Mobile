@@ -6,7 +6,7 @@
     app:startDestination="@id/settingsFragment">
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.dougie.wallet.feature.settings.SettingsFragment"
+        android:name="com.easy.wallet.feature.settings.SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_home_to_settings"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/setChainFragment"
-        android:name="com.dougie.wallet.feature.settings.chain.SetChainFragment"
+        android:name="com.easy.wallet.feature.settings.chain.SetChainFragment"
         tools:layout="@layout/fragment_settings_chain"/>
 
     <include app:graph="@navigation/global_scan" />
@@ -30,6 +30,6 @@
         app:destination="@id/show_wc_action_view" >
         <argument
             android:name="wrapData"
-            app:argType="com.dougie.wallet.feature.wallectconnet.data.WCDataWrap" />
+            app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />
     </action>
 </navigation>

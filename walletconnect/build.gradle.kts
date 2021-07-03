@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion(com.dougie.version.BuildConfig.compileSdkVersion)
-    buildToolsVersion(com.dougie.version.BuildConfig.buildToolsVersion)
+    compileSdkVersion(com.easy.version.BuildConfig.compileSdkVersion)
+    buildToolsVersion(com.easy.version.BuildConfig.buildToolsVersion)
 
     defaultConfig {
-        minSdkVersion(com.dougie.version.BuildConfig.minSdkVersion)
-        targetSdkVersion(com.dougie.version.BuildConfig.targetSdkVersion)
-        versionCode = com.dougie.version.BuildConfig.versionCode
-        versionName = com.dougie.version.BuildConfig.versionName
+        minSdkVersion(com.easy.version.BuildConfig.minSdkVersion)
+        targetSdkVersion(com.easy.version.BuildConfig.targetSdkVersion)
+        versionCode = com.easy.version.BuildConfig.versionCode
+        versionName = com.easy.version.BuildConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
@@ -44,7 +44,7 @@ kotlinter {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8", com.dougie.version.BuildConfig.kotlinVersion))
+    implementation(kotlin("stdlib-jdk8", com.easy.version.BuildConfig.kotlinVersion))
     api(project(":framework-core"))
 
     api("com.google.code.gson:gson:2.8.6")

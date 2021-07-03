@@ -1,6 +1,6 @@
-import com.dougie.version.BuildConfig
-import com.dougie.version.dependencies.AndroidX
-import com.dougie.version.dependencies.Other
+import com.easy.version.BuildConfig
+import com.easy.version.dependencies.AndroidX
+import com.easy.version.dependencies.Other
 
 plugins {
     id("com.android.library")

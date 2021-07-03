@@ -3,7 +3,7 @@ package com.easy.wallet.feature.wallectconnet
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.dougie.wallet.feature.wallectconnet.data.WCDataWrap
+import com.easy.wallet.feature.wallectconnet.data.WCDataWrap
 
 class WCBroadcastReceiver(
     private val callback: (WCDataWrap) -> Unit

@@ -1,12 +1,12 @@
 package com.easy.wallet.data.network.cosmos
 
-import com.dougie.wallet.data.constant.APIKey
-import com.dougie.wallet.data.data.remote.cosmos.*
-import com.dougie.wallet.data.data.remote.cosmos.AccountInfo
-import com.dougie.wallet.data.data.remote.cosmos.BalanceResponse
-import com.dougie.wallet.data.data.remote.cosmos.BroadcastResponse
-import com.dougie.wallet.data.data.remote.cosmos.ValidatorResponse
-import com.dougie.wallet.data.data.remote.cosmos.request.CosmosTxRequest
+import com.easy.wallet.data.constant.APIKey
+import com.easy.wallet.data.data.remote.cosmos.*
+import com.easy.wallet.data.data.remote.cosmos.AccountInfo
+import com.easy.wallet.data.data.remote.cosmos.BalanceResponse
+import com.easy.wallet.data.data.remote.cosmos.BroadcastResponse
+import com.easy.wallet.data.data.remote.cosmos.ValidatorResponse
+import com.easy.wallet.data.data.remote.cosmos.request.CosmosTxRequest
 import okhttp3.RequestBody
 import retrofit2.http.*
 

@@ -1,9 +1,9 @@
 package com.easy.wallet.feature.settings.chain
 
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.feature.settings.chain.adapter.WrapChain
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.feature.settings.chain.adapter.WrapChain
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent

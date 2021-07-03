@@ -1,15 +1,15 @@
 package com.easy.wallet.data.defi
 
-import com.dougie.wallet.data.constant.ChainId
-import com.dougie.wallet.data.data.model.SendPlanModel
-import com.dougie.wallet.data.data.model.nft.NFTAssetDataModel
-import com.dougie.wallet.data.data.model.nft.NFTCollectionDataModel
-import com.dougie.wallet.data.data.model.nft.NFTType
-import com.dougie.wallet.data.data.model.nft.NTFAttr
-import com.dougie.wallet.data.etx.toHexByteArray
-import com.dougie.wallet.data.network.opensea.OpenseaClient
-import com.dougie.wallet.data.network.opensea.OpenseaService
-import com.dougie.wallet.data.network.web3j.Web3JService
+import com.easy.wallet.data.constant.ChainId
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.nft.NFTAssetDataModel
+import com.easy.wallet.data.data.model.nft.NFTCollectionDataModel
+import com.easy.wallet.data.data.model.nft.NFTType
+import com.easy.wallet.data.data.model.nft.NTFAttr
+import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.network.opensea.OpenseaClient
+import com.easy.wallet.data.network.opensea.OpenseaService
+import com.easy.wallet.data.network.web3j.Web3JService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.dougie.wallet.R
-import com.dougie.wallet.helper.KotlinEpoxyHolder
+import com.easy.wallet.R
+import com.easy.wallet.helper.KotlinEpoxyHolder
 import com.google.android.material.radiobutton.MaterialRadioButton
 
 @SuppressLint("NonConstantResourceId")

@@ -3,10 +3,10 @@ package com.easy.wallet.feature.start.splash
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.dougie.framework.base.BaseFragment
-import com.dougie.framework.model.ResultStatus
-import com.dougie.wallet.R
-import com.dougie.wallet.feature.MainActivity
+import com.easy.framework.base.BaseFragment
+import com.easy.framework.model.ResultStatus
+import com.easy.wallet.R
+import com.easy.wallet.feature.MainActivity
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect

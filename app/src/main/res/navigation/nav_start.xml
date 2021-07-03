@@ -6,7 +6,7 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.dougie.wallet.feature.start.splash.SplashFragment"
+        android:name="com.easy.wallet.feature.start.splash.SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_import"
@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/importWalletFragment"
-        android:name="com.dougie.wallet.feature.start.restore.ImportWalletFragment"
+        android:name="com.easy.wallet.feature.start.restore.ImportWalletFragment"
         tools:layout="@layout/fragment_start_import" />
 </navigation>

@@ -1,6 +1,6 @@
 package com.easy.wallet.data.network.opensea
 
-import com.dougie.wallet.data.constant.ChainId
+import com.easy.wallet.data.constant.ChainId
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

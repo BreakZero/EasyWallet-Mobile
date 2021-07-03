@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.dougie.wallet.R
+import com.easy.wallet.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**

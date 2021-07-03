@@ -1,6 +1,6 @@
 package com.easy.wallet.data.network.polkadot
 
-import com.dougie.wallet.data.data.remote.dot.*
+import com.easy.wallet.data.data.remote.dot.*
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST

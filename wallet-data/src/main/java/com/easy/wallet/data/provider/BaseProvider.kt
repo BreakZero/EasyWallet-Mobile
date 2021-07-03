@@ -1,9 +1,9 @@
 package com.easy.wallet.data.provider
 
-import com.dougie.wallet.data.network.BlockChairClient
-import com.dougie.wallet.data.network.BlockChairService
-import com.dougie.wallet.data.network.testnet.TestNetClient
-import com.dougie.wallet.data.network.testnet.TestNetService
+import com.easy.wallet.data.network.BlockChairClient
+import com.easy.wallet.data.network.BlockChairService
+import com.easy.wallet.data.network.testnet.TestNetClient
+import com.easy.wallet.data.network.testnet.TestNetService
 import wallet.core.jni.HDWallet
 
 abstract class BaseProvider(

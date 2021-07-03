@@ -1,7 +1,7 @@
 package com.easy.wallet.model.bean
 
 import android.os.Parcelable
-import com.dougie.wallet.ext.strByDecimal
+import com.easy.wallet.ext.strByDecimal
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 import java.math.BigInteger

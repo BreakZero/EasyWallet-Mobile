@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.dougie.framework.R
+import com.easy.framework.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.platform.MaterialElevationScale
 import org.koin.androidx.scope.ScopeFragment

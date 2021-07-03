@@ -1,7 +1,7 @@
 package com.easy.wallet.feature.transaction.adapter
 
 import com.airbnb.epoxy.TypedEpoxyController
-import com.dougie.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.data.model.TransactionDataModel
 
 class TransactionHistoryController(
     private val onItemClick: (transaction: TransactionDataModel) -> Unit

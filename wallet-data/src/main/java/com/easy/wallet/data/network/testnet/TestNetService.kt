@@ -1,7 +1,7 @@
 package com.easy.wallet.data.network.testnet
 
-import com.dougie.wallet.data.data.remote.testnet.StateResponse
-import com.dougie.wallet.data.data.remote.testnet.TransactionResponse
+import com.easy.wallet.data.data.remote.testnet.StateResponse
+import com.easy.wallet.data.data.remote.testnet.TransactionResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -1,10 +1,10 @@
 package com.easy.wallet.feature.nft.asset
 
 import androidx.lifecycle.viewModelScope
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.wallet.data.DeFiWalletSDK
-import com.dougie.wallet.data.data.model.nft.NFTAssetDataModel
-import com.dougie.wallet.data.param.NFTAssetParameter
+import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.data.model.nft.NFTAssetDataModel
+import com.easy.wallet.data.param.NFTAssetParameter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn

@@ -1,7 +1,7 @@
 package com.easy.wallet.feature.coin.adapter
 
 import com.airbnb.epoxy.TypedEpoxyController
-import comdougiewalletdata.CoinConfig
+import comeasywalletdata.CoinConfig
 
 class CoinController(private val checkedChange: (String) -> Unit) :
     TypedEpoxyController<List<CoinConfig>>() {

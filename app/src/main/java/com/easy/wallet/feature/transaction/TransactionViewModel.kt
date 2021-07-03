@@ -2,11 +2,11 @@ package com.easy.wallet.feature.transaction
 
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
-import com.dougie.framework.base.BaseViewModel
-import com.dougie.framework.common.StatefulMutableLiveData
-import com.dougie.framework.model.RequestState
-import com.dougie.wallet.data.data.model.TransactionDataModel
-import com.dougie.wallet.data.provider.IProvider
+import com.easy.framework.base.BaseViewModel
+import com.easy.framework.common.StatefulMutableLiveData
+import com.easy.framework.model.RequestState
+import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.provider.IProvider
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn

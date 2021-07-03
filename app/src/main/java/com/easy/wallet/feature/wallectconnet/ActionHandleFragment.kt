@@ -5,12 +5,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.dougie.framework.base.BaseBottomSheetFragment
-import com.dougie.framework.delegate.viewBinding
-import com.dougie.framework.ext.onSingleClick
-import com.dougie.wallet.R
-import com.dougie.wallet.databinding.FragmentSwapBinding
-import com.dougie.wallet.feature.wallectconnet.data.WCDataWrap
+import com.easy.framework.base.BaseBottomSheetFragment
+import com.easy.framework.delegate.viewBinding
+import com.easy.framework.ext.onSingleClick
+import com.easy.wallet.R
+import com.easy.wallet.databinding.FragmentSwapBinding
+import com.easy.wallet.feature.wallectconnet.data.WCDataWrap
 
 class ActionHandleFragment : BaseBottomSheetFragment() {
     override fun layout(): Int = R.layout.fragment_swap

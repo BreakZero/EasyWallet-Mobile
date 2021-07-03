@@ -1,8 +1,8 @@
 package com.easy.wallet.data.network.opensea
 
-import com.dougie.wallet.data.data.remote.opensea.NFTAssetResponse
-import com.dougie.wallet.data.data.remote.opensea.NFTCollectionInfo
-import com.dougie.wallet.data.data.remote.opensea.NFTSingleAssetResponse
+import com.easy.wallet.data.data.remote.opensea.NFTAssetResponse
+import com.easy.wallet.data.data.remote.opensea.NFTCollectionInfo
+import com.easy.wallet.data.data.remote.opensea.NFTSingleAssetResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -14,9 +14,8 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
+import org.koin.java.KoinJavaComponent.getKoin
 
-@KoinApiExtension
 class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
     private val binding by viewBinding(FragmentStartImportBinding::bind)
     private val viewModel: ImportWalletViewModel by viewModel()

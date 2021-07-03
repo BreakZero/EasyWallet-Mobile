@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.data.remote.cosmos.request.CosmosTxRequest
 import com.easy.wallet.data.error.InsufficientBalanceException
@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
@@ -19,7 +18,7 @@ import wallet.core.jni.proto.Cosmos
 import java.math.BigDecimal
 import java.math.BigInteger
 
-class CosmosProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
+class CosmosProvider : BaseProvider(WalletDataSDK.currWallet()) {
     companion object {
         private const val DECIMALS = 6
     }

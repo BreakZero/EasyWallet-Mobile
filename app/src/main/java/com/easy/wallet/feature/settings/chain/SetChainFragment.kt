@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.databinding.FragmentSettingsChainBinding
 import com.easy.wallet.feature.settings.chain.adapter.ChainsController
 import com.easy.wallet.feature.start.StartActivity
@@ -14,10 +14,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.scope.requireScopeActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 
-@KoinApiExtension
 class SetChainFragment : BaseFragment(R.layout.fragment_settings_chain) {
     override fun ownerToolbar(): MaterialToolbar? = null
 
@@ -34,7 +33,7 @@ class SetChainFragment : BaseFragment(R.layout.fragment_settings_chain) {
         Intent(context, StartActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(this)
-            DeFiWalletSDK.notifyChainChanged()
+            WalletDataSDK.notifyChainChanged()
             context.finishAffinity()
         }
     }

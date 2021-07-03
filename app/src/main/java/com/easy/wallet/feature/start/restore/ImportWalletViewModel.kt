@@ -1,17 +1,14 @@
 package com.easy.wallet.feature.start.restore
 
-import android.content.SharedPreferences
-import androidx.core.content.edit
+import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
-import com.easy.wallet.constant.StoreKey
-import com.easy.wallet.data.DeFiWalletSDK
-import org.koin.core.component.KoinApiExtension
+import com.easy.wallet.data.WalletDataSDK
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 
-@KoinApiExtension
 class ImportWalletViewModel : BaseViewModel(), KoinComponent {
-    private val sharedPres = get<SharedPreferences>()
     private val words = mutableListOf<String>()
 
     fun addWord(word: String) {
@@ -22,15 +19,18 @@ class ImportWalletViewModel : BaseViewModel(), KoinComponent {
         words.removeLast()
     }
 
-    fun done(callback: () -> Unit) {
+    fun done(callback: (Boolean) -> Unit) {
         val mnemonic = words.joinToString(" ") {
             if (it.endsWith(",")) it.removeSuffix(",")
             else it
         }
-        sharedPres.edit {
-            putString(StoreKey.KEY_MNEMONIC, mnemonic)
-        }
-        DeFiWalletSDK.initWallet(mnemonic = mnemonic)
-        callback.invoke()
+
+        flow {
+            val importResult =
+                WalletDataSDK.injectWallet(walletName = "Wallet 1", mnemonic = mnemonic)
+            emit(importResult)
+        }.onEach {
+            callback.invoke(it)
+        }.launchIn(viewModelScope)
     }
 }

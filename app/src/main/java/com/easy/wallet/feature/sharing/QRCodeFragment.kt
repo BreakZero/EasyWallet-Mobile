@@ -10,7 +10,6 @@ import com.easy.wallet.databinding.FragmentQrCodeBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
-import org.koin.core.component.bind
 
 class QRCodeFragment : BaseFragment(R.layout.fragment_qr_code) {
     private val args: QRCodeFragmentArgs by navArgs()

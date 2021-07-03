@@ -6,25 +6,25 @@ import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
 import com.easy.framework.model.RequestState
 import com.easy.wallet.data.CurrencyInfo
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.SendModel
 import com.easy.wallet.data.provider.IProvider
 import com.easy.wallet.ext.byDownDecimal
 import com.easy.wallet.model.bean.SendModelWrap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
-@KoinApiExtension
 class SendViewModel(
     private val state: SavedStateHandle,
     private val currencyInfo: CurrencyInfo,
-    private val coinProvider: IProvider
 ) : BaseViewModel(), KoinComponent {
     companion object {
         private const val KEY_BALANCE = "key-balance"
     }
+
+    private val coinProvider = WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
 
     private val enterModel = EnterModel()
 

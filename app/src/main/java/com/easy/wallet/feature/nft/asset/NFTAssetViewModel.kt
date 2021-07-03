@@ -2,7 +2,7 @@ package com.easy.wallet.feature.nft.asset
 
 import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.nft.NFTAssetDataModel
 import com.easy.wallet.data.param.NFTAssetParameter
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import timber.log.Timber
 class NFTAssetViewModel : BaseViewModel() {
     private val _asset = MutableStateFlow(NFTAssetDataModel.EMPTY)
 
-    private val nftManager = DeFiWalletSDK.injectNFTManager()
+    private val nftManager = WalletDataSDK.injectNFTManager()
 
     fun asset() = _asset
 

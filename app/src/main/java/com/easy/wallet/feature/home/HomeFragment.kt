@@ -10,6 +10,7 @@ import com.easy.wallet.ShowQrCodeDirections
 import com.easy.wallet.databinding.FragmentHomeBinding
 import com.easy.wallet.feature.home.adapter.AssetController
 import com.google.android.material.appbar.MaterialToolbar
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.androidx.viewmodel.scope.emptyState
 import org.koin.core.parameter.parametersOf
@@ -25,7 +26,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun ownerToolbar(): MaterialToolbar? = null
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val viewModel: HomeViewModel by viewModel(state = emptyState()) { parametersOf("ETH") }
+    private val viewModel: HomeViewModel by stateViewModel()
 
     private val assetController by lazy {
         AssetController(

@@ -62,10 +62,7 @@ dependencies {
     api(AndroidX.Navigation.fragmentKtx)
     api(AndroidX.Navigation.uiKtx)
 
-    api(Other.Koin.koinFragment)
-    api(Other.Koin.koinExt)
-    api(Other.Koin.koinScope)
-    api(Other.Koin.koinViewModel)
+    api(Other.Koin.koinAndroid)
 
     api(AndroidX.Lifecycle.liveDataKtx)
     api(AndroidX.Lifecycle.viewModelKtx)

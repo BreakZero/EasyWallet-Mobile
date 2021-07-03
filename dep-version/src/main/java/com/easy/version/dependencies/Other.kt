@@ -19,6 +19,7 @@ object Other {
     const val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.3.0"
 
     const val button = "com.github.razir.progressbutton:progressbutton:2.1.0"
+    const val sqlcipher = "net.zetetic:android-database-sqlcipher:4.4.3"
 
     object Coil {
         private const val coil_version = "1.2.0"
@@ -46,7 +47,8 @@ object Other {
     }
 
     object Koin {
-        private const val koin_version = "2.2.0"
+        private const val koin_version = "3.1.2"
+        const val koinAndroid = "io.insert-koin:koin-android:$koin_version"
         const val koinFragment = "org.koin:koin-androidx-fragment:$koin_version"
         const val koinScope = "org.koin:koin-androidx-scope:$koin_version"
         const val koinViewModel = "org.koin:koin-androidx-viewmodel:$koin_version"

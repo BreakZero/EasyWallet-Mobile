@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.error.InsufficientBalanceException
@@ -22,7 +22,7 @@ import wallet.core.jni.proto.Ethereum
 import java.math.BigDecimal
 import java.math.BigInteger
 
-class BinanceSmartLegacyProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
+class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
     private val web3JService: Web3j = Web3JService.web3jClient(ChainId.BINANCETEST)
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {

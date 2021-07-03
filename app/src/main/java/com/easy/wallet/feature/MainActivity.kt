@@ -14,10 +14,8 @@ import com.easy.wallet.feature.wallectconnet.WCBroadcastReceiver
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 import timber.log.Timber
 
-@KoinApiExtension
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private var currentNavController: LiveData<NavController>? = null
@@ -71,15 +69,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
 
         val navGraphIds = listOf(
-            R.navigation.nav_defi,
             R.navigation.nav_asset,
-            R.navigation.nav_nft,
             R.navigation.nav_settings
         )
         val mainScreenIds = listOf(
-            R.id.fragmentDefiIndex,
             R.id.homeFragment,
-            R.id.fragmentNFTIndex,
             R.id.settingsFragment
         )
 

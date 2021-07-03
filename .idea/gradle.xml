@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/dep-version" />
             <option value="$PROJECT_DIR$/framework-core" />
+            <option value="$PROJECT_DIR$/multi-wallet" />
             <option value="$PROJECT_DIR$/wallet-data" />
             <option value="$PROJECT_DIR$/walletconnect" />
           </set>

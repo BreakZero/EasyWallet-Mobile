@@ -61,6 +61,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : ScopeFragment(layoutRes
         bindToolbar()
         applyViewModel()
         setupView()
+        initEvents()
     }
 
     private fun bindToolbar() {
@@ -90,5 +91,6 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : ScopeFragment(layoutRes
     }
 
     protected open fun setupView() {}
+    protected open fun initEvents() {}
     protected open fun applyViewModel() {}
 }

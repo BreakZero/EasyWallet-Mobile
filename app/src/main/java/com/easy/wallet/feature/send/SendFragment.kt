@@ -20,9 +20,7 @@ import com.easy.wallet.feature.sharing.ScannerFragment
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
 import com.google.android.material.appbar.MaterialToolbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.androidx.viewmodel.scope.emptyState
-import org.koin.core.component.KoinApiExtension
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
@@ -35,7 +33,7 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
     private val binding by viewBinding(FragmentSendBinding::bind)
     private lateinit var sendFormBinding: IncludeSendAboutBinding
 
-    private val viewModel: SendViewModel by viewModel(state = emptyState()) {
+    private val viewModel: SendViewModel by stateViewModel {
         parametersOf(args.currencyInfo)
     }
 
@@ -65,7 +63,7 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
                 viewModel.buildTransaction(binding.feeSlider.value, false) {
                     it?.let {
                         binding.btnSendContinue.isEnabled = true
-                        binding.btnSendContinue.hideProgress("Continue")
+                        binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
                         findNavController().navigate(
                             SendFragmentDirections.actionContinueToConfirm(
                                 previewModel = it,
@@ -74,8 +72,8 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
                         )
                     } ?: kotlin.run {
                         binding.btnSendContinue.isEnabled = true
-                        binding.btnSendContinue.hideProgress("Continue")
-                        Timber.d("something went wrong")
+                        binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
+                        Timber.d(getString(R.string.error_somethings_went_wrong))
                     }
                 }
             }
@@ -111,7 +109,6 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
         }
     }
 
-    @KoinApiExtension
     override fun applyViewModel() {
         super.applyViewModel()
         viewModel.apply {

@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.error.InsufficientBalanceException
@@ -22,7 +22,7 @@ import java.math.BigInteger
 
 class EthereumProvider(
     private val nChainId: ChainId = ChainId.MAINNET
-) : BaseProvider(DeFiWalletSDK.currWallet()) {
+) : BaseProvider(WalletDataSDK.currWallet()) {
     private val web3JService: Web3j = Web3JService.web3jClient(nChainId)
 
     companion object {

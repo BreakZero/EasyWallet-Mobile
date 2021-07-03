@@ -8,33 +8,21 @@ import com.easy.framework.delegate.viewBinding
 import com.easy.framework.ext.observeState
 import com.easy.framework.ext.onSingleClick
 import com.easy.wallet.R
-import com.easy.wallet.data.provider.IProvider
 import com.easy.wallet.databinding.FragmentTransactionHistoryBinding
 import com.easy.wallet.feature.transaction.adapter.TransactionHistoryController
-import com.easy.wallet.koin.ScopeConst
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 import timber.log.Timber
 
-@KoinApiExtension
 class TransactionFragment : BaseFragment(R.layout.fragment_transaction_history) {
     private val binding by viewBinding(FragmentTransactionHistoryBinding::bind)
     private val args: TransactionFragmentArgs by navArgs()
 
-    private val flowSession =
-        getKoin().getOrCreateScope(ScopeConst.FLOW_SESSION_ID, named(ScopeConst.FLOW_SESSION_NAME))
-
-    private val coinProvider by flowSession.inject<IProvider> {
-        parametersOf(args.currencyInfo)
-    }
-
     override fun ownerToolbar(): MaterialToolbar? = null
 
     private val viewModel by viewModel<TransactionViewModel> {
-        parametersOf(coinProvider)
+        parametersOf(args.currencyInfo)
     }
 
     private val transactionHistoryController by lazy {
@@ -45,7 +33,6 @@ class TransactionFragment : BaseFragment(R.layout.fragment_transaction_history) 
 
     override fun setupView() {
         super.setupView()
-        scope.linkTo(flowSession)
 
         setTitle("${args.currencyInfo.name} Transactions")
         binding.btnSend.onSingleClick(lifecycleScope) {
@@ -53,6 +40,9 @@ class TransactionFragment : BaseFragment(R.layout.fragment_transaction_history) 
             findNavController().navigate(info)
         }
         binding.rvTransactionHistory.setController(transactionHistoryController)
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.loadTransactions()
+        }
     }
 
     override fun applyViewModel() {
@@ -62,24 +52,17 @@ class TransactionFragment : BaseFragment(R.layout.fragment_transaction_history) 
                 this@TransactionFragment,
                 onError = {
                     binding.refreshLayout.isRefreshing = false
-                    Timber.e("somethings wrong")
+                    Timber.e(getString(R.string.error_somethings_went_wrong))
                 },
                 onSuccess = {
-                    Timber.d("completed")
                     binding.refreshLayout.isRefreshing = false
                     transactionHistoryController.setData(it)
                 },
                 onLoading = {
-                    Timber.d("loading")
                     binding.refreshLayout.isRefreshing = true
                 }
             )
             loadTransactions()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        flowSession.close()
     }
 }

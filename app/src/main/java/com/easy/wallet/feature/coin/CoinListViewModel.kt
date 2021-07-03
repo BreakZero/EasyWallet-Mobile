@@ -2,13 +2,13 @@ package com.easy.wallet.feature.coin
 
 import androidx.lifecycle.liveData
 import com.easy.framework.base.BaseViewModel
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
 class CoinListViewModel : BaseViewModel() {
     fun loadLocalData() = liveData {
-        emit(DeFiWalletSDK.allAssets())
+        emit(WalletDataSDK.allAssets())
     }
 
     private val changeHolder = hashMapOf<String, Int>()
@@ -33,7 +33,7 @@ class CoinListViewModel : BaseViewModel() {
             }.onCompletion {
                 emit(true)
             }.collect {
-                DeFiWalletSDK.toggleBySymbol(it)
+                WalletDataSDK.toggleBySymbol(it)
             }
         }
     }

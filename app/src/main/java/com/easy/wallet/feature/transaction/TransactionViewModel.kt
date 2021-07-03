@@ -12,11 +12,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
-@KoinApiExtension
 class TransactionViewModel(
     private val coinProvider: IProvider
 ) : BaseViewModel(), KoinComponent {

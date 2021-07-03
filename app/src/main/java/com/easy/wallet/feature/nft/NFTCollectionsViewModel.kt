@@ -2,14 +2,14 @@ package com.easy.wallet.feature.nft
 
 import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.nft.NFTCollectionDataModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class NFTCollectionsViewModel : BaseViewModel() {
-    private val nftManager = DeFiWalletSDK.injectNFTManager()
+    private val nftManager = WalletDataSDK.injectNFTManager()
 
     private val _state = MutableStateFlow(
         NFTCollectState(

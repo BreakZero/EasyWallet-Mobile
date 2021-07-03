@@ -7,11 +7,13 @@ import com.easy.wallet.data.constant.CHAINID_STORE_KEY
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.defi.NFTManager
 import com.easy.wallet.data.provider.*
+import com.easy.wallet.multi.MultiWalletConfig
+import com.easy.wallet.multi.model.WalletInfo
 import comeasywalletdata.CoinConfig
 import wallet.core.jni.HDWallet
 import kotlin.properties.Delegates
 
-object DeFiWalletSDK {
+object WalletDataSDK {
     private var hdWallet: HDWallet? = null
     private var basicStore by Delegates.notNull<BasicStore>()
     private var walletDatabase by Delegates.notNull<WalletDatabase>()
@@ -46,8 +48,18 @@ object DeFiWalletSDK {
         basicStore.putString(CHAINID_STORE_KEY, name)
     }
 
-    fun initWallet(mnemonic: String, passphrase: String = "") {
-        this.hdWallet = HDWallet(mnemonic, passphrase)
+    suspend fun injectWallet(passphrase: String = ""): WalletInfo? {
+        return MultiWalletConfig.initHDWallet {
+            this.hdWallet = HDWallet(it, passphrase)
+        }
+    }
+
+    suspend fun injectWallet(walletName: String, mnemonic: String?, passphrase: String = ""): Boolean {
+        val newWallet = mnemonic?.let {
+            HDWallet(it, passphrase)
+        } ?: HDWallet(128, passphrase)
+        this.hdWallet = newWallet
+        return MultiWalletConfig.addWallet(walletName, newWallet.mnemonic())
     }
 
     fun activeAssets(): List<CoinConfig> {

@@ -2,12 +2,13 @@ package com.easy.wallet.koin
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import androidx.lifecycle.SavedStateHandle
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.easy.framework.common.BasicStore
 import com.easy.wallet.data.CurrencyInfo
-import com.easy.wallet.data.DeFiWalletSDK
-import com.easy.wallet.data.provider.*
+import com.easy.wallet.data.WalletDataSDK
+import com.easy.wallet.data.provider.IProvider
 import com.easy.wallet.feature.MainActivity
 import com.easy.wallet.feature.MainViewModel
 import com.easy.wallet.feature.coin.CoinListFragment
@@ -44,11 +45,8 @@ import com.easy.wallet.feature.transaction.TransactionViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.component.KoinApiExtension
-import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent
 
 val appModule = module {
 
@@ -77,7 +75,7 @@ val appModule = module {
     }
 
     factory { (currency: CurrencyInfo) ->
-        DeFiWalletSDK.injectProvider(
+        WalletDataSDK.injectProvider(
             currency.slug,
             currency.symbol,
             currency.decimal
@@ -90,20 +88,9 @@ internal object ScopeConst {
     const val FLOW_SESSION_ID = "sendFlowSession"
 }
 
-@OptIn(KoinApiExtension::class)
 val scopeModule = module {
     scope<MainActivity> {
         viewModel { MainViewModel() }
-    }
-
-    scope(named(ScopeConst.FLOW_SESSION_NAME)) {
-        scoped { (currency: CurrencyInfo) ->
-            DeFiWalletSDK.injectProvider(
-                currency.slug,
-                currency.symbol,
-                currency.decimal
-            )
-        } bind IProvider::class
     }
 
     scope<StartActivity> {
@@ -115,8 +102,14 @@ val scopeModule = module {
     }
 
     scope<TransactionFragment> {
-        viewModel { (coinProvider: IProvider) ->
-            TransactionViewModel(coinProvider)
+        viewModel { (asset: CurrencyInfo) ->
+            TransactionViewModel(
+                WalletDataSDK.injectProvider(
+                    asset.slug,
+                    asset.symbol,
+                    asset.decimal
+                )
+            )
         }
     }
 
@@ -127,12 +120,10 @@ val scopeModule = module {
     }
 
     scope<SendFragment> {
-        viewModel { (currencyInfo: CurrencyInfo) ->
+        viewModel { (state: SavedStateHandle, currencyInfo: CurrencyInfo) ->
             SendViewModel(
-                currencyInfo = currencyInfo,
-                state = get(),
-                coinProvider = KoinJavaComponent.getKoin().getScope(ScopeConst.FLOW_SESSION_ID)
-                    .get()
+                state = state,
+                currencyInfo = currencyInfo
             )
         }
     }
@@ -165,10 +156,13 @@ val scopeModule = module {
         viewModel { SplashViewModel() }
     }
     scope<TxPreviewFragment> {
-        viewModel {
+        viewModel { (currencyInfo: CurrencyInfo) ->
             TxPreviewViewModel(
-                coinProvider = KoinJavaComponent.getKoin().getScope(ScopeConst.FLOW_SESSION_ID)
-                    .get()
+                WalletDataSDK.injectProvider(
+                    currencyInfo.slug,
+                    currencyInfo.symbol,
+                    currencyInfo.decimal
+                )
             )
         }
     }

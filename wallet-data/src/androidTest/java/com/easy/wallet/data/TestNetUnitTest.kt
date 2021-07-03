@@ -31,7 +31,7 @@ class TestNetUnitTest {
 
     @Before
     fun initWallet() {
-        DeFiWalletSDK.initWallet(
+        WalletDataSDK.initWallet(
             "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal",
             ""
         )

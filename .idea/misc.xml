@@ -4,10 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31666666666666665" />
+        <entry key="app/src/main/res/layout/activity_start.xml" value="0.23958333333333334" />
         <entry key="app/src/main/res/layout/fragment_nft_asset.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/fragment_receive.xml" value="0.23958333333333334" />
         <entry key="app/src/main/res/layout/fragment_send.xml" value="0.4161458333333333" />
         <entry key="app/src/main/res/layout/fragment_send_eth.xml" value="0.4161458333333333" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.23958333333333334" />
+        <entry key="app/src/main/res/layout/fragment_transaction_detail.xml" value="0.4161458333333333" />
+        <entry key="app/src/main/res/layout/fragment_transaction_history.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/layout/include_send_about.xml" value="0.4161458333333333" />
+        <entry key="app/src/main/res/layout/rv_item_transaction_history.xml" value="0.4161458333333333" />
+        <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.30277777777777776" />
       </map>
     </option>
   </component>

@@ -1,14 +1,12 @@
 package com.easy.wallet.feature.settings.chain
 
 import com.easy.framework.base.BaseViewModel
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.feature.settings.chain.adapter.WrapChain
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 
-@KoinApiExtension
 class SetChainViewModel : BaseViewModel(), KoinComponent {
     private val _chains = MutableStateFlow(
         listOf(
@@ -20,7 +18,7 @@ class SetChainViewModel : BaseViewModel(), KoinComponent {
         ).map {
             WrapChain(
                 name = it.name,
-                checked = it.name == DeFiWalletSDK.chainId().name
+                checked = it.name == WalletDataSDK.chainId().name
             )
         }
     )
@@ -38,6 +36,6 @@ class SetChainViewModel : BaseViewModel(), KoinComponent {
 
     fun updateChain() {
         val name = _chains.value.find { it.checked }?.name.orEmpty()
-        DeFiWalletSDK.updateChain(name)
+        WalletDataSDK.updateChain(name)
     }
 }

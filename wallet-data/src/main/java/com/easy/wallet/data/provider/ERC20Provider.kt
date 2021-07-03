@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.error.NetworkError
@@ -64,7 +64,7 @@ class ERC20Provider(
     symbol: String,
     private val decimals: Int = 8,
     private val nChainId: ChainId = ChainId.MAINNET
-) : BaseProvider(DeFiWalletSDK.currWallet()) {
+) : BaseProvider(WalletDataSDK.currWallet()) {
     companion object {
         private const val GAS_LIMIT = 50000
     }

@@ -11,10 +11,8 @@ import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 import timber.log.Timber
 
-@KoinApiExtension
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     private val viewModel by viewModel<SplashViewModel>()
 
@@ -25,7 +23,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.importState().catch {
-                Timber.e(it)
+                Timber.e("======== $it")
                 toImport()
             }.collect {
                 when (it) {

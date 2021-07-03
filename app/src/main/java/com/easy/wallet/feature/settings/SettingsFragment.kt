@@ -1,8 +1,6 @@
 package com.easy.wallet.feature.settings
 
-import android.Manifest
 import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators
 import androidx.biometric.BiometricPrompt
@@ -19,31 +17,14 @@ import com.easy.wallet.databinding.FragmentSettingsBinding
 import com.easy.wallet.feature.sharing.ScannerFragment
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 import timber.log.Timber
 
-@KoinApiExtension
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel by viewModel<SettingsViewModel>()
 
     private val cryptographyManager: CryptographyManager = CryptographyManager()
-
-    private val askFilePermission =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val isGrandAll = permissions.entries.map {
-                it.value
-            }.none {
-                it.not()
-            }
-            if (isGrandAll) {
-                findNavController().navigate(R.id.global_action_scan)
-            } else {
-                Timber.d("file store permission denied")
-            }
-        }
 
     override fun ownerToolbar(): MaterialToolbar? = null
 
@@ -62,17 +43,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             findNavController().navigate(R.id.action_home_to_settings)
         }
 
-        binding.tvUniSwap.onSingleClick(lifecycleScope) {
-            askFilePermission.launch(
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            )
-        }
-
-        binding.swtEnableBiometric.setOnCheckedChangeListener { view, isChecked ->
+        binding.swtEnableBiometric.setOnCheckedChangeListener { view, _ ->
             if (!view.isPressed) {
                 return@setOnCheckedChangeListener
             }

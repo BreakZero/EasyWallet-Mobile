@@ -17,17 +17,17 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ALL" />
+            android:text="@string/text_all" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SEND" />
+            android:text="@string/text_send" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RECEIVE" />
+            android:text="@string/text_receive" />
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -35,7 +35,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSend"
+        app:layout_constraintBottom_toTopOf="@+id/footLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabType">
@@ -46,16 +46,38 @@
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSend"
-        style="@style/Wallet.MainButton"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/footLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Send"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSend"
+            style="@style/Wallet.MainButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:text="@string/text_send"
+            android:textAllCaps="true" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReceive"
+            style="@style/Wallet.MainButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:text="@string/text_receive"
+            android:textAllCaps="true" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

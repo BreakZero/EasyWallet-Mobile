@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.SendModel
 import com.easy.wallet.data.data.model.SendPlanModel
 import com.easy.wallet.data.data.model.TransactionDataModel
@@ -22,7 +22,7 @@ import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Polkadot
 import java.math.BigInteger
 
-class PolkadotProvide : BaseProvider(DeFiWalletSDK.currWallet()) {
+class PolkadotProvide : BaseProvider(WalletDataSDK.currWallet()) {
 
     private val dotClient = PolkadotClient.client().create(PolkadotService::class.java)
 

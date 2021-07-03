@@ -1,19 +1,15 @@
 package com.easy.wallet.feature.start.splash
 
-import android.content.SharedPreferences
+import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
 import com.easy.framework.model.ResultStatus
-import com.easy.wallet.constant.StoreKey
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.koin.core.component.KoinApiExtension
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 
-@KoinApiExtension
 class SplashViewModel : BaseViewModel(), KoinComponent {
-    private val sharedPres = get<SharedPreferences>()
-
     private val walletExist = MutableStateFlow<ResultStatus<Boolean>>(ResultStatus.Loading)
 
     fun initWalletSuccess() {
@@ -21,9 +17,13 @@ class SplashViewModel : BaseViewModel(), KoinComponent {
     }
 
     fun fetch() {
-        val localMnemonic = sharedPres.getString(StoreKey.KEY_MNEMONIC, "").orEmpty()
-        if (localMnemonic.isNotBlank()) DeFiWalletSDK.initWallet(localMnemonic)
-        walletExist.value = ResultStatus.Success(localMnemonic.isNotBlank())
+        viewModelScope.launch(Dispatchers.IO) {
+            walletExist.value = ResultStatus.Success(
+                WalletDataSDK.injectWallet()?.let {
+                    true
+                } ?: false
+            )
+        }
     }
 
     fun importState() = walletExist

@@ -12,6 +12,8 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_extra_small">4dp</dimen>
 
+    <dimen name="divider_size">0.75dp</dimen>
+
     <dimen name="spacing_null">0dp</dimen>
     <dimen name="spacing_2">2dp</dimen>
     <dimen name="spacing_4">4dp</dimen>
@@ -26,6 +28,7 @@
     <dimen name="spacing_40">40dp</dimen>
     <dimen name="spacing_48">48dp</dimen>
     <dimen name="spacing_50">50dp</dimen>
+    <dimen name="spacing_56">56dp</dimen>
     <dimen name="spacing_64">64dp</dimen>
     <dimen name="spacing_30">30dp</dimen>
     <dimen name="spacing_28">28dp</dimen>

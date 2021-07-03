@@ -4,7 +4,19 @@
     <string name="settings">Settings</string>
     <string name="defi">DeFi</string>
     <string name="Wallet">Wallet</string>
+
     <string name="text_nft">NFT</string>
     <string name="text_nft_collection">Collection#%1$s</string>
     <string name="text_nft_collections">NFT Collections</string>
+    <string name="text_security">Security</string>
+    <string name="text_about_easy_wallet">About Easy Wallet</string>
+    <string name="text_enable_biometric">Enable Biometric</string>
+    <string name="text_preferences">Preferences</string>
+    <string name="text_network">ChainNetwork</string>
+    <string name="text_all">all</string>
+    <string name="text_send">send</string>
+    <string name="text_receive">receive</string>
+
+    <string name="error_somethings_went_wrong">somethings went wrong</string>
+    <string name="text_continue">Continue</string>
 </resources>

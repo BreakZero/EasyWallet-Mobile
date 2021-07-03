@@ -17,22 +17,19 @@ import com.easy.wallet.databinding.FragmentTxPreviewBinding
 import com.easy.wallet.ext.strByDecimal
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
-import org.koin.core.scope.KoinScopeComponent
-import org.koin.core.scope.Scope
-import org.koin.core.scope.inject
-import org.koin.core.scope.newScope
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
-class TxPreviewFragment : BaseBottomSheetFragment(), KoinScopeComponent {
-
-    override val scope: Scope by lazy { newScope(this) }
-
+class TxPreviewFragment : BaseBottomSheetFragment() {
     private val args: TxPreviewFragmentArgs by navArgs()
 
     private val binding by viewBinding(FragmentTxPreviewBinding::bind)
 
     private val cryptographyManager: CryptographyManager = CryptographyManager()
-    private val viewModel by inject<TxPreviewViewModel>()
+    private val viewModel by inject<TxPreviewViewModel> {
+        parametersOf(args.currencyInfo)
+    }
 
     override fun layout(): Int = R.layout.fragment_tx_preview
 
@@ -91,6 +88,5 @@ class TxPreviewFragment : BaseBottomSheetFragment(), KoinScopeComponent {
 
     override fun onDestroy() {
         super.onDestroy()
-        closeScope()
     }
 }

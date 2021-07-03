@@ -1,6 +1,6 @@
 package com.easy.wallet.data.provider
 
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.error.InsufficientBalanceException
 import com.google.protobuf.ByteString
@@ -17,7 +17,7 @@ import wallet.core.jni.proto.Common
 import java.math.BigDecimal
 import java.math.BigInteger
 
-class BitcoinProvider : BaseProvider(DeFiWalletSDK.currWallet()) {
+class BitcoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
     companion object {
         private const val DECIMALS = 8
     }

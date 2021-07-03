@@ -7,10 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.easy.framework.base.BaseActivity
 import com.easy.wallet.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinApiExtension
 import kotlin.properties.Delegates
 
-@KoinApiExtension
 class StartActivity : BaseActivity(R.layout.activity_start) {
     private val viewModel by viewModel<StartViewModel>()
 

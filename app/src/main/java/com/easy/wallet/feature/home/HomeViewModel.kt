@@ -7,7 +7,7 @@ import com.easy.framework.base.BaseViewModel
 import com.easy.framework.model.ResultStatus
 import com.easy.wallet.data.Asset
 import com.easy.wallet.data.CurrencyInfo
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.ext.downDecimal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import timber.log.Timber
 import java.math.BigDecimal
 
 class HomeViewModel(
@@ -37,12 +36,12 @@ class HomeViewModel(
 
     fun loadBalances(isRefresh: Boolean) {
         if (isRefresh.not() and (state.get<Boolean>(SAVE_KEY_BALANCE) == true)) return
-        DeFiWalletSDK.activeAssets()
+        WalletDataSDK.activeAssets()
             .map {
                 Asset(
                     coinInfo = CurrencyInfo.mapping(it),
                     balance = ResultStatus.Loading,
-                    provider = DeFiWalletSDK.injectProvider(
+                    provider = WalletDataSDK.injectProvider(
                         it.coin_slug,
                         it.coin_symbol,
                         it.coin_decimal

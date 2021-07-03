@@ -5,7 +5,7 @@
     android:id="@+id/txCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="56dp"
+    android:minHeight="@dimen/spacing_64"
     app:cardElevation="0dp"
     app:contentPaddingLeft="16dp"
     app:contentPaddingRight="16dp">

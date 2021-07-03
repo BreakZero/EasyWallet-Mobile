@@ -4,3 +4,4 @@ include("framework-core")
 include("app")
 include(":walletconnect")
 rootProject.name = "Wallet"
+include(":multi-wallet")

@@ -4,14 +4,13 @@ import android.content.Context
 import androidx.startup.Initializer
 import com.easy.wallet.WalletDatabase
 import com.easy.wallet.data.BuildConfig
-import com.easy.wallet.data.DeFiWalletSDK
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.CurrencyType
+import com.easy.wallet.multi.initializer.MultiWalletModuleInitializer
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.AfterVersion
 import comeasywalletdata.CoinConfig
-import net.sqlcipher.database.SQLiteDatabase
-import net.sqlcipher.database.SupportFactory
 import timber.log.Timber
 
 class DataModuleInitializer : Initializer<Unit> {
@@ -22,13 +21,11 @@ class DataModuleInitializer : Initializer<Unit> {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        DeFiWalletSDK.injectBasicStore(context)
-        val supportFactory = SupportFactory(SQLiteDatabase.getBytes("wallet".toCharArray()))
+        WalletDataSDK.injectBasicStore(context)
         val sqliteDriver = AndroidSqliteDriver(
             schema = WalletDatabase.Schema,
             context = context,
             name = "wallet.db",
-            factory = supportFactory,
             callback = AndroidSqliteDriver.Callback(
                 schema = WalletDatabase.Schema,
                 AfterVersion(1) {
@@ -42,10 +39,10 @@ class DataModuleInitializer : Initializer<Unit> {
             override fun encode(value: CurrencyType): String = value.name
         }
         val database = WalletDatabase(driver = sqliteDriver, coinConfigAdapter = CoinConfig.Adapter(typeAdapter))
-        DeFiWalletSDK.initDatabase(database)
+        WalletDataSDK.initDatabase(database)
     }
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> {
-        return mutableListOf()
+        return mutableListOf(MultiWalletModuleInitializer::class.java)
     }
 }

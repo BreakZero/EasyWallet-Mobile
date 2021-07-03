@@ -1,0 +1,23 @@
+
+CREATE TABLE walletInfo(
+    wallet_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    wallet_name TEXT NOT NULL,
+    wallet_mnemonic TEXT NOT NULL,
+    is_active INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+getCurrentActive:
+SELECT *
+FROM walletInfo
+WHERE is_active = ?;
+
+insertWallet:
+INSERT INTO walletInfo (wallet_name, wallet_mnemonic, is_active)
+VALUES (?,?,?);
+
+removeWalletByName:
+DELETE FROM walletInfo WHERE wallet_name = ?;
+
+allWallets:
+SELECT *
+FROM walletInfo;

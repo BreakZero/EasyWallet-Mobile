@@ -1,7 +1,6 @@
 package com.easy.wallet.feature.nft.assets
 
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.easy.framework.base.BaseFragment
@@ -9,6 +8,7 @@ import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
 import com.easy.wallet.data.param.NFTAssetParameter
 import com.easy.wallet.databinding.FragmentNftAssetListBinding
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.nft.assets.adapter.NFTAssetsController
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collect
@@ -32,7 +32,7 @@ class NFTAssetsFragment : BaseFragment(R.layout.fragment_nft_asset_list) {
                         permalink = it.permalink
                     )
                 )
-            findNavController().navigate(actionToAsset)
+            start(actionToAsset)
         }.apply {
             spanCount = 2
         }

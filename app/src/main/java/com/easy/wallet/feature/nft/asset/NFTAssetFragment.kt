@@ -16,7 +16,6 @@ import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class NFTAssetFragment : BaseFragment(R.layout.fragment_nft_asset) {
     private val args: NFTAssetFragmentArgs by navArgs()

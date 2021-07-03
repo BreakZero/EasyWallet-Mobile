@@ -66,7 +66,7 @@
 
     <fragment
         android:id="@+id/txHistoryFragment"
-        android:name="com.easy.wallet.feature.transaction.TransactionFragment"
+        android:name="com.easy.wallet.feature.transaction.TransactionsFragment"
         tools:layout="@layout/fragment_transaction_history">
         <argument
             android:name="currencyInfo"
@@ -79,7 +79,16 @@
                 android:name="currencyInfo"
                 app:argType="com.easy.wallet.data.CurrencyInfo" />
         </action>
+
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/txDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/txDetailFragment"
+        android:name="com.easy.wallet.feature.transaction.detail.TransactionDetailFragment"
+        tools:layout="@layout/fragment_transaction_detail" />
 
     <!--  Global action start -->
     <include app:graph="@navigation/global_qrcode" />

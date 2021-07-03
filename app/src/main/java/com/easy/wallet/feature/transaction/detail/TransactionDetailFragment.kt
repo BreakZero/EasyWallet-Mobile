@@ -1,4 +1,4 @@
-package com.easy.wallet.feature.transaction
+package com.easy.wallet.feature.transaction.detail
 
 import com.easy.framework.base.BaseFragment
 import com.easy.wallet.R
@@ -6,5 +6,4 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class TransactionDetailFragment : BaseFragment(R.layout.fragment_transaction_detail) {
     override fun ownerToolbar(): MaterialToolbar? = null
-
 }

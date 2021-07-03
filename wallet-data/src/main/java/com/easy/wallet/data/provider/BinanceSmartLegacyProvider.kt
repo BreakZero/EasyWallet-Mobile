@@ -2,7 +2,9 @@ package com.easy.wallet.data.provider
 
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
-import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.model.SendModel
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.TransactionDataModel
 import com.easy.wallet.data.error.InsufficientBalanceException
 import com.easy.wallet.data.etx.toHexByteArray
 import com.easy.wallet.data.network.web3j.Web3JService
@@ -19,7 +21,6 @@ import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Ethereum
-import java.math.BigDecimal
 import java.math.BigInteger
 
 class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
@@ -46,17 +47,7 @@ class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
             )
             val result = response.result.map {
                 val isSend = it.from.equals(getAddress(false), true)
-                TransactionDataModel(
-                    txHash = it.hash,
-                    time = it.timeStamp,
-                    amount = it.value.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                    recipient = it.to,
-                    sender = it.from,
-                    status = TxStatus.CONFIRM,
-                    direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
-                    decimal = 18,
-                    symbol = "BNB"
-                )
+                TransactionDataModel.ofEthereumType(it, "BNB", 18, isSend)
             }
             emit(result)
         }.flowOn(Dispatchers.IO)

@@ -19,10 +19,10 @@ getAll:
 SELECT *
 FROM coinConfig;
 
-toggleBySymbol:
+toggleBySlug:
 UPDATE coinConfig
 SET is_active = (is_active == 0)
-WHERE coin_symbol = ?;
+WHERE coin_slug = ?;
 
 getActives:
 SELECT *

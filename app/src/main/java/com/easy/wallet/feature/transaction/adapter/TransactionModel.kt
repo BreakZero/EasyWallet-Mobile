@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.easy.framework.common.TimeUtils
 import com.easy.wallet.R
 import com.easy.wallet.data.data.model.TransactionDataModel
 import com.easy.wallet.data.data.model.TxDirection
@@ -35,7 +34,7 @@ abstract class TransactionModel : EpoxyModelWithHolder<Holder>() {
             TxStatus.PENDING -> "Pending"
             else -> "Success"
         }
-        holder.tvTime.text = TimeUtils.timestampToString(itemData.time.toLongOrNull() ?: 0L)
+        holder.tvTime.text = itemData.time
         holder.tvAmount.text = "${
         if (itemData.direction == TxDirection.SEND) "-"
         else "+"

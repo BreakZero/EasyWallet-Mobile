@@ -17,7 +17,6 @@ import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Ethereum
-import java.math.BigDecimal
 import java.math.BigInteger
 
 class EthereumProvider(
@@ -51,17 +50,7 @@ class EthereumProvider(
             )
             val result = response.result.map {
                 val isSend = it.from.equals(getAddress(false), true)
-                TransactionDataModel(
-                    txHash = it.hash,
-                    time = it.timeStamp,
-                    amount = it.value.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                    recipient = it.to,
-                    sender = it.from,
-                    status = TxStatus.CONFIRM,
-                    direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
-                    decimal = 18,
-                    symbol = "ETH"
-                )
+                TransactionDataModel.ofEthereumType(it, "ETH", 18, isSend)
             }
             emit(result)
         }.flowOn(Dispatchers.IO)

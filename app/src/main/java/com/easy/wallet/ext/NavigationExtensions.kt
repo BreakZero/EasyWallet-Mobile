@@ -1,14 +1,21 @@
 package com.easy.wallet.ext
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.SparseArray
+import androidx.annotation.IdRes
 import androidx.core.util.forEach
 import androidx.core.util.set
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.easy.wallet.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -232,3 +239,19 @@ private fun FragmentManager.isOnBackStack(backStackName: String): Boolean {
 }
 
 private fun getFragmentTag(index: Int) = "bottomNavigation#$index"
+
+fun Fragment.start(
+    @IdRes resId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null
+) {
+    findNavController().navigate(resId, args, navOptions, navigatorExtras)
+}
+
+fun Fragment.start(
+    directions: NavDirections,
+    navOptions: NavOptions? = null,
+) {
+    findNavController().navigate(directions, navOptions)
+}

@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
@@ -16,6 +15,7 @@ import com.easy.framework.ext.onSingleClick
 import com.easy.wallet.R
 import com.easy.wallet.databinding.FragmentSendBinding
 import com.easy.wallet.databinding.IncludeSendAboutBinding
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.sharing.ScannerFragment
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
@@ -40,7 +40,7 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
     private val askCameraPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             if (result) {
-                findNavController().navigate(R.id.global_action_scan)
+                start(R.id.global_action_scan)
             } else {
                 Timber.d("camera permission denied")
             }
@@ -64,7 +64,7 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
                     it?.let {
                         binding.btnSendContinue.isEnabled = true
                         binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
-                        findNavController().navigate(
+                        start(
                             SendFragmentDirections.actionContinueToConfirm(
                                 previewModel = it,
                                 currencyInfo = args.currencyInfo

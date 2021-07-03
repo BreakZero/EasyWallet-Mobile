@@ -15,7 +15,6 @@ import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Cosmos
-import java.math.BigDecimal
 import java.math.BigInteger
 
 class CosmosProvider : BaseProvider(WalletDataSDK.currWallet()) {
@@ -48,17 +47,7 @@ class CosmosProvider : BaseProvider(WalletDataSDK.currWallet()) {
                     account = listOf(getAddress(false))
                 )
             ).map {
-                TransactionDataModel(
-                    txHash = it.hash,
-                    recipient = it.blockHash,
-                    amount = BigDecimal.ZERO,
-                    time = it.time,
-                    direction = TxDirection.SEND,
-                    status = TxStatus.PENDING,
-                    decimal = DECIMALS,
-                    symbol = "ATOM",
-                    sender = getAddress(false)
-                )
+                TransactionDataModel.ofCosmos(it, DECIMALS, getAddress(false), "ATOM")
             }
             emit(result)
         }.flowOn(Dispatchers.IO)

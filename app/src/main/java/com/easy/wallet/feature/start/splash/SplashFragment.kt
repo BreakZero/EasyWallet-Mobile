@@ -2,10 +2,10 @@ package com.easy.wallet.feature.start.splash
 
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.model.ResultStatus
 import com.easy.wallet.R
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.MainActivity
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.catch
@@ -46,7 +46,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     private fun toImport() {
-        findNavController().navigate(R.id.action_import)
+        start(R.id.action_import)
     }
 
     private fun toMainScreen() {

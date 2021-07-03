@@ -25,7 +25,6 @@ import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Ethereum
-import java.math.BigDecimal
 import java.math.BigInteger
 
 object TokenAddress {
@@ -111,17 +110,8 @@ class ERC20Provider(
 
             val result = response.result.map {
                 val isSend = it.from == getAddress(false)
-                TransactionDataModel(
-                    txHash = it.hash,
-                    time = it.timeStamp,
-                    amount = it.value.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                    recipient = it.to,
-                    sender = it.from,
-                    status = TxStatus.CONFIRM,
-                    direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
-                    decimal = decimals,
-                    symbol = it.tokenSymbol
-                )
+
+                TransactionDataModel.ofEthereumType(it, it.tokenSymbol, decimals, isSend)
             }
             emit(result)
         }.flowOn(Dispatchers.IO)

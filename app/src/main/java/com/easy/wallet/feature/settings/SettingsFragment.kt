@@ -6,7 +6,6 @@ import androidx.biometric.BiometricManager.Authenticators
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.framework.ext.onSingleClick
@@ -14,6 +13,7 @@ import com.easy.wallet.R
 import com.easy.wallet.biometric.BiometricPromptUtils
 import com.easy.wallet.biometric.CryptographyManager
 import com.easy.wallet.databinding.FragmentSettingsBinding
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.sharing.ScannerFragment
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.appbar.MaterialToolbar
@@ -40,7 +40,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             Timber.d("Hello world")
         }
         binding.flChainNetwork.onSingleClick(lifecycleScope) {
-            findNavController().navigate(R.id.action_home_to_settings)
+            start(R.id.action_home_to_settings)
         }
 
         binding.swtEnableBiometric.setOnCheckedChangeListener { view, _ ->

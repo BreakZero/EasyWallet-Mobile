@@ -14,4 +14,12 @@ object TimeUtils {
         return Instant.ofEpochSecond(timestamp)
             .atZone(ZoneId.systemDefault()).format(formatter)
     }
+
+    fun ISOFormatter(
+        dateString: String,
+        formatter: DateTimeFormatter = DEFAULT_FORMATTER
+    ): String {
+        return Instant.from(DateTimeFormatter.ISO_INSTANT.parse(dateString))
+            .atZone(ZoneId.systemDefault()).format(formatter)
+    }
 }

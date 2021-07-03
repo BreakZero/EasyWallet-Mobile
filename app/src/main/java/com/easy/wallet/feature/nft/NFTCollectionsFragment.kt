@@ -1,11 +1,11 @@
 package com.easy.wallet.feature.nft
 
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
 import com.easy.wallet.databinding.FragmentNftIndexBinding
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.nft.adapter.NFTCollectionController
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.flow.collect
@@ -18,7 +18,7 @@ class NFTCollectionsFragment : BaseFragment(R.layout.fragment_nft_index) {
         NFTCollectionController {
             val actionToAssets =
                 NFTCollectionsFragmentDirections.actionToCollectionAssets(it)
-            findNavController().navigate(actionToAssets)
+            start(actionToAssets)
         }
     }
 

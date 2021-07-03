@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onStart
 import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
-class TransactionViewModel(
+class TransactionsViewModel(
     private val coinProvider: IProvider
 ) : BaseViewModel(), KoinComponent {
     private var offset: Int = 0
@@ -38,4 +38,6 @@ class TransactionViewModel(
             _transactions.value = RequestState.Success(it)
         }.launchIn(viewModelScope)
     }
+
+    fun address() = coinProvider.getAddress(false)
 }

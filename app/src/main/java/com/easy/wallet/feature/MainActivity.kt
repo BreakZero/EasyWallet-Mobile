@@ -14,7 +14,6 @@ import com.easy.wallet.feature.wallectconnet.WCBroadcastReceiver
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 

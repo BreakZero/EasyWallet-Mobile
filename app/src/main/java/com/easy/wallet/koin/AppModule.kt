@@ -40,8 +40,10 @@ import com.easy.wallet.feature.start.restore.ImportWalletFragment
 import com.easy.wallet.feature.start.restore.ImportWalletViewModel
 import com.easy.wallet.feature.start.splash.SplashFragment
 import com.easy.wallet.feature.start.splash.SplashViewModel
-import com.easy.wallet.feature.transaction.TransactionFragment
-import com.easy.wallet.feature.transaction.TransactionViewModel
+import com.easy.wallet.feature.transaction.TransactionsFragment
+import com.easy.wallet.feature.transaction.TransactionsViewModel
+import com.easy.wallet.feature.transaction.detail.TransactionDetailFragment
+import com.easy.wallet.feature.transaction.detail.TransactionDetailViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -101,15 +103,21 @@ val scopeModule = module {
         viewModel { HomeViewModel(get()) }
     }
 
-    scope<TransactionFragment> {
+    scope<TransactionsFragment> {
         viewModel { (asset: CurrencyInfo) ->
-            TransactionViewModel(
+            TransactionsViewModel(
                 WalletDataSDK.injectProvider(
                     asset.slug,
                     asset.symbol,
                     asset.decimal
                 )
             )
+        }
+    }
+
+    scope<TransactionDetailFragment> {
+        viewModel {
+            TransactionDetailViewModel()
         }
     }
 

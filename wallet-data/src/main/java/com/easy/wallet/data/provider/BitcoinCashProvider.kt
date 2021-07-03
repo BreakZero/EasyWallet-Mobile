@@ -13,7 +13,6 @@ import wallet.core.jni.BitcoinScript
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Bitcoin
 import wallet.core.jni.proto.Common
-import java.math.BigDecimal
 import java.math.BigInteger
 
 class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
@@ -52,32 +51,7 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
                 val result = blockChairService.bitcoinTxsByHash("bitcoin-cash", it)
                     .data.values.map { it ->
                         val isSend = address.equals(it.inputs.first().recipient, true).not()
-                        TransactionDataModel(
-                            txHash = it.transaction.hash,
-                            time = it.transaction.time,
-                            recipient = if (isSend) {
-                                it.outputs.find {
-                                    address.equals(it.recipient, true).not()
-                                }?.recipient?.ifBlank { "" }.orEmpty()
-                            } else address,
-                            sender = if (isSend) {
-                                address
-                            } else {
-                                it.outputs.find {
-                                    address.equals(it.recipient, true).not()
-                                }?.recipient?.ifBlank { "" }.orEmpty()
-                            },
-                            amount = it.transaction.outputTotal.toBigDecimalOrNull()
-                                ?: BigDecimal.ZERO,
-                            direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
-                            status = when {
-                                (it.transaction.blockId == -1L) and it.transaction.hash.isNotBlank() -> TxStatus.PENDING
-                                (it.transaction.blockId > 0L) and it.transaction.hash.isNotBlank() -> TxStatus.CONFIRM
-                                else -> TxStatus.FAILURE
-                            },
-                            decimal = DECIMALS,
-                            symbol = "BCH"
-                        )
+                        TransactionDataModel.ofBitcoinType(it, address, "BCH", DECIMALS, isSend)
                     }
                 emit(result)
             }

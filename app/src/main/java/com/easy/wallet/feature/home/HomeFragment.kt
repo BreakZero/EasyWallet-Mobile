@@ -1,19 +1,17 @@
 package com.easy.wallet.feature.home
 
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.framework.model.ResultStatus
 import com.easy.wallet.R
 import com.easy.wallet.ShowQrCodeDirections
 import com.easy.wallet.databinding.FragmentHomeBinding
+import com.easy.wallet.ext.start
 import com.easy.wallet.feature.home.adapter.AssetController
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.androidx.viewmodel.scope.emptyState
-import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -33,11 +31,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             onItemClick = {
                 val actionDetail =
                     HomeFragmentDirections.actionHomeToTransactionHistory(it.coinInfo)
-                findNavController().navigate(actionDetail)
+                start(actionDetail)
             },
             onReceive = {
                 val action = ShowQrCodeDirections.actionShowQrcode(it)
-                findNavController().navigate(action)
+                start(action)
             }
         )
     }
@@ -46,7 +44,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         super.setupView()
         setTitle("Wallet")
         inflateMenu(R.menu.menu_home) {
-            findNavController().navigate(R.id.action_home_to_coin_list)
+            start(R.id.action_home_to_coin_list)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {

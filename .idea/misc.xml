@@ -11,11 +11,12 @@
         <entry key="app/src/main/res/layout/fragment_send_eth.xml" value="0.4161458333333333" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.23958333333333334" />
-        <entry key="app/src/main/res/layout/fragment_transaction_detail.xml" value="0.4161458333333333" />
+        <entry key="app/src/main/res/layout/fragment_transaction_detail.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/layout/fragment_transaction_history.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/layout/include_send_about.xml" value="0.4161458333333333" />
         <entry key="app/src/main/res/layout/rv_item_transaction_history.xml" value="0.4161458333333333" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.30277777777777776" />
+        <entry key="framework-core/src/main/res/layout/include_toolbar.xml" value="0.4161458333333333" />
       </map>
     </option>
   </component>

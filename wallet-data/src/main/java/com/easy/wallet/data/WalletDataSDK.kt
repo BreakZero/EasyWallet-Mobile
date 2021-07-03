@@ -70,8 +70,8 @@ object WalletDataSDK {
         return this.walletDatabase.coinConfigQueries.getAll().executeAsList()
     }
 
-    fun toggleBySymbol(symbol: String) {
-        this.walletDatabase.coinConfigQueries.toggleBySymbol(symbol)
+    fun toggleBySlug(slug: String) {
+        this.walletDatabase.coinConfigQueries.toggleBySlug(slug)
     }
 
     fun injectNFTManager(): NFTManager {

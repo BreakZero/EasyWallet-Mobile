@@ -8,7 +8,6 @@ import com.easy.framework.model.RequestState
 import com.easy.wallet.data.CurrencyInfo
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.SendModel
-import com.easy.wallet.data.provider.IProvider
 import com.easy.wallet.ext.byDownDecimal
 import com.easy.wallet.model.bean.SendModelWrap
 import kotlinx.coroutines.ExperimentalCoroutinesApi

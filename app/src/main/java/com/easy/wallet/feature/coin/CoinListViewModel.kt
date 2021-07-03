@@ -13,8 +13,8 @@ class CoinListViewModel : BaseViewModel() {
 
     private val changeHolder = hashMapOf<String, Int>()
 
-    fun onChange(symbol: String) {
-        changeHolder[symbol]?.plus(1) ?: kotlin.run { changeHolder[symbol] = 1 }
+    fun onChange(slug: String) {
+        changeHolder[slug]?.plus(1) ?: kotlin.run { changeHolder[slug] = 1 }
     }
 
     @ExperimentalCoroutinesApi
@@ -33,7 +33,7 @@ class CoinListViewModel : BaseViewModel() {
             }.onCompletion {
                 emit(true)
             }.collect {
-                WalletDataSDK.toggleBySymbol(it)
+                WalletDataSDK.toggleBySlug(it)
             }
         }
     }

@@ -4,16 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="@dimen/spacing_56"
     android:paddingStart="12dp"
     android:paddingEnd="12dp">
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/chbItemCoin"
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/toggleItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="@dimen/spacing_16"
+        android:paddingEnd="@dimen/spacing_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Bitcoin" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_size"
+        android:background="@color/md_blue_grey_100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

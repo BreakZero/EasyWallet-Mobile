@@ -10,7 +10,9 @@ import com.google.protobuf.ByteString
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -31,10 +33,12 @@ class TestNetUnitTest {
 
     @Before
     fun initWallet() {
-        WalletDataSDK.initWallet(
-            "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal",
-            ""
-        )
+        GlobalScope.launch {
+            WalletDataSDK.injectWallet(
+                "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal",
+                ""
+            )
+        }
         MockKAnnotations.init(this, relaxUnitFun = true)
     }
 

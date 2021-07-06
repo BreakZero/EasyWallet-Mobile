@@ -2,6 +2,8 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="@dimen/spacing_12"
     android:layout_height="wrap_content">
 
     <com.google.android.material.radiobutton.MaterialRadioButton

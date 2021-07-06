@@ -11,8 +11,6 @@ import com.easy.wallet.ext.start
 import com.easy.wallet.feature.home.adapter.AssetController
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
@@ -42,7 +40,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun setupView() {
         super.setupView()
-        setTitle("Wallet")
+        setTitle(getString(R.string.app_name))
         inflateMenu(R.menu.menu_home) {
             start(R.id.action_home_to_coin_list)
         }
@@ -69,7 +67,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         setFragmentResultListener(SET_RESULT_CODE) { _, bundle ->
             val isChanged = bundle.getBoolean(KEY_SETUP_RESULT)
-            Timber.d("===> $isChanged ")
             viewModel.loadBalances(isChanged)
         }
     }

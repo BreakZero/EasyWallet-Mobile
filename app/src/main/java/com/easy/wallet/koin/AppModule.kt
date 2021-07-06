@@ -85,11 +85,6 @@ val appModule = module {
     } bind IProvider::class
 }
 
-internal object ScopeConst {
-    const val FLOW_SESSION_NAME = "flowSession"
-    const val FLOW_SESSION_ID = "sendFlowSession"
-}
-
 val scopeModule = module {
     scope<MainActivity> {
         viewModel { MainViewModel() }

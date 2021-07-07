@@ -20,10 +20,7 @@ class ImportWalletViewModel : BaseViewModel(), KoinComponent {
     }
 
     fun done(callback: (Boolean) -> Unit) {
-        val mnemonic = words.joinToString(" ") {
-            if (it.endsWith(",")) it.removeSuffix(",")
-            else it
-        }
+        val mnemonic = words.joinToString(" ")
 
         flow {
             val importResult =

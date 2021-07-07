@@ -49,6 +49,7 @@ class TxPreviewFragment : BaseBottomSheetFragment() {
                 BiometricPromptUtils.createBiometricPrompt(
                     requireActivity()
                 ) {
+                    Timber.d("====== ${args.previewModel.rawData}")
                     binding.btnContinue.isEnabled = false
                     binding.btnContinue.showProgress {
                         buttonText = "sending"

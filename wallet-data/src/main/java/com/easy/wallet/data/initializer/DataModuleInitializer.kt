@@ -29,6 +29,7 @@ class DataModuleInitializer : Initializer<Unit> {
             callback = AndroidSqliteDriver.Callback(
                 schema = WalletDatabase.Schema,
                 AfterVersion(1) {
+
                 }
             )
         )

@@ -94,6 +94,7 @@ object WalletDataSDK {
                 "doge-main" -> DogecoinProvider()
                 "bitcoin-cash-main" -> BitcoinCashProvider()
                 "ada-main" -> CardanoProvider()
+                "sol-main" -> SolanaProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals,

@@ -76,14 +76,14 @@ class EthereumProvider(
                 gasLimit = ByteString.copyFrom(
                     Numeric.cleanHexPrefix(dAppSendModel.gasLimit).toBigInteger(16).toByteArray()
                 )
-                transaction = Ethereum.Transaction.newBuilder().apply {
-                    erc20Transfer = Ethereum.Transaction.ERC20Transfer.newBuilder().apply {
-                        to = dAppSendModel.to
-                        amount = ByteString.copyFrom(
-                            Numeric.cleanHexPrefix(dAppSendModel.value).toBigInteger(16).toByteArray()
-                        )
+                    transaction = Ethereum.Transaction.newBuilder().apply {
+                        erc20Transfer = Ethereum.Transaction.ERC20Transfer.newBuilder().apply {
+                            to = dAppSendModel.to
+                            amount = ByteString.copyFrom(
+                                Numeric.cleanHexPrefix(dAppSendModel.value).toBigInteger(16).toByteArray()
+                            )
+                        }.build()
                     }.build()
-                }.build()
             }
             val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
             val rawData = Numeric.toHexString(encoded)

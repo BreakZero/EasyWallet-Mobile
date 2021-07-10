@@ -50,7 +50,7 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
             flow {
                 val result = blockChairService.bitcoinTxsByHash("dogecoin", it)
                     .data.values.map { it ->
-                        val isSend = address.equals(it.inputs.first().recipient, true).not()
+                        val isSend = address.equals(it.inputs.first().recipient, true)
                         TransactionDataModel.ofBitcoinType(
                             it, address, "DOGE",
                             DECIMALS, isSend

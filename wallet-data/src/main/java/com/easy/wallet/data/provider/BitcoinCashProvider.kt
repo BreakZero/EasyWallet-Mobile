@@ -1,7 +1,9 @@
 package com.easy.wallet.data.provider
 
 import com.easy.wallet.data.WalletDataSDK
-import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.model.SendModel
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.TransactionDataModel
 import com.easy.wallet.data.error.InsufficientBalanceException
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
@@ -48,10 +50,17 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
             emit(result.joinToString(separator = ","))
         }.flatMapConcat { it ->
             flow {
+                val wrapAddr = if (address.startsWith("bitcoincash")) {
+                    address.split(":").last()
+                } else address
                 val result = blockChairService.bitcoinTxsByHash("bitcoin-cash", it)
-                    .data.values.map { it ->
-                        val isSend = address.equals(it.inputs.first().recipient, true).not()
-                        TransactionDataModel.ofBitcoinType(it, address, "BCH", DECIMALS, isSend)
+                    .data.values.map {
+                        val isSend = wrapAddr.equals(it.inputs.first().recipient, true)
+                        TransactionDataModel.ofBitcoinType(
+                            it,
+                            wrapAddr,
+                            "BCH", DECIMALS, isSend
+                        )
                     }
                 emit(result)
             }

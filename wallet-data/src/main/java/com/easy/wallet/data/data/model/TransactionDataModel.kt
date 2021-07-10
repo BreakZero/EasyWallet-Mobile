@@ -4,8 +4,10 @@ import com.easy.framework.common.TimeUtils
 import com.easy.wallet.data.data.remote.EtherTransactionInfo
 import com.easy.wallet.data.data.remote.blockchair.btc.BitcoinTxRelatedInfo
 import com.easy.wallet.data.data.remote.cosmos.TransactionResponse
+import okhttp3.internal.toLongOrDefault
 import java.math.BigDecimal
 
+@Suppress("NAME_SHADOWING")
 data class TransactionDataModel(
     val txHash: String,
     val recipient: String,
@@ -63,9 +65,28 @@ data class TransactionDataModel(
             decimal: Int,
             isSend: Boolean
         ): TransactionDataModel {
+            val amount = if (isSend) {
+                val totalInput =
+                    it.inputs.map { it.value.toLongOrDefault(0L) }
+                        .reduce { acc, value -> acc + value }
+                val backOutput = it.outputs.filter { it.recipient == address }
+                    .let { it ->
+                        if (it.isEmpty()) 0L
+                        else it.map { it.value.toLongOrDefault(0L) }
+                            .reduce { acc, value -> acc + value }
+                    }
+                totalInput - backOutput - it.transaction.fee
+            } else {
+                it.outputs.filter { it.recipient == address }.let { it ->
+                    if (it.isEmpty()) 0L
+                    else it.map { it.value.toLongOrDefault(0L) }
+                        .reduce { acc, value -> acc + value }
+                }
+            }
+
             return TransactionDataModel(
                 txHash = it.transaction.hash,
-                time = TimeUtils.timestampToString(it.transaction.time.toLongOrNull() ?: 0L),
+                time = it.transaction.time,
                 recipient = if (isSend) {
                     it.outputs.find {
                         address.equals(it.recipient, true).not()
@@ -78,8 +99,7 @@ data class TransactionDataModel(
                         address.equals(it.recipient, true).not()
                     }?.recipient?.ifBlank { "" }.orEmpty()
                 },
-                amount = it.transaction.outputTotal.toBigDecimalOrNull()
-                    ?: BigDecimal.ZERO,
+                amount = amount.toBigDecimal(),
                 direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
                 status = when {
                     (it.transaction.blockId == -1L) and it.transaction.hash.isNotBlank() -> TxStatus.PENDING

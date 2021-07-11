@@ -7,6 +7,7 @@ import com.easy.framework.model.ResultStatus
 import com.easy.wallet.R
 import com.easy.wallet.ShowQrCodeDirections
 import com.easy.wallet.databinding.FragmentHomeBinding
+import com.easy.wallet.ext.hideLoading
 import com.easy.wallet.ext.start
 import com.easy.wallet.feature.home.adapter.AssetController
 import com.google.android.material.appbar.MaterialToolbar
@@ -48,11 +49,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.loadBalances(true)
         }
-
         viewModel.apply {
             assets.observe(this@HomeFragment) {
                 it?.let {
                     if (it.none { it.balance == ResultStatus.Loading }) {
+                        hideLoading()
                         binding.swipeRefreshLayout.isRefreshing = false
                     }
                     assetController.setData(it)

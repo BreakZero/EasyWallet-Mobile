@@ -17,9 +17,8 @@ import com.easy.wallet.databinding.FragmentTxPreviewBinding
 import com.easy.wallet.ext.strByDecimal
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 class TxPreviewFragment : BaseBottomSheetFragment() {
     private val args: TxPreviewFragmentArgs by navArgs()
@@ -27,7 +26,7 @@ class TxPreviewFragment : BaseBottomSheetFragment() {
     private val binding by viewBinding(FragmentTxPreviewBinding::bind)
 
     private val cryptographyManager: CryptographyManager = CryptographyManager()
-    private val viewModel by inject<TxPreviewViewModel> {
+    private val viewModel by viewModel<TxPreviewViewModel> {
         parametersOf(args.currencyInfo)
     }
 
@@ -49,16 +48,14 @@ class TxPreviewFragment : BaseBottomSheetFragment() {
                 BiometricPromptUtils.createBiometricPrompt(
                     requireActivity()
                 ) {
-                    Timber.d("====== ${args.previewModel.rawData}")
                     binding.btnContinue.isEnabled = false
                     binding.btnContinue.showProgress {
-                        buttonText = "sending"
+                        buttonText = getString(R.string.text_send)
                         progressColor = Color.WHITE
                     }
                     viewModel.broadcastTransaction(
                         args.previewModel.rawData,
                         onSuccess = {
-                            Timber.d("===$it")
                             binding.btnContinue.isEnabled = true
                             binding.btnContinue.hideProgress("Continue")
                             findNavController().popBackStack(
@@ -85,9 +82,5 @@ class TxPreviewFragment : BaseBottomSheetFragment() {
             binding.tvFrom.text = from
             binding.tvFees.text = feeWithSymbol()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

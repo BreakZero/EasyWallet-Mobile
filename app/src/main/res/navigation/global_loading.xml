@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_loading"
+    app:startDestination="@id/loadingView">
+
+    <action
+        android:id="@+id/action_loading"
+        app:destination="@id/show_loading" />
+
+    <dialog
+        android:id="@+id/loadingView"
+        android:name="com.easy.wallet.feature.sharing.LoadingDialogFragment"
+        tools:layout="@layout/fragment_loading" />
+</navigation>

@@ -109,6 +109,11 @@
             app:argType="string" />
     </action>
 
+    <include app:graph="@navigation/global_loading"/>
+    <action
+        android:id="@+id/action_loading"
+        app:destination="@id/show_loading" />
+
     <include app:graph="@navigation/global_scan" />
 
     <action

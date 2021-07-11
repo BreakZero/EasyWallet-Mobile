@@ -82,13 +82,21 @@
 
         <action
             android:id="@+id/action_to_detail"
-            app:destination="@id/txDetailFragment" />
+            app:destination="@id/txDetailFragment">
+            <argument
+                android:name="txModel"
+                app:argType="com.easy.wallet.data.data.model.TransactionDataModel" />
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/txDetailFragment"
         android:name="com.easy.wallet.feature.transaction.detail.TransactionDetailFragment"
-        tools:layout="@layout/fragment_transaction_detail" />
+        tools:layout="@layout/fragment_transaction_detail">
+        <argument
+            android:name="txModel"
+            app:argType="com.easy.wallet.data.data.model.TransactionDataModel" />
+    </fragment>
 
     <!--  Global action start -->
     <include app:graph="@navigation/global_qrcode" />

@@ -1,13 +1,17 @@
 package com.easy.wallet.data.data.model
 
+import android.os.Parcelable
+import androidx.annotation.Keep
 import com.easy.framework.common.TimeUtils
 import com.easy.wallet.data.data.remote.EtherTransactionInfo
 import com.easy.wallet.data.data.remote.blockchair.btc.BitcoinTxRelatedInfo
 import com.easy.wallet.data.data.remote.cosmos.TransactionResponse
+import kotlinx.parcelize.Parcelize
 import okhttp3.internal.toLongOrDefault
 import java.math.BigDecimal
 
-@Suppress("NAME_SHADOWING")
+@Keep
+@Parcelize
 data class TransactionDataModel(
     val txHash: String,
     val recipient: String,
@@ -17,8 +21,9 @@ data class TransactionDataModel(
     val direction: TxDirection,
     val status: TxStatus,
     val decimal: Int,
-    val symbol: String
-) {
+    val symbol: String,
+    val fee: String
+) : Parcelable {
     companion object {
         internal fun ofCosmos(
             it: TransactionResponse,
@@ -26,6 +31,11 @@ data class TransactionDataModel(
             address: String,
             symbol: String
         ): TransactionDataModel {
+            val fee = it.txFees.map { it.text.toLongOrDefault(0L) }.let {
+                if (it.isEmpty()) 0L
+                else it.reduce { acc, value -> acc + value }
+            }
+            val feeSymbol = it.txFees.firstOrNull()?.currency.orEmpty()
             return TransactionDataModel(
                 txHash = it.hash,
                 recipient = "",
@@ -35,7 +45,8 @@ data class TransactionDataModel(
                 status = TxStatus.PENDING,
                 decimal = decimal,
                 symbol = symbol,
-                sender = address
+                sender = address,
+                fee = "$fee $feeSymbol"
             )
         }
 
@@ -45,6 +56,8 @@ data class TransactionDataModel(
             decimal: Int,
             isSend: Boolean
         ): TransactionDataModel {
+            val fee = it.cumulativeGasUsed.toBigDecimalOrNull()
+                ?.times(it.gasPrice.toBigDecimalOrNull() ?: BigDecimal.ZERO) ?: BigDecimal.ZERO
             return TransactionDataModel(
                 txHash = it.hash,
                 time = TimeUtils.timestampToString(it.timeStamp.toLongOrNull() ?: 0L),
@@ -54,7 +67,8 @@ data class TransactionDataModel(
                 status = TxStatus.CONFIRM,
                 direction = if (isSend) TxDirection.SEND else TxDirection.RECEIVE,
                 decimal = decimal,
-                symbol = symbol
+                symbol = symbol,
+                fee = "$fee ETH",
             )
         }
 
@@ -83,6 +97,7 @@ data class TransactionDataModel(
                         .reduce { acc, value -> acc + value }
                 }
             }
+            val fee = it.transaction.fee
 
             return TransactionDataModel(
                 txHash = it.transaction.hash,
@@ -107,7 +122,8 @@ data class TransactionDataModel(
                     else -> TxStatus.FAILURE
                 },
                 decimal = decimal,
-                symbol = symbol
+                symbol = symbol,
+                fee = "$fee"
             )
         }
     }

@@ -19,4 +19,10 @@
 
     <string name="error_somethings_went_wrong">somethings went wrong</string>
     <string name="text_continue">Continue</string>
+    <string name="text_network_fee">Network Fee</string>
+    <string name="text_to_address">To Address</string>
+    <string name="text_from_address">From Address</string>
+    <string name="text_transaction_hash">Transaction Hash</string>
+    <string name="view_in_explorer">view in explorer</string>
+    <string name="text_amount">Amount</string>
 </resources>

@@ -81,7 +81,7 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
                 hashType = BitcoinScript.hashTypeForCoin(CoinType.DOGECOIN)
                 toAddress = sendModel.to
                 changeAddress = from
-                byteFee = sendModel.feeByte.times(100F).toLong()
+                byteFee = sendModel.feeByte.times(1000F).toLong()
                 useMaxAmount = sendModel.useMax
                 coinType = CoinType.DOGECOIN.value()
             }

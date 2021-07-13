@@ -1,7 +1,5 @@
 package com.easy.wallet.feature.sharing
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

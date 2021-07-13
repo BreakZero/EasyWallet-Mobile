@@ -23,7 +23,8 @@ class SendViewModel(
         private const val KEY_BALANCE = "key-balance"
     }
 
-    private val coinProvider = WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
+    private val coinProvider =
+        WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
 
     private val enterModel = EnterModel()
 
@@ -56,8 +57,8 @@ class SendViewModel(
 
     fun feeUnit(): String {
         return when (currencyInfo.symbol) {
-            "BTC" -> "sat/byte"
-            "ETH", "CRO" -> "Gas Price(GWEI)"
+            "BTC", "BCH", "DOGE" -> "sat/byte"
+            "ETH", "CRO", "BNB" -> "Gas Price(GWEI)"
             else -> currencyInfo.symbol
         }
     }

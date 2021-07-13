@@ -16,7 +16,6 @@ import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
-import wallet.core.jni.proto.Cosmos
 import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
@@ -167,8 +166,14 @@ class EthereumProvider(
     }
 
     private fun genFun(
-        nonce: Int, gasPrice: String, gas: String,
-        to: String, value: String, v: String, r: String, s: String
+        nonce: Int,
+        gasPrice: String,
+        gas: String,
+        to: String,
+        value: String,
+        v: String,
+        r: String,
+        s: String
     ) {
         """
             {

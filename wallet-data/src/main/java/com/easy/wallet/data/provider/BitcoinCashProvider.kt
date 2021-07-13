@@ -91,7 +91,7 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
                 toAddress = sendModel.to
                 changeAddress = from
                 byteFee = sendModel.feeByte.toLong()
-                useMaxAmount = true
+                useMaxAmount = sendModel.useMax
                 coinType = CoinType.BITCOINCASH.value()
             }
             val prvData = hdWallet.getKeyForCoin(CoinType.BITCOINCASH)

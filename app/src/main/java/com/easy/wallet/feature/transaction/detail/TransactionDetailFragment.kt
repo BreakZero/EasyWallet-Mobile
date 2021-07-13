@@ -21,15 +21,14 @@ class TransactionDetailFragment : BaseFragment(R.layout.fragment_transaction_det
     @SuppressLint("SetTextI18n")
     override fun setupView() {
         super.setupView()
-        args.txModel.let {
-            binding.tvTxDetailStatus.text = it.status.toString()
-            binding.tvTxDetailTime.text = it.time
-            binding.valueAmount.text =
-                "${it.amount.downDecimal(it.decimal, 8).toPlainString()} ${it.symbol}"
-            binding.valueHash.text = it.txHash
-            binding.valueToAddress.text = it.recipient
-            binding.valueFromAddress.text = it.sender
-            binding.valueFee.text = it.fee
+        with(args.txModel) {
+            binding.tvTxDetailStatus.text = status.toString()
+            binding.tvTxDetailTime.text = time
+            binding.valueAmount.text = "${amount.downDecimal(decimal, 8).toPlainString()} $symbol"
+            binding.valueHash.text = txHash
+            binding.valueToAddress.text = recipient
+            binding.valueFromAddress.text = sender
+            binding.valueFee.text = fee
         }
     }
 

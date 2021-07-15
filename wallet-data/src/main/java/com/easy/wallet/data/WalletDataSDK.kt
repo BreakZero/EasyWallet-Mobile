@@ -97,6 +97,7 @@ object WalletDataSDK {
                 "bitcoin-cash-main" -> BitcoinCashProvider()
                 "ada-main" -> CardanoProvider()
                 "sol-main" -> SolanaProvider()
+                "matic-main" -> PolygonProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals,

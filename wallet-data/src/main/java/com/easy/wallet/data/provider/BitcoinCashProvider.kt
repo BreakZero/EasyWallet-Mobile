@@ -41,12 +41,10 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
         offset: Int
     ): Flow<List<TransactionDataModel>> {
         return flow {
-            val result =
-                blockChairService.bitcoinRelatedInfoByAddress(
-                    "bitcoin-cash",
-                    address, limit, offset
-                )
-                    .data.values.first().transactionsHash
+            val result = blockChairService.bitcoinRelatedInfoByAddress(
+                "bitcoin-cash",
+                address, limit, offset
+            ).data.values.first().transactionsHash
             emit(result.joinToString(separator = ","))
         }.flatMapConcat { it ->
             flow {
@@ -72,11 +70,10 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val sendAmount = sendModel.amount
 
         return flow {
-            val info =
-                blockChairService.bitcoinRelatedInfoByAddress(
-                    "bitcoin-cash",
-                    from
-                ).data.values.first()
+            val info = blockChairService.bitcoinRelatedInfoByAddress(
+                "bitcoin-cash",
+                from
+            ).data.values.first()
             emit(info)
         }.map {
             if ((it.addressInfo.balance.toBigInteger() < sendAmount)
@@ -154,7 +151,10 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
         return flow {
-            val result = blockChairService.pushTransaction("bitcoin-cash", Numeric.cleanHexPrefix(rawData)).data.txHash
+            val result = blockChairService.pushTransaction(
+                "bitcoin-cash",
+                Numeric.cleanHexPrefix(rawData)
+            ).data.txHash
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

@@ -60,3 +60,5 @@ INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display
 VALUES ('ada-main','ADA', 'Cardano', 6, 8, '#00BCD4', 'MAIN_COIN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
 VALUES ('sol-main','SOL', 'Solana', 9, 8, '#00FFD4', 'MAIN_COIN', 0);
+INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('matic-main','MATIC', 'Polygon', 9, 8, '#00FFD4', 'MAIN_COIN', 0);

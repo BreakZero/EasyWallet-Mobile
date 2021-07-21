@@ -1,7 +1,7 @@
 package com.easy.version.dependencies
 
 object AndroidX {
-    const val coreKtx = "androidx.core:core-ktx:1.3.2"
+    const val coreKtx = "androidx.core:core-ktx:1.6.0"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
     const val startup = "androidx.startup:startup-runtime:1.0.0"
     const val activity = "androidx.activity:activity:1.2.0-beta01"
@@ -10,7 +10,7 @@ object AndroidX {
     const val securityCrypto = "androidx.security:security-crypto:1.1.0-alpha02"
 
     const val paging = "androidx.paging:paging-runtime:3.0.0-alpha06"
-    const val biometric = "androidx.biometric:biometric:1.2.0-alpha01"
+    const val biometric = "androidx.biometric:biometric:1.2.0-alpha03"
 
     object Fragment {
         private const val fragment_version = "1.3.0-beta01"

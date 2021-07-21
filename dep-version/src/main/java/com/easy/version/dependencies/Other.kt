@@ -3,8 +3,8 @@ package com.easy.version.dependencies
 object Other {
     const val material = "com.google.android.material:material:1.2.1"
     const val flexbox = "com.google.android:flexbox:2.0.1"
-    const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
-    const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+    const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val okHttpLogger = "com.squareup.okhttp3:logging-interceptor:4.1.1"
@@ -16,7 +16,7 @@ object Other {
     const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
     const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.8.0"
 
-    const val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.3.0"
+    const val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.3.1"
 
     const val button = "com.github.razir.progressbutton:progressbutton:2.1.0"
     const val sqlcipher = "net.zetetic:android-database-sqlcipher:4.4.3"

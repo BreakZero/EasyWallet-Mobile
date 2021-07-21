@@ -72,7 +72,7 @@ class ERC20Provider(
     private val contract: ERC20
 
     init {
-        val address = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException()
+        val address = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException(symbol)
         contract = ERC20.load(
             address,
             web3JService,

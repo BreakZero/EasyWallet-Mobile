@@ -1,7 +1,7 @@
 package com.easy.version
 
 object BuildConfig {
-    const val kotlinVersion = "1.4.0"
+    const val kotlinVersion = "1.5.20"
 
     const val compileSdkVersion = 29
     const val buildToolsVersion = "29.0.3"

@@ -45,7 +45,7 @@ class EthereumProvider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
+                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset

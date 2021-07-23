@@ -88,6 +88,7 @@ class SendViewModel(
         coinProvider.buildTransactionPlan(
             enterModel.toSendModel(fee, useMax, currencyInfo.decimal)
         ).onEach {
+            Timber.d("======== ${it.rawData}")
             onNext.invoke(
                 if (it.rawData.isEmpty()) null
                 else SendModelWrap(

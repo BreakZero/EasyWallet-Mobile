@@ -3,7 +3,7 @@ package com.trustwallet.walletconnect.extensions
 private const val HEX_CHARS = "0123456789abcdef"
 
 fun String.hexStringToByteArray(): ByteArray {
-    val hex = toLowerCase()
+    val hex = lowercase()
     val result = ByteArray(length / 2)
 
     for (i in hex.indices step 2) {

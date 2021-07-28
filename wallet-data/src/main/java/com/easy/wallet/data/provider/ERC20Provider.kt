@@ -1,12 +1,17 @@
 package com.easy.wallet.data.provider
 
 import com.easy.wallet.data.WalletDataSDK
+import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.remote.rpc.BalanceReq
+import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
 import com.easy.wallet.data.error.NetworkError
 import com.easy.wallet.data.error.NotEthereumException
 import com.easy.wallet.data.error.UnSupportTokenException
 import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.network.ethereum.EthRpcCall
+import com.easy.wallet.data.network.ethereum.EthRpcClient
 import com.easy.wallet.data.network.web3j.Web3JService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +19,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import org.web3j.contracts.eip20.generated.ERC20
-import org.web3j.crypto.Credentials
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction
-import org.web3j.tx.gas.DefaultGasProvider
 import org.web3j.utils.Numeric
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
@@ -66,29 +68,33 @@ class ERC20Provider(
 ) : BaseProvider(WalletDataSDK.currWallet()) {
     companion object {
         private const val GAS_LIMIT = 50000
+        private const val apiKey = APIKey.INFURA_API_KEY
     }
 
     private val web3JService: Web3j = Web3JService.web3jClient(nChainId)
-    private val contract: ERC20
-
-    init {
-        val address = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException()
-        contract = ERC20.load(
-            address,
-            web3JService,
-            Credentials.create(
-                Numeric.toHexString(
-                    hdWallet.getKeyForCoin(CoinType.ETHEREUM).data()
-                )
-            ),
-            DefaultGasProvider()
-        )
-    }
+    private val contractAddress =
+        TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException()
+    private val rpcClient: EthRpcCall = EthRpcClient.client(nChainId).create(EthRpcCall::class.java)
 
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
-            val balance = contract.balanceOf(address).sendAsync().get()
-            emit(balance)
+            val balance = rpcClient.tokenBalanceOf(
+                apikey = apiKey,
+                body = BaseRPCReq(
+                    id = 1,
+                    jsonrpc = "2.0",
+                    method = "eth_call",
+                    params = listOf(
+                        BalanceReq(
+                            from = address,
+                            to = contractAddress,
+                            content = "0x70a08231000000000000000000000000${Numeric.cleanHexPrefix(address)}"
+                        ),
+                        "latest"
+                    )
+                )
+            ).result
+            emit(Numeric.decodeQuantity(balance))
         }.flowOn(Dispatchers.IO)
     }
 
@@ -100,11 +106,11 @@ class ERC20Provider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
+                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset,
-                contractaddress = contract.contractAddress,
+                contractaddress = contractAddress,
                 action = "tokentx"
             )
 

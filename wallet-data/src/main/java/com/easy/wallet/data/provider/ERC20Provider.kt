@@ -72,8 +72,7 @@ class ERC20Provider(
     }
 
     private val web3JService: Web3j = Web3JService.web3jClient(nChainId)
-    private val contractAddress =
-        TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException()
+    private val contractAddress = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException(symbol)
     private val rpcClient: EthRpcCall = EthRpcClient.client(nChainId).create(EthRpcCall::class.java)
 
     override fun getBalance(address: String): Flow<BigInteger> {
@@ -106,7 +105,7 @@ class ERC20Provider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
+                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
                 address = address,
                 page = page,
                 offset = offset,

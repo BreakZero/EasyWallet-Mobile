@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.32"))
+        classpath(kotlin("gradle-plugin", version = "1.5.10"))
     }
 }
 plugins {
@@ -13,12 +13,12 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     google()
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8

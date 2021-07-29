@@ -14,12 +14,14 @@ import com.easy.wallet.feature.wallectconnet.WCBroadcastReceiver
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private var currentNavController: LiveData<NavController>? = null
 
     private val wcBroadcastReceiver = WCBroadcastReceiver {
+        Timber.d("===== $it")
         val action = ShowWcActionViewDirections.actionShowWalletConnectAction(it)
         currentNavController?.value?.navigate(action)
     }

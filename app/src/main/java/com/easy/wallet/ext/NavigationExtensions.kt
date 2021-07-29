@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
+import androidx.navigation.*
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.easy.wallet.R
@@ -254,4 +251,10 @@ fun Fragment.start(
     navOptions: NavOptions? = null,
 ) {
     findNavController().navigate(directions, navOptions)
+}
+
+fun Fragment.hideLoading() {
+    with(findNavController()) {
+        if (currentDestination?.id == R.id.loadingView) navigateUp()
+    }
 }

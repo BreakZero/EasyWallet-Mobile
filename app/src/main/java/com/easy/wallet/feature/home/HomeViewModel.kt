@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 import org.koin.core.component.KoinComponent
 import java.math.BigDecimal
 
@@ -32,7 +34,6 @@ class HomeViewModel(
     val assets = MutableLiveData<List<Asset>>()
 
     private val bChannel = Channel<Asset>()
-    private var activeSize = 7
 
     fun loadBalances(isRefresh: Boolean) {
         if (isRefresh.not() and (state.get<Boolean>(SAVE_KEY_BALANCE) == true)) return
@@ -48,7 +49,6 @@ class HomeViewModel(
                     )
                 )
             }.let {
-                activeSize = it.size
                 _assets.apply {
                     clear()
                     addAll(it)
@@ -72,16 +72,22 @@ class HomeViewModel(
             }
 
         viewModelScope.launch {
-            repeat(activeSize) {
-                updateItem(bChannel.receive())
-                assets.postValue(_assets)
+            while (isActive && !bChannel.isClosedForReceive) {
+                select<Unit> {
+                    bChannel.onReceiveCatching {
+                        updateItem(it.getOrNull())
+                        assets.postValue(_assets)
+                    }
+                }
             }
         }
     }
 
-    private fun updateItem(asset: Asset) {
-        _assets.indexOfFirst { asset.coinInfo == it.coinInfo }.let {
-            if (it >= 0) _assets[it] = asset
+    private fun updateItem(asset: Asset?) {
+        asset?.also {
+            _assets.indexOfFirst { asset.coinInfo == it.coinInfo }.let {
+                if (it >= 0) _assets[it] = asset
+            }
         }
     }
 

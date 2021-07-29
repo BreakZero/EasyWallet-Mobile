@@ -6,6 +6,7 @@ import com.easy.wallet.WalletDatabase
 import com.easy.wallet.data.constant.CHAINID_STORE_KEY
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.defi.NFTManager
+import com.easy.wallet.data.error.InvalidMnemonicException
 import com.easy.wallet.data.provider.*
 import com.easy.wallet.multi.MultiWalletConfig
 import com.easy.wallet.multi.model.WalletInfo
@@ -56,6 +57,7 @@ object WalletDataSDK {
 
     suspend fun injectWallet(walletName: String, mnemonic: String?, passphrase: String = ""): Boolean {
         val newWallet = mnemonic?.let {
+            if (!HDWallet.isValid(mnemonic)) throw InvalidMnemonicException()
             HDWallet(it, passphrase)
         } ?: HDWallet(128, passphrase)
         this.hdWallet = newWallet
@@ -95,6 +97,8 @@ object WalletDataSDK {
                 "bitcoin-cash-main" -> BitcoinCashProvider()
                 "ada-main" -> CardanoProvider()
                 "sol-main" -> SolanaProvider()
+                "matic-main" -> PolygonProvider()
+                "near-main" -> NearProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals,

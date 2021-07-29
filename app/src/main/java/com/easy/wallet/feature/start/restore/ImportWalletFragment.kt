@@ -15,6 +15,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.getKoin
+import timber.log.Timber
 
 class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
     private val binding by viewBinding(FragmentStartImportBinding::bind)
@@ -55,8 +56,12 @@ class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
 
         binding.btnDone.setOnClickListener {
             viewModel.done {
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
-                requireActivity().finish()
+                if (it) {
+                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    requireActivity().finish()
+                } else {
+                    Timber.d("====== invalid words")
+                }
             }
         }
         binding.edtImportWord.requestFocus()

@@ -32,12 +32,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTxDetailStatus"
-        tools:text="Success" />
+        tools:text="2021-01-23 14:29" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/lAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:contentPadding="@dimen/spacing_16"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginEnd="@dimen/spacing_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTxDetailTime">
@@ -45,9 +49,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Amount" />
+            android:text="@string/text_amount" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/valueAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -55,22 +60,143 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/lSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:contentPadding="@dimen/spacing_16"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginEnd="@dimen/spacing_16"
+        app:contentPaddingLeft="@dimen/spacing_16"
+        app:contentPaddingRight="@dimen/spacing_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTxDetailTime">
+        app:layout_constraintTop_toBottomOf="@id/lAmount">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Amount" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            tools:text="0.99 ETH" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/labelFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                android:text="@string/text_network_fee"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/valueFee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_64"
+                android:gravity="end|center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/labelFee"
+                app:layout_constraintTop_toTopOf="@id/labelFee"
+                tools:text="0.99 ETH" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/labelToAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                android:text="@string/text_to_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelFee" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/valueToAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_64"
+                android:gravity="end|center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/labelToAddress"
+                app:layout_constraintTop_toTopOf="@id/labelToAddress"
+                tools:text="0.99 ETH" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/labelFromAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                android:text="@string/text_from_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/valueToAddress" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/valueFromAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_64"
+                android:gravity="end|center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/labelFromAddress"
+                app:layout_constraintTop_toTopOf="@id/labelFromAddress"
+                tools:text="0.99 ETH" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/lInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginEnd="@dimen/spacing_16"
+        app:contentPaddingLeft="@dimen/spacing_16"
+        app:contentPaddingRight="@dimen/spacing_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lSummary">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/labelHash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:minHeight="@dimen/spacing_56"
+                android:text="@string/text_transaction_hash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/valueHash"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_64"
+                android:gravity="end|center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/labelHash"
+                app:layout_constraintTop_toTopOf="@id/labelHash"
+                tools:text="0.99 ETH" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvSeeMore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/spacing_56"
+                android:text="@string/view_in_explorer"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                app:drawableEndCompat="@drawable/ic_navigate_next_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/valueHash" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

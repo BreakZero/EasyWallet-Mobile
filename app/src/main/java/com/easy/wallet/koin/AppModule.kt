@@ -160,13 +160,7 @@ val scopeModule = module {
     }
     scope<TxPreviewFragment> {
         viewModel { (currencyInfo: CurrencyInfo) ->
-            TxPreviewViewModel(
-                WalletDataSDK.injectProvider(
-                    currencyInfo.slug,
-                    currencyInfo.symbol,
-                    currencyInfo.decimal
-                )
-            )
+            TxPreviewViewModel(currencyInfo)
         }
     }
 

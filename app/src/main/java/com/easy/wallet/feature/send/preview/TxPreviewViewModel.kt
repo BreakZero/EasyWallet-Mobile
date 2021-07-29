@@ -2,6 +2,8 @@ package com.easy.wallet.feature.send.preview
 
 import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
+import com.easy.wallet.data.CurrencyInfo
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.provider.IProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -11,8 +13,10 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class TxPreviewViewModel(
-    private val coinProvider: IProvider
+    currencyInfo: CurrencyInfo
 ) : BaseViewModel() {
+    private val coinProvider =
+        WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
     fun broadcastTransaction(
         rawData: String,
         onSuccess: (String) -> Unit,

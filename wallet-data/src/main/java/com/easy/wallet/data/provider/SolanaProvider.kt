@@ -99,7 +99,7 @@ class SolanaProvider : BaseProvider(WalletDataSDK.currWallet()) {
               "$rawData"
             ]
           }
-        """.trimIndent()
+            """.trimIndent()
             val result = solClient.broadcastTransaction(reqBody = reqBody.toRequestBody("application/json".toMediaTypeOrNull()))
             emit(result.result)
         }

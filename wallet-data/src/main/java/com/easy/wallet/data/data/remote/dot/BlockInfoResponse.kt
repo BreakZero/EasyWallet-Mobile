@@ -2,17 +2,6 @@ package com.easy.wallet.data.data.remote.dot
 
 import com.squareup.moshi.Json
 
-internal data class BlockInfoResponse(
-    @field:Json(name = "code")
-    val code: Int,
-    @field:Json(name = "data")
-    val result: Blocks,
-    @field:Json(name = "message")
-    val message: String,
-    @field:Json(name = "ttl")
-    val ttl: Int
-)
-
 internal data class Blocks(
     @field:Json(name = "blocks")
     val blocks: List<BlockInfo>

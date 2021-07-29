@@ -16,6 +16,7 @@ import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
+import wallet.core.jni.proto.Cosmos
 import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
@@ -30,7 +31,9 @@ class EthereumProvider(
 
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
-            val result = web3JService.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get()
+            val result =
+                web3JService.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync()
+                    .get()
             emit(result.balance)
         }.flowOn(Dispatchers.IO)
     }
@@ -43,7 +46,7 @@ class EthereumProvider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
+                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset
@@ -76,14 +79,15 @@ class EthereumProvider(
                 gasLimit = ByteString.copyFrom(
                     Numeric.cleanHexPrefix(dAppSendModel.gasLimit).toBigInteger(16).toByteArray()
                 )
-                    transaction = Ethereum.Transaction.newBuilder().apply {
-                        erc20Transfer = Ethereum.Transaction.ERC20Transfer.newBuilder().apply {
-                            to = dAppSendModel.to
-                            amount = ByteString.copyFrom(
-                                Numeric.cleanHexPrefix(dAppSendModel.value).toBigInteger(16).toByteArray()
-                            )
-                        }.build()
+                transaction = Ethereum.Transaction.newBuilder().apply {
+                    erc20Transfer = Ethereum.Transaction.ERC20Transfer.newBuilder().apply {
+                        to = dAppSendModel.to
+                        amount = ByteString.copyFrom(
+                            Numeric.cleanHexPrefix(dAppSendModel.value).toBigInteger(16)
+                                .toByteArray()
+                        )
                     }.build()
+                }.build()
             }
             val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
             val rawData = Numeric.toHexString(encoded)
@@ -124,7 +128,13 @@ class EthereumProvider(
                 transaction = txBuild.build()
             }
 
-            val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
+            val output = AnySigner.sign(
+                signingInput.build(),
+                CoinType.ETHEREUM,
+                Ethereum.SigningOutput.parser()
+            )
+
+            val encoded = output.encoded.toByteArray()
             val rawData = Numeric.toHexString(encoded)
             Timber.d(String(AnySigner.decode(rawData.toHexByteArray(), CoinType.ETHEREUM)))
             SendPlanModel(
@@ -154,5 +164,35 @@ class EthereumProvider(
 
     override fun validateAddress(address: String): Boolean {
         return AnyAddress.isValid(address, CoinType.ETHEREUM)
+    }
+
+    private fun genFun(
+<<<<<<< Updated upstream
+        nonce: Int,
+        gasPrice: String,
+        gas: String,
+        to: String,
+        value: String,
+        v: String,
+        r: String,
+        s: String
+=======
+        nonce: Int, gasPrice: String, gas: String,
+        to: String, value: String, v: String, r: String, s: String
+>>>>>>> Stashed changes
+    ) {
+        """
+            {
+                "nonce":$nonce,
+                "gasPrice":$gasPrice,
+                "gas": $gas,
+                "to": $to,
+                "value":$value,
+                "input":"0x",
+                "v":$v,
+                "r":$r,
+                "s":$s,
+            }
+        """.trimIndent()
     }
 }

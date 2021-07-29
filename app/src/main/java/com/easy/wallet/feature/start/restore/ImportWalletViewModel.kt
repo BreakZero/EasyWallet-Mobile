@@ -3,6 +3,7 @@ package com.easy.wallet.feature.start.restore
 import androidx.lifecycle.viewModelScope
 import com.easy.framework.base.BaseViewModel
 import com.easy.wallet.data.WalletDataSDK
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,15 +21,14 @@ class ImportWalletViewModel : BaseViewModel(), KoinComponent {
     }
 
     fun done(callback: (Boolean) -> Unit) {
-        val mnemonic = words.joinToString(" ") {
-            if (it.endsWith(",")) it.removeSuffix(",")
-            else it
-        }
+        val mnemonic = words.joinToString(" ")
 
         flow {
             val importResult =
                 WalletDataSDK.injectWallet(walletName = "Wallet 1", mnemonic = mnemonic)
             emit(importResult)
+        }.catch {
+            callback.invoke(false)
         }.onEach {
             callback.invoke(it)
         }.launchIn(viewModelScope)

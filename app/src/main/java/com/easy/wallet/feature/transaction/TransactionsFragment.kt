@@ -28,7 +28,8 @@ class TransactionsFragment : BaseFragment(R.layout.fragment_transaction_history)
 
     private val transactionHistoryController by lazy {
         TransactionHistoryController {
-            start(R.id.action_to_detail)
+            val action = TransactionsFragmentDirections.actionToDetail(it)
+            start(action)
         }
     }
 

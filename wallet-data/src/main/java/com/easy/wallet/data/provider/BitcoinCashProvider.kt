@@ -1,7 +1,9 @@
 package com.easy.wallet.data.provider
 
 import com.easy.wallet.data.WalletDataSDK
-import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.model.SendModel
+import com.easy.wallet.data.data.model.SendPlanModel
+import com.easy.wallet.data.data.model.TransactionDataModel
 import com.easy.wallet.data.error.InsufficientBalanceException
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.Dispatchers
@@ -39,19 +41,24 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
         offset: Int
     ): Flow<List<TransactionDataModel>> {
         return flow {
-            val result =
-                blockChairService.bitcoinRelatedInfoByAddress(
-                    "bitcoin-cash",
-                    address, limit, offset
-                )
-                    .data.values.first().transactionsHash
+            val result = blockChairService.bitcoinRelatedInfoByAddress(
+                "bitcoin-cash",
+                address, limit, offset
+            ).data.values.first().transactionsHash
             emit(result.joinToString(separator = ","))
         }.flatMapConcat { it ->
             flow {
+                val wrapAddr = if (address.startsWith("bitcoincash")) {
+                    address.split(":").last()
+                } else address
                 val result = blockChairService.bitcoinTxsByHash("bitcoin-cash", it)
-                    .data.values.map { it ->
-                        val isSend = address.equals(it.inputs.first().recipient, true).not()
-                        TransactionDataModel.ofBitcoinType(it, address, "BCH", DECIMALS, isSend)
+                    .data.values.map {
+                        val isSend = wrapAddr.equals(it.inputs.first().recipient, true)
+                        TransactionDataModel.ofBitcoinType(
+                            it,
+                            wrapAddr,
+                            "BCH", DECIMALS, isSend
+                        )
                     }
                 emit(result)
             }
@@ -63,11 +70,10 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val sendAmount = sendModel.amount
 
         return flow {
-            val info =
-                blockChairService.bitcoinRelatedInfoByAddress(
-                    "bitcoin-cash",
-                    from
-                ).data.values.first()
+            val info = blockChairService.bitcoinRelatedInfoByAddress(
+                "bitcoin-cash",
+                from
+            ).data.values.first()
             emit(info)
         }.map {
             if ((it.addressInfo.balance.toBigInteger() < sendAmount)
@@ -82,7 +88,7 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
                 toAddress = sendModel.to
                 changeAddress = from
                 byteFee = sendModel.feeByte.toLong()
-                useMaxAmount = sendModel.useMax
+                useMaxAmount = true
                 coinType = CoinType.BITCOINCASH.value()
             }
             val prvData = hdWallet.getKeyForCoin(CoinType.BITCOINCASH)
@@ -145,7 +151,10 @@ class BitcoinCashProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
         return flow {
-            val result = blockChairService.pushTransaction("bitcoin-cash", Numeric.cleanHexPrefix(rawData)).data.txHash
+            val result = blockChairService.pushTransaction(
+                "bitcoin-cash",
+                Numeric.cleanHexPrefix(rawData)
+            ).data.txHash
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

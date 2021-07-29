@@ -7,33 +7,33 @@ import retrofit2.http.POST
 
 internal interface PolkadotService {
     // DOT
-    @POST("https://polkadot.subscan.io/api/open/account")
+    @POST("https://polkadot.api.subscan.io/api/open/account")
     suspend fun getDOTBalance(
         @Body reqBody: RequestBody
-    ): DOTBalanceResponse
+    ): DOTBaseSubscanResponse<DOTBalanceData>
 
     @POST(".")
     suspend fun getDOTNonce(
         @Body reqBody: PolkadotRPCRequestBody
-    ): DOTNonceResponse
+    ): DOTBaseRPCResponse<Int>
 
     @POST(".")
     suspend fun getDOTBasicInfo(
         @Body reqBody: PolkadotRPCRequestBody
-    ): DOTBasicInfoResponse
+    ): DOTBaseRPCResponse<BasicInfoResult>
 
     @POST(".")
     suspend fun broadcastTransaction(
         @Body reqBody: PolkadotRPCRequestBody
-    ): DOTBroadcastResponse
+    ): DOTBaseRPCResponse<String>
 
     @POST(".")
     suspend fun getFeeInfo(
         @Body reqBody: PolkadotRPCRequestBody
-    ): DOTFeeResponse
+    ): DOTBaseRPCResponse<DOTFeeResult>
 
-    @POST("https://polkadot.subscan.io/api/scan/blocks")
+    @POST("https://polkadot.api.subscan.io/api/scan/blocks")
     suspend fun getBlockInfo(
         @Body reqBody: RequestBody
-    ): BlockInfoResponse
+    ): DOTBaseSubscanResponse<Blocks>
 }

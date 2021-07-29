@@ -50,7 +50,7 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
             flow {
                 val result = blockChairService.bitcoinTxsByHash("dogecoin", it)
                     .data.values.map { it ->
-                        val isSend = address.equals(it.inputs.first().recipient, true).not()
+                        val isSend = address.equals(it.inputs.first().recipient, true)
                         TransactionDataModel.ofBitcoinType(
                             it, address, "DOGE",
                             DECIMALS, isSend
@@ -66,8 +66,8 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val sendAmount = sendModel.amount
 
         return flow {
-            val info =
-                blockChairService.bitcoinRelatedInfoByAddress("dogecoin", from).data.values.first()
+            val info = blockChairService.bitcoinRelatedInfoByAddress("dogecoin", from)
+                .data.values.first()
             emit(info)
         }.map {
             if ((it.addressInfo.balance.toBigInteger() < sendAmount)
@@ -81,7 +81,7 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
                 hashType = BitcoinScript.hashTypeForCoin(CoinType.DOGECOIN)
                 toAddress = sendModel.to
                 changeAddress = from
-                byteFee = sendModel.feeByte.toLong()
+                byteFee = sendModel.feeByte.times(1000F).toLong()
                 useMaxAmount = sendModel.useMax
                 coinType = CoinType.DOGECOIN.value()
             }
@@ -103,13 +103,12 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
                     Numeric.hexStringToByteArray(hexScript)
                 )
 
-                val unspentTransaction =
-                    Bitcoin.UnspentTransaction
-                        .newBuilder()
-                        .setOutPoint(outPoint)
-                        .setAmount(it.value)
-                        .setScript(script)
-                        .build()
+                val unspentTransaction = Bitcoin.UnspentTransaction
+                    .newBuilder()
+                    .setOutPoint(outPoint)
+                    .setAmount(it.value)
+                    .setScript(script)
+                    .build()
 
                 input.addUtxo(unspentTransaction)
             }
@@ -146,7 +145,10 @@ class DogecoinProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
         return flow {
-            val result = blockChairService.pushTransaction("dogecoin", Numeric.cleanHexPrefix(rawData)).data.txHash
+            val result = blockChairService.pushTransaction(
+                "dogecoin",
+                Numeric.cleanHexPrefix(rawData)
+            ).data.txHash
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

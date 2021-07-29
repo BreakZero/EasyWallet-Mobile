@@ -72,7 +72,7 @@ class ERC20Provider(
     private val contract: ERC20
 
     init {
-        val address = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException()
+        val address = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException(symbol)
         contract = ERC20.load(
             address,
             web3JService,
@@ -100,7 +100,7 @@ class ERC20Provider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
+                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset,

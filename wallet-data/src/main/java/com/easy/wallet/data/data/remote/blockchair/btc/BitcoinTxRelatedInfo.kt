@@ -68,7 +68,7 @@ internal data class BitcoinInputInfo(
     val transactionId: String,
     @field:Json(name = "type")
     val type: String,
-    @field:Json(name = "values")
+    @field:Json(name = "value")
     val value: String,
     @field:Json(name = "value_usd")
     val valueUsd: String
@@ -123,7 +123,7 @@ internal data class BitcoinOutputInfo(
     val transactionId: String?,
     @field:Json(name = "type")
     val type: String,
-    @field:Json(name = "values")
+    @field:Json(name = "value")
     val value: String,
     @field:Json(name = "value_usd")
     val valueUsd: String
@@ -137,7 +137,7 @@ internal data class BitcoinTxInfo(
     @field:Json(name = "date")
     val date: String,
     @field:Json(name = "fee")
-    val fee: Int,
+    val fee: Long,
     @field:Json(name = "fee_per_kb")
     val feePerKb: String,
     @field:Json(name = "fee_per_kb_usd")

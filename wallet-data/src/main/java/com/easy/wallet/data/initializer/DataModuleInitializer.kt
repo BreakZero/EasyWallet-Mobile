@@ -9,7 +9,6 @@ import com.easy.wallet.data.constant.CurrencyType
 import com.easy.wallet.multi.initializer.MultiWalletModuleInitializer
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.AfterVersion
 import comeasywalletdata.CoinConfig
 import timber.log.Timber
 
@@ -25,13 +24,16 @@ class DataModuleInitializer : Initializer<Unit> {
         val sqliteDriver = AndroidSqliteDriver(
             schema = WalletDatabase.Schema,
             context = context,
+<<<<<<< Updated upstream
+            name = "wallet.db"
+=======
             name = "wallet.db",
             callback = AndroidSqliteDriver.Callback(
                 schema = WalletDatabase.Schema,
                 AfterVersion(1) {
-
                 }
             )
+>>>>>>> Stashed changes
         )
         val typeAdapter = object : ColumnAdapter<CurrencyType, String> {
             override fun decode(databaseValue: String): CurrencyType =
@@ -39,7 +41,10 @@ class DataModuleInitializer : Initializer<Unit> {
 
             override fun encode(value: CurrencyType): String = value.name
         }
-        val database = WalletDatabase(driver = sqliteDriver, coinConfigAdapter = CoinConfig.Adapter(typeAdapter))
+        val database = WalletDatabase(
+            driver = sqliteDriver,
+            coinConfigAdapter = CoinConfig.Adapter(typeAdapter)
+        )
         WalletDataSDK.initDatabase(database)
     }
 

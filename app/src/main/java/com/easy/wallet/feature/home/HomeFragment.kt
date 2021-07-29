@@ -5,10 +5,10 @@ import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
 import com.easy.wallet.ShowQrCodeDirections
-import com.easy.wallet.data.AssetListState
 import com.easy.wallet.databinding.FragmentHomeBinding
 import com.easy.wallet.ext.start
 import com.easy.wallet.feature.home.adapter.AssetController
+import com.easy.wallet.feature.home.uimodel.AssetListState
 import com.easy.wallet.feature.home.uimodel.AssetListUIEvent
 import com.google.android.material.appbar.MaterialToolbar
 import io.uniflow.android.livedata.onEvents

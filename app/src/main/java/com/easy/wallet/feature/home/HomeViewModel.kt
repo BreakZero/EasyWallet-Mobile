@@ -1,13 +1,11 @@
 package com.easy.wallet.feature.home
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
-import com.easy.framework.model.ResultStatus
 import com.easy.wallet.data.*
 import com.easy.wallet.ext.downDecimal
+import com.easy.wallet.feature.home.uimodel.AssetListState
 import com.easy.wallet.feature.home.uimodel.AssetListUIEvent
 import io.uniflow.android.AndroidDataFlow
 import io.uniflow.core.flow.actionOn
@@ -22,7 +20,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 import org.koin.core.component.KoinComponent
-import timber.log.Timber
 import java.math.BigDecimal
 
 class HomeViewModel(

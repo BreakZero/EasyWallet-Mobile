@@ -1,6 +1,6 @@
 package com.easy.wallet.feature
 
-import com.easy.framework.base.BaseViewModel
+import io.uniflow.android.AndroidDataFlow
 import org.koin.core.component.KoinComponent
 
-class MainViewModel : BaseViewModel(), KoinComponent
+class MainViewModel : AndroidDataFlow(), KoinComponent

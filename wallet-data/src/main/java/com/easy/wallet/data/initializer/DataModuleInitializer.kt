@@ -24,16 +24,7 @@ class DataModuleInitializer : Initializer<Unit> {
         val sqliteDriver = AndroidSqliteDriver(
             schema = WalletDatabase.Schema,
             context = context,
-<<<<<<< Updated upstream
             name = "wallet.db"
-=======
-            name = "wallet.db",
-            callback = AndroidSqliteDriver.Callback(
-                schema = WalletDatabase.Schema,
-                AfterVersion(1) {
-                }
-            )
->>>>>>> Stashed changes
         )
         val typeAdapter = object : ColumnAdapter<CurrencyType, String> {
             override fun decode(databaseValue: String): CurrencyType =

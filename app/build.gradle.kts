@@ -105,6 +105,9 @@ dependencies {
     implementation(Other.SQLDelight.sqlDelight)
     implementation(Other.SQLDelight.sqlCoroutine)
 
+    implementation(Other.UniFlow.uniflowCore)
+    implementation(Other.UniFlow.uniflowAndroid)
+
     implementation(Other.flexbox)
     implementation(AndroidX.securityCrypto)
     kapt(Other.Epoxy.epoxyProcessor)

@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.easy.framework.ext.onSingleClick
-import com.easy.framework.model.ResultStatus
 import com.easy.wallet.R
 import com.easy.wallet.data.Asset
 import com.easy.wallet.helper.KotlinEpoxyHolder
@@ -15,7 +14,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import java.math.BigDecimal
 
 @SuppressLint("NonConstantResourceId")
 @EpoxyModelClass(layout = R.layout.rv_item_home_asset)
@@ -38,11 +36,9 @@ abstract class AssetModel : EpoxyModelWithHolder<Holder>() {
         }
         holder.tvAddress.text = assetData.provider.getAddress(false)
         holder.tvCoinName.text = assetData.coinInfo.name
-        holder.tvBalance.text = when (assetData.balance) {
-            is ResultStatus.Loading -> "loading"
-            is ResultStatus.Success -> "${(assetData.balance as ResultStatus.Success<BigDecimal>).data.toPlainString()} ${assetData.coinInfo.symbol}"
-            is ResultStatus.Error -> "0.00 ${assetData.coinInfo.symbol}"
-        }
+        holder.tvBalance.text = assetData.balance?.let {
+            "${it.toPlainString()} ${assetData.coinInfo.symbol}"
+        } ?: "loading"
         holder.tvAddress.onSingleClick(scope) {
             onReceive.invoke(assetData.provider.getAddress(false))
         }

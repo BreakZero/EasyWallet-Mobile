@@ -16,14 +16,11 @@ import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
-import wallet.core.jni.proto.Cosmos
 import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
-class EthereumProvider(
-    private val nChainId: ChainId = ChainId.MAINNET
-) : BaseProvider(WalletDataSDK.currWallet()) {
-    private val web3JService: Web3j = Web3JService.web3jClient(nChainId)
+class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
+    private val web3JService: Web3j = Web3JService.web3jClient(currChainId)
 
     companion object {
         private const val GAS_LIMIT = 21000
@@ -46,7 +43,7 @@ class EthereumProvider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.lowercase()}",
+                chainName = if (currChainId == ChainId.MAINNET) "" else "-${currChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset
@@ -118,7 +115,7 @@ class EthereumProvider(
             val signingInput = Ethereum.SigningInput.newBuilder().apply {
                 privateKey = prvKey
                 toAddress = sendModel.to
-                chainId = ByteString.copyFrom(nChainId.id.toBigInteger().toByteArray())
+                chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
                 nonce = ByteString.copyFrom(it.second.toHexByteArray())
                 gasPrice = ByteString.copyFrom(
                     sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()
@@ -167,7 +164,6 @@ class EthereumProvider(
     }
 
     private fun genFun(
-<<<<<<< Updated upstream
         nonce: Int,
         gasPrice: String,
         gas: String,
@@ -176,10 +172,6 @@ class EthereumProvider(
         v: String,
         r: String,
         s: String
-=======
-        nonce: Int, gasPrice: String, gas: String,
-        to: String, value: String, v: String, r: String, s: String
->>>>>>> Stashed changes
     ) {
         """
             {

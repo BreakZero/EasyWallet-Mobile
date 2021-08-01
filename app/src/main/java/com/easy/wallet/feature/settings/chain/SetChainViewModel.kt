@@ -1,15 +1,19 @@
 package com.easy.wallet.feature.settings.chain
 
-import com.easy.framework.base.BaseViewModel
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.feature.settings.chain.adapter.WrapChain
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.easy.wallet.feature.settings.uimodel.ChainState
+import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.flow.actionOn
+import io.uniflow.core.flow.data.UIEvent
 import org.koin.core.component.KoinComponent
 
-class SetChainViewModel : BaseViewModel(), KoinComponent {
-    private val _chains = MutableStateFlow(
-        listOf(
+class SetChainViewModel : AndroidDataFlow(), KoinComponent {
+    private var chains: List<WrapChain>
+
+    init {
+        chains = listOf(
             ChainId.MAINNET,
             ChainId.ROPSTEN,
             ChainId.RINKEBY,
@@ -21,21 +25,26 @@ class SetChainViewModel : BaseViewModel(), KoinComponent {
                 checked = it.name == WalletDataSDK.chainId().name
             )
         }
-    )
-
-    fun chains() = _chains
-
-    fun updateState(name: String) {
-        _chains.value = _chains.value.map {
-            WrapChain(
-                name = it.name,
-                checked = it.name == name
-            )
+        action {
+            setState { ChainState(chains) }
         }
     }
 
-    fun updateChain() {
-        val name = _chains.value.find { it.checked }?.name.orEmpty()
+    fun updateChain(name: String) = actionOn<ChainState> {
+        setState {
+            chains = chains.map {
+                WrapChain(
+                    name = it.name,
+                    checked = it.name == name
+                )
+            }
+            ChainState(chains)
+        }
+    }
+
+    fun done() = actionOn<ChainState> {
+        val name = chains.find { it.checked }?.name.orEmpty()
         WalletDataSDK.updateChain(name)
+        sendEvent(UIEvent.Success)
     }
 }

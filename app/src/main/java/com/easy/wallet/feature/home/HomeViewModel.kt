@@ -1,14 +1,15 @@
 package com.easy.wallet.feature.home
 
-import androidx.lifecycle.MutableLiveData
+import android.annotation.SuppressLint
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
-import com.easy.framework.model.ResultStatus
-import com.easy.wallet.data.Asset
-import com.easy.wallet.data.CurrencyInfo
-import com.easy.wallet.data.WalletDataSDK
+import com.easy.wallet.data.*
 import com.easy.wallet.ext.downDecimal
+import com.easy.wallet.feature.home.uimodel.AssetListState
+import com.easy.wallet.feature.home.uimodel.AssetListUIEvent
+import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.flow.actionOn
+import io.uniflow.core.flow.data.UIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.catch
@@ -23,7 +24,7 @@ import java.math.BigDecimal
 
 class HomeViewModel(
     private val state: SavedStateHandle
-) : BaseViewModel(), KoinComponent {
+) : AndroidDataFlow(), KoinComponent {
 
     companion object {
         private const val SAVE_KEY_BALANCE = "balance"
@@ -31,17 +32,20 @@ class HomeViewModel(
 
     private val _assets = mutableListOf<Asset>()
 
-    val assets = MutableLiveData<List<Asset>>()
-
     private val bChannel = Channel<Asset>()
 
-    fun loadBalances(isRefresh: Boolean) {
-        if (isRefresh.not() and (state.get<Boolean>(SAVE_KEY_BALANCE) == true)) return
+    init {
+        action {
+            loadBalances()
+        }
+    }
+
+    private suspend fun loadBalances() {
+        setState { UIState.Loading }
         WalletDataSDK.activeAssets()
             .map {
                 Asset(
                     coinInfo = CurrencyInfo.mapping(it),
-                    balance = ResultStatus.Loading,
                     provider = WalletDataSDK.injectProvider(
                         it.coin_slug,
                         it.coin_symbol,
@@ -53,18 +57,16 @@ class HomeViewModel(
                     clear()
                     addAll(it)
                 }
-                assets.postValue(_assets)
+                setState { AssetListState(_assets) }
                 it.forEach { item ->
                     item.provider.getBalance(item.provider.getAddress(false)).map {
                         bChannel.send(
                             item.copy(
-                                balance = ResultStatus.Success(
-                                    it.toBigDecimal().downDecimal(item.coinInfo.decimal)
-                                )
+                                balance = it.toBigDecimal().downDecimal(item.coinInfo.decimal)
                             )
                         )
                     }.catch {
-                        bChannel.send(item.copy(balance = ResultStatus.Success(BigDecimal.ZERO)))
+                        bChannel.send(item.copy(balance = BigDecimal.ZERO))
                     }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
                 }
                 state.set(SAVE_KEY_BALANCE, true)
@@ -76,12 +78,21 @@ class HomeViewModel(
                 select<Unit> {
                     bChannel.onReceiveCatching {
                         updateItem(it.getOrNull())
-                        assets.postValue(_assets)
+                        action {
+                            setState { AssetListState(_assets) }
+                        }
                     }
                 }
             }
         }
     }
+
+    fun refresh() = actionOn<AssetListState>(
+        onAction = {
+            sendEvent(AssetListUIEvent.RefreshEvent)
+            loadBalances()
+        }
+    )
 
     private fun updateItem(asset: Asset?) {
         asset?.also {
@@ -91,8 +102,9 @@ class HomeViewModel(
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onCleared() {
-        super.onCleared()
         bChannel.close()
+        super.onCleared()
     }
 }

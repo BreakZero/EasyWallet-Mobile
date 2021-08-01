@@ -14,9 +14,11 @@ import com.easy.wallet.biometric.BiometricPromptUtils
 import com.easy.wallet.biometric.CryptographyManager
 import com.easy.wallet.databinding.FragmentSettingsBinding
 import com.easy.wallet.ext.start
+import com.easy.wallet.feature.settings.uimodel.SettingsState
 import com.easy.wallet.feature.sharing.ScannerFragment
 import com.easy.wallet.feature.wallectconnet.WalletConnectService
 import com.google.android.material.appbar.MaterialToolbar
+import io.uniflow.android.livedata.onStates
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -32,8 +34,10 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         super.setupView()
         setTitle(getString(R.string.settings))
 
-        viewModel.initState {
-            binding.tvChainNetwork.text = it
+        onStates(viewModel) {
+            when (it) {
+                is SettingsState -> binding.tvChainNetwork.text = it.currChain
+            }
         }
 
         binding.tvAbout.onSingleClick(lifecycleScope) {

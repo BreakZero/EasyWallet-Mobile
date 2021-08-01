@@ -13,9 +13,12 @@ import com.easy.wallet.feature.MainActivity
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
+import io.uniflow.android.livedata.onStates
+import io.uniflow.core.flow.data.UIState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.getKoin
-import timber.log.Timber
 
 class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
     private val binding by viewBinding(FragmentStartImportBinding::bind)
@@ -55,16 +58,21 @@ class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
         }
 
         binding.btnDone.setOnClickListener {
-            viewModel.done {
-                if (it) {
+            viewModel.done()
+        }
+        binding.edtImportWord.requestFocus()
+
+        onStates(viewModel) {
+            when (it) {
+                is UIState.Success -> {
                     startActivity(Intent(requireActivity(), MainActivity::class.java))
                     requireActivity().finish()
-                } else {
-                    Timber.d("====== invalid words")
+                }
+                is UIState.Failed -> {
+                    Snackbar.make(binding.btnDone, "please try again", LENGTH_SHORT).show()
                 }
             }
         }
-        binding.edtImportWord.requestFocus()
     }
 
     private fun addNewChip(content: String, parent: FlexboxLayout) {

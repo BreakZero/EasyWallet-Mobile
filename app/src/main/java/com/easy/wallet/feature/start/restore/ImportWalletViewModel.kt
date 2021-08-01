@@ -1,15 +1,11 @@
 package com.easy.wallet.feature.start.restore
 
-import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
 import com.easy.wallet.data.WalletDataSDK
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.flow.data.UIState
 import org.koin.core.component.KoinComponent
 
-class ImportWalletViewModel : BaseViewModel(), KoinComponent {
+class ImportWalletViewModel : AndroidDataFlow(), KoinComponent {
     private val words = mutableListOf<String>()
 
     fun addWord(word: String) {
@@ -20,17 +16,17 @@ class ImportWalletViewModel : BaseViewModel(), KoinComponent {
         words.removeLast()
     }
 
-    fun done(callback: (Boolean) -> Unit) {
-        val mnemonic = words.joinToString(" ")
-
-        flow {
-            val importResult =
-                WalletDataSDK.injectWallet(walletName = "Wallet 1", mnemonic = mnemonic)
-            emit(importResult)
-        }.catch {
-            callback.invoke(false)
-        }.onEach {
-            callback.invoke(it)
-        }.launchIn(viewModelScope)
-    }
+    fun done() = action(
+        onAction = {
+            val mnemonic = words.joinToString(" ")
+            val result = WalletDataSDK.injectWallet(walletName = "Wallet 1", mnemonic = mnemonic)
+            setState {
+                if (result) UIState.Success
+                else UIState.Failed()
+            }
+        },
+        onError = { error, _ ->
+            setState { UIState.Failed(error = error) }
+        }
+    )
 }

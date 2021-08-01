@@ -39,6 +39,7 @@ android {
         val etherscanApiKey = keysProperties.getProperty("apikey.etherscan")
         val figmentApiKey = keysProperties.getProperty("apikey.figment")
         val bscscanApikey = keysProperties.getProperty("apikey.bscscan")
+        val bscrpcApikey = keysProperties.getProperty("apikey.bscrpcscan")
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
@@ -48,6 +49,7 @@ android {
             buildConfigField("String", "INFURA_APIKEY", infuraApiKey)
             buildConfigField("String", "ETHERSCAN_APIKEY", etherscanApiKey)
             buildConfigField("String", "FIGMENT_APIKEY", figmentApiKey)
+            buildConfigField("String", "BSCRPC_APIKEY", bscrpcApikey)
             buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
         getByName("debug") {
@@ -59,6 +61,7 @@ android {
             buildConfigField("String", "INFURA_APIKEY", infuraApiKey)
             buildConfigField("String", "ETHERSCAN_APIKEY", etherscanApiKey)
             buildConfigField("String", "FIGMENT_APIKEY", figmentApiKey)
+            buildConfigField("String", "BSCRPC_APIKEY", bscrpcApikey)
             buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
     }

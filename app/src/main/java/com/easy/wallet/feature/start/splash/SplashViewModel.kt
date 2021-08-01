@@ -1,30 +1,24 @@
 package com.easy.wallet.feature.start.splash
 
-import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
-import com.easy.framework.model.ResultStatus
 import com.easy.wallet.data.WalletDataSDK
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.flow.data.UIState
 import org.koin.core.component.KoinComponent
 
-class SplashViewModel : BaseViewModel(), KoinComponent {
-    private val walletExist = MutableStateFlow<ResultStatus<Boolean>>(ResultStatus.Loading)
-
-    fun initWalletSuccess() {
-        walletExist.value = ResultStatus.Success(true)
+class SplashViewModel : AndroidDataFlow(), KoinComponent {
+    init {
+        action(
+            onAction = {
+                val result = WalletDataSDK.injectWallet()
+                setState {
+                    result?.let {
+                        UIState.Success
+                    } ?: UIState.Failed()
+                }
+            },
+            onError = { error, _ ->
+                setState { UIState.Failed(error = error) }
+            }
+        )
     }
-
-    fun fetch() {
-        viewModelScope.launch(Dispatchers.IO) {
-            walletExist.value = ResultStatus.Success(
-                WalletDataSDK.injectWallet()?.let {
-                    true
-                } ?: false
-            )
-        }
-    }
-
-    fun importState() = walletExist
 }

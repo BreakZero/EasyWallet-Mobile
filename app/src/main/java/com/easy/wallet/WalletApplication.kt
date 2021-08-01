@@ -11,6 +11,8 @@ import com.easy.framework.common.CrashCollection
 import com.easy.wallet.koin.appModule
 import com.easy.wallet.koin.scopeModule
 import com.jakewharton.threetenabp.AndroidThreeTen
+import io.uniflow.android.logger.AndroidMessageLogger
+import io.uniflow.core.logger.UniFlowLogger
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,6 +27,7 @@ class WalletApplication : Application(), ImageLoaderFactory {
         super.onCreate()
         AndroidThreeTen.init(this)
         CrashCollection.handleCrash()
+        UniFlowLogger.init(AndroidMessageLogger(showDebug = BuildConfig.DEBUG))
 
         startKoin {
             androidLogger(Level.DEBUG)

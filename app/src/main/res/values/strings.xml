@@ -19,6 +19,7 @@
 
     <string name="error_somethings_went_wrong">somethings went wrong</string>
     <string name="text_continue">Continue</string>
+    <string name="text_try_again">Try again</string>
     <string name="text_network_fee">Network Fee</string>
     <string name="text_to_address">To Address</string>
     <string name="text_from_address">From Address</string>

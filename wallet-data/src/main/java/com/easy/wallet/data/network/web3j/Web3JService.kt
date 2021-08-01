@@ -32,8 +32,8 @@ internal object Web3JService {
                     ChainId.KOVAN -> "https://kovan.infura.io/v3/$apiKey"
                     ChainId.GÖRLI -> "https://goerli.infura.io/v3/$apiKey"
                     ChainId.ROPSTEN -> "https://ropsten.infura.io/v3/$apiKey"
-                    ChainId.BINANCEMAIN -> "https://bsc-mainnet.web3api.com/v1/${APIKey.BSCSCAN_API_KEY}"
-                    ChainId.BINANCETEST -> "https://bsc-testnet.web3api.com/v1/${APIKey.BSCSCAN_API_KEY}"
+                    ChainId.BINANCEMAIN -> "https://bsc-mainnet.web3api.com/v1/${APIKey.BSCRPC_APIKEY}"
+                    ChainId.BINANCETEST -> "https://bsc-testnet.web3api.com/v1/${APIKey.BSCRPC_APIKEY}"
                 },
                 httpClient
             )

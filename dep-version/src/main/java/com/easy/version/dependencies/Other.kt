@@ -60,4 +60,10 @@ object Other {
         const val exoplayerCore = "com.google.android.exoplayer:exoplayer-core:$player_version"
         const val exoplayerUI = "com.google.android.exoplayer:exoplayer-ui:$player_version"
     }
+
+    object UniFlow {
+        private const val uniflow_version = "1.0.9"
+        const val uniflowCore = "org.uniflow-kt:uniflow-core:$uniflow_version"
+        const val uniflowAndroid = "org.uniflow-kt:uniflow-android:$uniflow_version"
+    }
 }

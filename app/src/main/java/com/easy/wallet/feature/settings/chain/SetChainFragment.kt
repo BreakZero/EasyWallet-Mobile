@@ -2,22 +2,18 @@ package com.easy.wallet.feature.settings.chain
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.databinding.FragmentSettingsChainBinding
 import com.easy.wallet.feature.settings.chain.adapter.ChainsController
-import com.easy.wallet.feature.settings.chain.uimodel.ChainState
+import com.easy.wallet.feature.settings.uimodel.ChainState
 import com.easy.wallet.feature.start.StartActivity
 import com.google.android.material.appbar.MaterialToolbar
 import io.uniflow.android.livedata.onEvents
 import io.uniflow.android.livedata.onStates
 import io.uniflow.core.flow.data.UIEvent
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.androidx.scope.requireScopeActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -51,7 +47,7 @@ class SetChainFragment : BaseFragment(R.layout.fragment_settings_chain) {
         binding.chainList.setController(chainsController)
 
         onEvents(viewModel) {
-            when(it) {
+            when (it) {
                 is UIEvent.Success -> {
                     triggerRestart(requireScopeActivity())
                 }
@@ -59,7 +55,7 @@ class SetChainFragment : BaseFragment(R.layout.fragment_settings_chain) {
         }
 
         onStates(viewModel) {
-            when(it) {
+            when (it) {
                 is ChainState -> {
                     chainsController.setData(it.list)
                 }

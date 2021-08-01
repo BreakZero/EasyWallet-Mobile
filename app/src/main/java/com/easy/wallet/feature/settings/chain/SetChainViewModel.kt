@@ -3,7 +3,7 @@ package com.easy.wallet.feature.settings.chain
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.feature.settings.chain.adapter.WrapChain
-import com.easy.wallet.feature.settings.chain.uimodel.ChainState
+import com.easy.wallet.feature.settings.uimodel.ChainState
 import io.uniflow.android.AndroidDataFlow
 import io.uniflow.core.flow.actionOn
 import io.uniflow.core.flow.data.UIEvent

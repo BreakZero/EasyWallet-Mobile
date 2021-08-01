@@ -1,6 +1,5 @@
 package com.easy.wallet.data.network.ethereum
 
-import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.ChainId
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import wallet.core.jni.CoinType
 import java.math.BigInteger
 
-class PolygonProvider:BaseProvider(WalletDataSDK.currWallet()) {
+class PolygonProvider : BaseProvider(WalletDataSDK.currWallet()) {
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
             emit(BigInteger.ZERO)

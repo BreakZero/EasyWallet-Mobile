@@ -4,14 +4,13 @@ import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.SendModel
 import com.easy.wallet.data.data.model.SendPlanModel
 import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
 import com.easy.wallet.data.network.solana.SolanaClient
 import com.easy.wallet.data.network.solana.SolanaService
 import com.google.protobuf.ByteString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 import wallet.core.java.AnySigner
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Solana
@@ -23,18 +22,14 @@ class SolanaProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
-            val reqBody = """
-                  {
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "getBalance",
-                    "params": [
-                      "$address"
-                    ]
-                  }
-            """.trimIndent()
+            val reqBody = BaseRPCReq(
+                jsonrpc = "2.0",
+                id = 1,
+                method = "getBalance",
+                params = listOf(address)
+            )
             val resp =
-                solClient.getBalance(reqBody = reqBody.toRequestBody("application/json".toMediaTypeOrNull()))
+                solClient.getBalance(reqBody = reqBody)
             emit(resp.result.value.toBigInteger())
         }
     }
@@ -51,10 +46,13 @@ class SolanaProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel> {
         return flow {
-            val reqBody = """
-                {"jsonrpc":"2.0","id":1, "method":"getRecentBlockhash"}
-            """.trimIndent()
-            val result = solClient.recentBlockHash(reqBody = reqBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            val reqBody = BaseRPCReq(
+                jsonrpc = "2.0",
+                id = 1,
+                method = "getRecentBlockhash",
+                params = emptyList<String>()
+            )
+            val result = solClient.recentBlockHash(reqBody = reqBody)
             emit(result.result.value.blockhash)
         }.flatMapConcat { blockHash ->
             val prvKey = ByteString.copyFrom(hdWallet.getKeyForCoin(CoinType.SOLANA).data())
@@ -90,17 +88,13 @@ class SolanaProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
     override fun broadcastTransaction(rawData: String): Flow<String> {
         return flow {
-            val reqBody = """
-            {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "sendTransaction",
-            "params": [
-              "$rawData"
-            ]
-          }
-            """.trimIndent()
-            val result = solClient.broadcastTransaction(reqBody = reqBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            val reqBody = BaseRPCReq(
+                jsonrpc = "2.0",
+                id = 1,
+                method = "sendTransaction",
+                params = listOf(rawData)
+            )
+            val result = solClient.broadcastTransaction(reqBody = reqBody)
             emit(result.result)
         }
     }

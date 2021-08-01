@@ -57,7 +57,7 @@ class TransactionsFragment : BaseFragment(R.layout.fragment_transaction_history)
         }
 
         onEvents(viewModel) {
-            when(it) {
+            when (it) {
                 is UIEvent.Loading -> {
                     binding.refreshLayout.isRefreshing = true
                 }
@@ -65,7 +65,7 @@ class TransactionsFragment : BaseFragment(R.layout.fragment_transaction_history)
         }
 
         onStates(viewModel) {
-            when(it) {
+            when (it) {
                 is TransactionsState -> {
                     binding.refreshLayout.isRefreshing = false
                     transactionHistoryController.setData(it.list)

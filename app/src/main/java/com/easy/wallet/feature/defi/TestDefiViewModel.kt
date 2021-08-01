@@ -1,10 +1,10 @@
 package com.easy.wallet.feature.defi
 
 import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
+import io.uniflow.android.AndroidDataFlow
 import kotlinx.coroutines.flow.*
 
-class TestDefiViewModel : BaseViewModel() {
+class TestDefiViewModel : AndroidDataFlow() {
     private val state = MutableStateFlow(0)
 
     fun state() = state

@@ -24,10 +24,15 @@ import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
 class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
-    private val web3JService: Web3j = Web3JService.web3jClient(ChainId.BINANCETEST)
+    override val currChainId: ChainId
+        get() = if (isMainNet) ChainId.BINANCEMAIN else ChainId.BINANCETEST
+
+    private val web3JService: Web3j = Web3JService.web3jClient(currChainId)
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
-            val result = web3JService.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get()
+            val result =
+                web3JService.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync()
+                    .get()
             emit(result.balance)
         }.flowOn(Dispatchers.IO)
     }
@@ -40,7 +45,7 @@ class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getBSCScanTransactions(
-                chainName = "-testnet",
+                chainName = if (isMainNet) "" else "-testnet",
                 address = address,
                 page = page,
                 offset = offset
@@ -76,7 +81,7 @@ class BinanceSmartLegacyProvider : BaseProvider(WalletDataSDK.currWallet()) {
             val signingInput = Ethereum.SigningInput.newBuilder().apply {
                 privateKey = prvKey
                 toAddress = sendModel.to
-                chainId = ByteString.copyFrom(ChainId.BINANCETEST.id.toBigInteger().toByteArray())
+                chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
                 nonce = ByteString.copyFrom(it.second.toHexByteArray())
                 gasPrice = ByteString.copyFrom(
                     sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()

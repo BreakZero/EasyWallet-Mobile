@@ -4,7 +4,6 @@ import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.data.model.SendModel
 import com.easy.wallet.data.data.model.SendPlanModel
 import com.easy.wallet.data.data.model.TransactionDataModel
-import com.google.protobuf.ByteString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber

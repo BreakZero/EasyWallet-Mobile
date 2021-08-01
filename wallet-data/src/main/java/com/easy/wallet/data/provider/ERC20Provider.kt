@@ -63,17 +63,16 @@ object TokenAddress {
 
 class ERC20Provider(
     symbol: String,
-    private val decimals: Int = 8,
-    private val nChainId: ChainId = ChainId.MAINNET
+    private val decimals: Int = 8
 ) : BaseProvider(WalletDataSDK.currWallet()) {
     companion object {
         private const val GAS_LIMIT = 50000
         private const val apiKey = APIKey.INFURA_API_KEY
     }
 
-    private val web3JService: Web3j = Web3JService.web3jClient(nChainId)
-    private val contractAddress = TokenAddress.address(symbol, nChainId) ?: throw UnSupportTokenException(symbol)
-    private val rpcClient: EthRpcCall = EthRpcClient.client(nChainId).create(EthRpcCall::class.java)
+    private val web3JService: Web3j = Web3JService.web3jClient(currChainId)
+    private val contractAddress = TokenAddress.address(symbol, currChainId) ?: throw UnSupportTokenException(symbol)
+    private val rpcClient: EthRpcCall = EthRpcClient.client(currChainId).create(EthRpcCall::class.java)
 
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
@@ -105,7 +104,7 @@ class ERC20Provider(
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getEtherScanTransactions(
-                chainName = if (nChainId == ChainId.MAINNET) "" else "-${nChainId.name.toLowerCase()}",
+                chainName = if (currChainId == ChainId.MAINNET) "" else "-${currChainId.name.lowercase()}",
                 address = address,
                 page = page,
                 offset = offset,
@@ -158,7 +157,7 @@ class ERC20Provider(
                 val signingInput = Ethereum.SigningInput.newBuilder().apply {
                     privateKey = prvKey
                     toAddress = sendModel.to
-                    chainId = ByteString.copyFrom(nChainId.id.toBigInteger().toByteArray())
+                    chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
                     nonce = ByteString.copyFrom((it).toHexByteArray())
                     gasPrice = ByteString.copyFrom(
                         sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()

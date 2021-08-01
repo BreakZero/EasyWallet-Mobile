@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.easy.framework.ext.onSingleClick
-import com.easy.framework.model.ResultStatus
 import com.easy.wallet.R
 import com.easy.wallet.data.Asset
 import com.easy.wallet.helper.KotlinEpoxyHolder
@@ -15,7 +14,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import java.math.BigDecimal
 
 @SuppressLint("NonConstantResourceId")
 @EpoxyModelClass(layout = R.layout.rv_item_home_asset)

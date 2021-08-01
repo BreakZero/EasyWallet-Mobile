@@ -50,7 +50,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
 
         onEvents(viewModel) {
-            when(it) {
+            when (it) {
                 AssetListUIEvent.RefreshEvent -> {
                     binding.swipeRefreshLayout.isRefreshing = true
                 }
@@ -66,7 +66,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
 
         onStates(viewModel) {
-            when(it) {
+            when (it) {
                 is AssetListState -> {
                     if (it.assets.none { it.balance == null }) {
                         binding.swipeRefreshLayout.isRefreshing = false

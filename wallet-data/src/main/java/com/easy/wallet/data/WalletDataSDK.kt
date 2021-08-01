@@ -88,7 +88,7 @@ object WalletDataSDK {
         return provideMap[slug] ?: kotlin.run {
             val currProvider = when (slug) {
                 "btc-main" -> BitcoinProvider()
-                "eth-main" -> EthereumProvider(chainId())
+                "eth-main" -> EthereumProvider()
                 "atom-main" -> CosmosProvider()
                 "dot-main" -> PolkadotProvide()
                 "bnb-smart" -> BinanceSmartProvider()
@@ -101,8 +101,7 @@ object WalletDataSDK {
                 "near-main" -> NearProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
-                    decimals = decimals,
-                    nChainId = chainId()
+                    decimals = decimals
                 )
             }
             provideMap[symbol] = currProvider

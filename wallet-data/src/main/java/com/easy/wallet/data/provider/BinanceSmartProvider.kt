@@ -22,7 +22,9 @@ import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
 class BinanceSmartProvider : BaseProvider(WalletDataSDK.currWallet()) {
-    private val web3JService: Web3j = Web3JService.web3jClient(ChainId.BINANCEMAIN)
+    override val currChainId: ChainId
+        get() = if (isMainNet) ChainId.BINANCEMAIN else ChainId.BINANCETEST
+    private val web3JService: Web3j = Web3JService.web3jClient(currChainId)
     override fun getBalance(address: String): Flow<BigInteger> {
         return flow {
             val result = web3JService.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get()
@@ -38,7 +40,7 @@ class BinanceSmartProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getBSCScanTransactions(
-                chainName = "",
+                chainName = if (isMainNet) "" else "-testnet",
                 address = address,
                 page = page,
                 offset = offset
@@ -74,7 +76,7 @@ class BinanceSmartProvider : BaseProvider(WalletDataSDK.currWallet()) {
             val signingInput = Ethereum.SigningInput.newBuilder().apply {
                 privateKey = prvKey
                 toAddress = sendModel.to
-                chainId = ByteString.copyFrom(ChainId.BINANCEMAIN.id.toBigInteger().toByteArray())
+                chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
                 nonce = ByteString.copyFrom(it.second.toHexByteArray())
                 gasPrice = ByteString.copyFrom(
                     sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()

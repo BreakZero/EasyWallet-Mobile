@@ -40,7 +40,6 @@ class CoinListFragment : BaseFragment(R.layout.fragment_coin_list) {
         }
 
         binding.rvCoinList.setController(coinController)
-        viewModel.loadLocalData()
 
         onStates(viewModel) {
             when (it) {

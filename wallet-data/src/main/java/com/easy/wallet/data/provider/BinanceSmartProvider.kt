@@ -38,7 +38,7 @@ class BinanceSmartProvider : BaseProvider(WalletDataSDK.currWallet()) {
         val page = offset.div(limit).plus(1)
         return flow {
             val response = blockChairService.getBSCScanTransactions(
-                chainName = "-testnet",
+                chainName = "",
                 address = address,
                 page = page,
                 offset = offset

@@ -34,6 +34,12 @@ class HomeViewModel(
 
     private val bChannel = Channel<Asset>()
 
+    init {
+        action {
+            loadBalances()
+        }
+    }
+
     private suspend fun loadBalances() {
         setState { UIState.Loading }
         WalletDataSDK.activeAssets()
@@ -87,11 +93,6 @@ class HomeViewModel(
             loadBalances()
         }
     )
-
-    fun initBalances() = action {
-        val hasSaved = state.get<Boolean>(SAVE_KEY_BALANCE)
-        if (hasSaved == null || hasSaved == false) loadBalances()
-    }
 
     private fun updateItem(asset: Asset?) {
         asset?.also {

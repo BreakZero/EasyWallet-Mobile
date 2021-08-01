@@ -9,14 +9,16 @@ import io.uniflow.core.threading.onIO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class CoinListViewModel : AndroidDataFlow() {
-    fun loadLocalData() = action(
-        onAction = {
-            setState { SupportCoinState(WalletDataSDK.allAssets()) }
-        },
-        onError = { error, _ ->
-            setState { UIState.Failed("load coins failed", error) }
-        }
-    )
+    init {
+        action(
+            onAction = {
+                setState { SupportCoinState(WalletDataSDK.allAssets()) }
+            },
+            onError = { error, _ ->
+                setState { UIState.Failed("load coins failed", error) }
+            }
+        )
+    }
 
     private val changeHolder = hashMapOf<String, Int>()
 
@@ -27,12 +29,12 @@ class CoinListViewModel : AndroidDataFlow() {
 
     @ExperimentalCoroutinesApi
     fun done() = action {
+        val result = changeHolder.filter { it.value % 2 == 1 }
         onIO {
-            changeHolder.filter { it.value % 2 == 1 }
-                .map { it.key }.forEach {
-                    WalletDataSDK.toggleBySlug(it)
-                }
+            result.map { it.key }.forEach {
+                WalletDataSDK.toggleBySlug(it)
+            }
         }
-        sendEvent(SetCoinUIEvent.DoneEvent(changeHolder.filter { it.value % 2 == 1 }.isEmpty()))
+        sendEvent(SetCoinUIEvent.DoneEvent(result.isNotEmpty()))
     }
 }

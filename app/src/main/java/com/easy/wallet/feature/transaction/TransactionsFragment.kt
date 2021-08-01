@@ -4,17 +4,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
-import com.easy.framework.ext.observeState
 import com.easy.framework.ext.onSingleClick
 import com.easy.wallet.R
 import com.easy.wallet.ShowQrCodeDirections
 import com.easy.wallet.databinding.FragmentTransactionHistoryBinding
 import com.easy.wallet.ext.start
 import com.easy.wallet.feature.transaction.adapter.TransactionHistoryController
+import com.easy.wallet.feature.transaction.uimodel.TransactionsState
 import com.google.android.material.appbar.MaterialToolbar
+import io.uniflow.android.livedata.onEvents
+import io.uniflow.android.livedata.onStates
+import io.uniflow.core.flow.data.UIEvent
+import io.uniflow.core.flow.data.UIState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 class TransactionsFragment : BaseFragment(R.layout.fragment_transaction_history) {
     private val binding by viewBinding(FragmentTransactionHistoryBinding::bind)
@@ -46,32 +49,34 @@ class TransactionsFragment : BaseFragment(R.layout.fragment_transaction_history)
         }
         binding.rvTransactionHistory.setController(transactionHistoryController)
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.loadTransactions()
+            viewModel.refresh()
         }
         binding.btnReceive.onSingleClick(lifecycleScope) {
             val action = ShowQrCodeDirections.actionShowQrcode(viewModel.address())
             start(action)
         }
-    }
 
-    override fun applyViewModel() {
-        super.applyViewModel()
-        viewModel.apply {
-            transactions.observeState(
-                this@TransactionsFragment,
-                onError = {
-                    binding.refreshLayout.isRefreshing = false
-                    Timber.e(getString(R.string.error_somethings_went_wrong))
-                },
-                onSuccess = {
-                    binding.refreshLayout.isRefreshing = false
-                    transactionHistoryController.setData(it)
-                },
-                onLoading = {
+        onEvents(viewModel) {
+            when(it) {
+                is UIEvent.Loading -> {
                     binding.refreshLayout.isRefreshing = true
                 }
-            )
-            loadTransactions()
+            }
+        }
+
+        onStates(viewModel) {
+            when(it) {
+                is TransactionsState -> {
+                    binding.refreshLayout.isRefreshing = false
+                    transactionHistoryController.setData(it.list)
+                }
+                is UIState.Failed -> {
+                    binding.refreshLayout.isRefreshing = false
+                }
+                is UIState.Loading -> {
+                    binding.refreshLayout.isRefreshing = true
+                }
+            }
         }
     }
 }

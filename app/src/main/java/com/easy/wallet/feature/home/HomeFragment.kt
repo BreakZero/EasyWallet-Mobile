@@ -53,7 +53,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             when(it) {
                 AssetListUIEvent.RefreshEvent -> {
                     binding.swipeRefreshLayout.isRefreshing = true
-                    Timber.d("===== refresh")
                 }
             }
         }
@@ -83,8 +82,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
             }
         }
-
-        viewModel.initBalances()
 
         binding.rvHomeAsset.setController(assetController)
 

@@ -10,16 +10,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
-import com.easy.framework.ext.observeState
 import com.easy.framework.ext.onSingleClick
 import com.easy.wallet.R
+import com.easy.wallet.data.CurrencyInfo
 import com.easy.wallet.databinding.FragmentSendBinding
 import com.easy.wallet.databinding.IncludeSendAboutBinding
 import com.easy.wallet.ext.start
+import com.easy.wallet.feature.send.uimodel.SendStates
+import com.easy.wallet.feature.send.uimodel.SendUIEvents
 import com.easy.wallet.feature.sharing.ScannerFragment
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
 import com.google.android.material.appbar.MaterialToolbar
+import io.uniflow.android.livedata.onEvents
+import io.uniflow.android.livedata.onStates
+import io.uniflow.core.flow.data.UIState
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
@@ -48,34 +53,70 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
 
     override fun ownerToolbar(): MaterialToolbar? = null
 
+    override fun initEvents() {
+        onEvents(viewModel) {
+            when (it) {
+                SendUIEvents.ToSend -> {
+                    binding.btnSendContinue.isEnabled = false
+                    binding.btnSendContinue.showProgress {
+                        buttonText = "building"
+                        progressColor = Color.WHITE
+                    }
+                }
+                SendUIEvents.BuildError -> {
+                    binding.btnSendContinue.isEnabled = true
+                    binding.btnSendContinue.hideProgress(getString(R.string.text_try_again))
+                }
+            }
+        }
+        onStates(viewModel) {
+            when (it) {
+                is SendStates.BuildState -> {
+                    binding.btnSendContinue.isEnabled = true
+                    binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
+                    start(
+                        SendFragmentDirections.actionContinueToConfirm(
+                            previewModel = it.sendModel,
+                            currencyInfo = args.currencyInfo
+                        )
+                    )
+                }
+                is SendStates.InfoState -> {
+                    val info = it.currency
+                    renderInfo(info)
+
+                    sendFormBinding.tvSendBalance.text = "${it.balance} ${info.symbol}"
+                }
+                is SendStates.BalanceFailedState -> {
+                    renderInfo(it.currency)
+                    sendFormBinding.tvSendBalance.text = "failed"
+                }
+                is UIState.Loading -> {
+                    // also show loading view here. just do what you want to do.
+                    sendFormBinding.tvSendBalance.text = "loading"
+                }
+            }
+        }
+    }
+
+    private fun renderInfo(info: CurrencyInfo) {
+        setTitle("${info.symbol} Send")
+        sendFormBinding.tvSendCoinName.text = info.name
+
+        sendFormBinding.tvSendBalance.setTextColor(Color.parseColor(info.accentColor))
+
+        binding.feeSlider.valueFrom = info.feeMin.toFloat()
+        binding.feeSlider.valueTo = info.feeMax.toFloat()
+        binding.feeSlider.value = info.feeMin.plus(8f)
+    }
+
     override fun setupView() {
         super.setupView()
 
         sendFormBinding = IncludeSendAboutBinding.bind(binding.root)
         binding.btnSendContinue.onSingleClick(lifecycleScope) {
             if (viewModel.isFullEnter()) {
-                binding.btnSendContinue.isEnabled = false
-                binding.btnSendContinue.showProgress {
-                    buttonText = "building"
-                    progressColor = Color.WHITE
-                }
-
-                viewModel.buildTransaction(binding.feeSlider.value, false) {
-                    it?.let {
-                        binding.btnSendContinue.isEnabled = true
-                        binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
-                        start(
-                            SendFragmentDirections.actionContinueToConfirm(
-                                previewModel = it,
-                                currencyInfo = args.currencyInfo
-                            )
-                        )
-                    } ?: kotlin.run {
-                        binding.btnSendContinue.isEnabled = true
-                        binding.btnSendContinue.hideProgress(getString(R.string.text_continue))
-                        Timber.d(getString(R.string.error_somethings_went_wrong))
-                    }
-                }
+                viewModel.buildTransaction(binding.feeSlider.value, false)
             }
         }
 
@@ -106,36 +147,6 @@ class SendFragment : BaseFragment(R.layout.fragment_send) {
         setFragmentResultListener(ScannerFragment.REQUEST_QR_CODE) { _, bundle ->
             val result = bundle.getString(ScannerFragment.KEY_QR_CODE)
             sendFormBinding.edtSendAddress.setText(result)
-        }
-    }
-
-    override fun applyViewModel() {
-        super.applyViewModel()
-        viewModel.apply {
-            loadBalance().observeState(
-                owner = this@SendFragment,
-                onSuccess = {
-                    sendFormBinding.tvSendBalance.text = it
-                },
-                onError = {
-                    sendFormBinding.tvSendBalance.text = "failed"
-                },
-                onLoading = {
-                    sendFormBinding.tvSendBalance.text = "loading"
-                }
-            )
-            initInfo().observe(
-                this@SendFragment
-            ) {
-                setTitle("${it.symbol} Send")
-                sendFormBinding.tvSendCoinName.text = it.name
-
-                sendFormBinding.tvSendBalance.setTextColor(Color.parseColor(it.accentColor))
-
-                binding.feeSlider.valueFrom = it.feeMin.toFloat()
-                binding.feeSlider.valueTo = it.feeMax.toFloat()
-                binding.feeSlider.value = it.feeMin.plus(8f)
-            }
         }
     }
 }

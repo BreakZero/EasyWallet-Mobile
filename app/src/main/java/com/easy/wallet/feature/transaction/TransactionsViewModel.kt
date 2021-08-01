@@ -1,42 +1,54 @@
 package com.easy.wallet.feature.transaction
 
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
-import com.easy.framework.base.BaseViewModel
-import com.easy.framework.common.StatefulMutableLiveData
-import com.easy.framework.model.RequestState
-import com.easy.wallet.data.data.model.TransactionDataModel
 import com.easy.wallet.data.provider.IProvider
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import com.easy.wallet.feature.transaction.uimodel.TransactionsState
+import io.uniflow.android.AndroidDataFlow
+import io.uniflow.core.coroutines.onFlow
+import io.uniflow.core.flow.data.UIEvent
+import io.uniflow.core.flow.data.UIState
 import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 class TransactionsViewModel(
     private val coinProvider: IProvider
-) : BaseViewModel(), KoinComponent {
-    private var offset: Int = 0
-    private val _transactions = StatefulMutableLiveData<List<TransactionDataModel>>()
-    val transactions = Transformations.map(_transactions) { it }
+) : AndroidDataFlow(), KoinComponent {
+    companion object {
+        private const val PAGE_LIMIT = 10
+    }
 
-    @FlowPreview
-    fun loadTransactions(isRefresh: Boolean = true) {
-        if (isRefresh) offset = 0
-        coinProvider.getTransactions(
+    private var offset: Int = 0
+
+    init {
+        refresh()
+    }
+
+    private suspend fun loadTransactions() {
+        val flow = coinProvider.getTransactions(
             coinProvider.getAddress(false),
-            10,
+            PAGE_LIMIT,
             offset
-        ).onStart {
-            _transactions.value = RequestState.Loading
-        }.catch {
-            Timber.e(it)
-            _transactions.value = RequestState.Error(error = it)
-        }.onEach {
-            _transactions.value = RequestState.Success(it)
-        }.launchIn(viewModelScope)
+        )
+        onFlow(
+            flow = { flow },
+            doAction = {
+                setState { TransactionsState(it) }
+            },
+            onError = { error, _ ->
+                Timber.e(error)
+                setState { UIState.Failed() }
+            }
+        )
+    }
+
+    fun refresh() = action {
+        offset = 0
+        sendEvent(UIEvent.Loading)
+        loadTransactions()
+    }
+
+    fun loadMore() = action {
+        offset += PAGE_LIMIT * (offset + 1)
+        loadTransactions()
     }
 
     fun address() = coinProvider.getAddress(false)

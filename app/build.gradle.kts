@@ -15,13 +15,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
+    compileSdk = BuildConfig.compileSdkVersion
+    buildToolsVersion = BuildConfig.buildToolsVersion
 
     defaultConfig {
         applicationId = "com.easy.wallet"
-        minSdkVersion(BuildConfig.minSdkVersion)
-        targetSdkVersion(BuildConfig.targetSdkVersion)
+        minSdk = BuildConfig.minSdkVersion
+        targetSdk = BuildConfig.targetSdkVersion
         versionCode = BuildConfig.versionCode
         versionName = BuildConfig.versionName
 
@@ -59,11 +59,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     android.buildFeatures.viewBinding= true
@@ -71,7 +71,7 @@ android {
 
 kotlinter {
     ignoreFailures = false
-    indentSize = 4
+    indentSize = 2
     reporters = arrayOf("checkstyle", "plain")
     experimentalRules = false
     disabledRules = arrayOf("no-wildcard-imports")

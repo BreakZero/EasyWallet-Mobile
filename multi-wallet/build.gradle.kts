@@ -1,7 +1,6 @@
 import com.easy.version.BuildConfig
 import com.easy.version.dependencies.Other
 import com.easy.version.dependencies.Special
-import com.easy.version.keyStoreProperties
 
 plugins {
     id("com.android.library")
@@ -20,14 +19,12 @@ sqldelight {
 }
 
 android {
-    compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
+    compileSdk = BuildConfig.compileSdkVersion
+    buildToolsVersion = BuildConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion(BuildConfig.minSdkVersion)
-        targetSdkVersion(BuildConfig.targetSdkVersion)
-        versionCode = BuildConfig.versionCode
-        versionName = BuildConfig.versionName
+        minSdk = BuildConfig.minSdkVersion
+        targetSdk = BuildConfig.targetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
@@ -49,15 +46,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
+    kotlinOptions { jvmTarget = JavaVersion.VERSION_11.toString() }
 }
 
 kotlinter {
     ignoreFailures = false
-    indentSize = 4
+    indentSize = 2
     reporters = arrayOf("checkstyle", "plain")
     experimentalRules = false
     disabledRules = arrayOf("no-wildcard-imports")

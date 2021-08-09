@@ -3,33 +3,29 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+        maven(url = uri("https://jitpack.io"))
+        maven(url = uri("https://plugins.gradle.org/m2/"))
     }
     dependencies {
-        val kotlinVersion = "1.5.10"
-        classpath("com.android.tools.build:gradle:4.1.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+        val kotlinVersion = "1.5.20"
+        classpath("com.android.tools.build:gradle:7.0.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
 
         classpath("com.squareup.sqldelight:gradle-plugin:1.4.4")
 
-        classpath("org.jmailen.gradle:kotlinter-gradle:3.2.0")
+        classpath("org.jmailen.gradle:kotlinter-gradle:3.4.5")
     }
 }
 
 allprojects {
     repositories {
         google()
-        maven { url = uri("https://jitpack.io") }
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+        maven(url = uri("https://jitpack.io"))
+        maven(url = uri("https://plugins.gradle.org/m2/"))
     }
 }
 
-tasks.register("clean", Delete::class.java, Action<Delete> {
+tasks.register("clean", Delete::class.java) {
     delete(rootProject.buildDir)
-})
+}

@@ -51,7 +51,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         unregisterReceiver(wcBroadcastReceiver)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
     }

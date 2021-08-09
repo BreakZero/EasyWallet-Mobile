@@ -6,14 +6,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(com.easy.version.BuildConfig.compileSdkVersion)
-    buildToolsVersion(com.easy.version.BuildConfig.buildToolsVersion)
+    compileSdk = com.easy.version.BuildConfig.compileSdkVersion
+    buildToolsVersion = com.easy.version.BuildConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion(com.easy.version.BuildConfig.minSdkVersion)
-        targetSdkVersion(com.easy.version.BuildConfig.targetSdkVersion)
-        versionCode = com.easy.version.BuildConfig.versionCode
-        versionName = com.easy.version.BuildConfig.versionName
+        minSdk = com.easy.version.BuildConfig.minSdkVersion
+        targetSdk = com.easy.version.BuildConfig.targetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
@@ -29,15 +27,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
+    kotlinOptions { jvmTarget = JavaVersion.VERSION_11.toString() }
 }
 
 kotlinter {
     ignoreFailures = false
-    indentSize = 4
+    indentSize = 2
     reporters = arrayOf("checkstyle", "plain")
     experimentalRules = false
     disabledRules = arrayOf("no-wildcard-imports")

@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.5.10"))
+        classpath(kotlin("gradle-plugin", version = "1.5.20"))
     }
 }
 plugins {
@@ -18,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 gradlePlugin {
     plugins {

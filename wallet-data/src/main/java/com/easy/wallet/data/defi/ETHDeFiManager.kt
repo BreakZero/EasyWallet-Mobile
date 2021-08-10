@@ -5,7 +5,7 @@ package com.easy.wallet.data.defi
  */
 class ETHDeFiManager {
 
-    private fun fetchNonce(): Int {
-        return 0
-    }
+  private fun fetchNonce(): Int {
+    return 0
+  }
 }

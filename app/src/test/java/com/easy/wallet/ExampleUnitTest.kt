@@ -1,7 +1,8 @@
 package com.easy.wallet
 
-import kotlinx.coroutines.flow.*
-import org.junit.Assert.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.junit.Test
 import org.web3j.utils.Numeric
 
@@ -11,15 +12,15 @@ import org.web3j.utils.Numeric
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        val hexByte = Numeric.cleanHexPrefix("0x5208")
+  @Test
+  fun addition_isCorrect() {
+    val hexByte = Numeric.cleanHexPrefix("0x5208")
 
-        val result = MutableStateFlow<Int>(1)
-            .debounce(12)
-            .distinctUntilChanged()
-        println(result)
+    val result = MutableStateFlow<Int>(1)
+      .debounce(12)
+      .distinctUntilChanged()
+    println(result)
 
-        println(hexByte)
-    }
+    println(hexByte)
+  }
 }

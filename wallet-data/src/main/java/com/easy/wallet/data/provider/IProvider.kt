@@ -7,24 +7,24 @@ import kotlinx.coroutines.flow.Flow
 import java.math.BigInteger
 
 interface IProvider {
-    fun getBalance(address: String): Flow<BigInteger>
-    fun getTransactions(
-        address: String,
-        limit: Int,
-        offset: Int
-    ): Flow<List<TransactionDataModel>>
+  fun getBalance(address: String): Flow<BigInteger>
+  fun getTransactions(
+    address: String,
+    limit: Int,
+    offset: Int
+  ): Flow<List<TransactionDataModel>>
 
-    /**
-     * @return raw data
-     */
-    fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel>
+  /**
+   * @return raw data
+   */
+  fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel>
 
-    /**
-     * @param rawData
-     * @return transaction hash
-     */
-    fun broadcastTransaction(rawData: String): Flow<String>
+  /**
+   * @param rawData
+   * @return transaction hash
+   */
+  fun broadcastTransaction(rawData: String): Flow<String>
 
-    fun getAddress(isLegacy: Boolean): String
-    fun validateAddress(address: String): Boolean
+  fun getAddress(isLegacy: Boolean): String
+  fun validateAddress(address: String): Boolean
 }

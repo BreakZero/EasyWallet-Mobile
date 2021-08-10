@@ -4,14 +4,14 @@ import com.easy.wallet.data.network.cosmos.FigmentClient
 import com.easy.wallet.data.network.cosmos.FigmentService
 
 class CosmosDeFiManager {
-    internal val figmentClient = FigmentClient.client().create(FigmentService::class.java)
+  internal val figmentClient = FigmentClient.client().create(FigmentService::class.java)
 
-    fun delegate() {
-    }
+  fun delegate() {
+  }
 
-    fun reDelegate() {
-    }
+  fun reDelegate() {
+  }
 
-    fun withdraw() {
-    }
+  fun withdraw() {
+  }
 }

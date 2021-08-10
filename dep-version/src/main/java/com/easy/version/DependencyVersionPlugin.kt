@@ -8,19 +8,19 @@ import java.io.InputStreamReader
 import java.util.*
 
 class DependencyVersionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
+  override fun apply(target: Project) {
 
-    }
+  }
 }
 
 fun keyStoreProperties(): Properties {
-    val properties = Properties()
-    val keyProperties = File("./keystore", "configs.properties")
+  val properties = Properties()
+  val keyProperties = File("./keystore", "configs.properties")
 
-    if (keyProperties.isFile) {
-        InputStreamReader(FileInputStream(keyProperties), Charsets.UTF_8).use { reader ->
-            properties.load(reader)
-        }
+  if (keyProperties.isFile) {
+    InputStreamReader(FileInputStream(keyProperties), Charsets.UTF_8).use { reader ->
+      properties.load(reader)
     }
-    return properties
+  }
+  return properties
 }

@@ -13,14 +13,13 @@ buildscript {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
 
         classpath("com.squareup.sqldelight:gradle-plugin:1.4.4")
-
-        classpath("org.jmailen.gradle:kotlinter-gradle:3.4.5")
     }
 }
 
 allprojects {
     repositories {
         google()
+        mavenCentral()
         maven(url = uri("https://jitpack.io"))
         maven(url = uri("https://plugins.gradle.org/m2/"))
     }

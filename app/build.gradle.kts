@@ -9,7 +9,6 @@ plugins {
     kotlin("kapt")
     id("com.squareup.sqldelight")
     id("androidx.navigation.safeargs.kotlin")
-    id("org.jmailen.kotlinter")
     id("kotlin-parcelize")
     id("version-plugin")
 }
@@ -18,6 +17,7 @@ android {
     compileSdk = BuildConfig.compileSdkVersion
     buildToolsVersion = BuildConfig.buildToolsVersion
 
+    val keyProperties = keyStoreProperties()
     defaultConfig {
         applicationId = "com.easy.wallet"
         minSdk = BuildConfig.minSdkVersion
@@ -30,7 +30,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    val keyProperties = keyStoreProperties()
     signingConfigs {
         getByName("debug") {
             storeFile = rootProject.file(keyProperties.getProperty("storeFile"))
@@ -58,23 +57,10 @@ android {
             isDebuggable = true
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    lint {
+        isAbortOnError = false
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
     android.buildFeatures.viewBinding= true
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 2
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
 }
 
 dependencies {

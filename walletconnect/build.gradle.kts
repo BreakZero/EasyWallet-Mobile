@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("version-plugin")
-    id("org.jmailen.kotlinter")
 }
 
 android {
@@ -26,19 +25,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_11.toString() }
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 2
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
 }
 
 dependencies {

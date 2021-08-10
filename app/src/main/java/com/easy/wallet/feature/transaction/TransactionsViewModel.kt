@@ -10,46 +10,46 @@ import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 class TransactionsViewModel(
-    private val coinProvider: IProvider
+  private val coinProvider: IProvider
 ) : AndroidDataFlow(), KoinComponent {
-    companion object {
-        private const val PAGE_LIMIT = 10
-    }
+  companion object {
+    private const val PAGE_LIMIT = 10
+  }
 
-    private var offset: Int = 0
+  private var offset: Int = 0
 
-    init {
-        refresh()
-    }
+  init {
+    refresh()
+  }
 
-    private suspend fun loadTransactions() {
-        val flow = coinProvider.getTransactions(
-            coinProvider.getAddress(false),
-            PAGE_LIMIT,
-            offset
-        )
-        onFlow(
-            flow = { flow },
-            doAction = {
-                setState { TransactionsState(it) }
-            },
-            onError = { error, _ ->
-                Timber.e(error)
-                setState { UIState.Failed() }
-            }
-        )
-    }
+  private suspend fun loadTransactions() {
+    val flow = coinProvider.getTransactions(
+      coinProvider.getAddress(false),
+      PAGE_LIMIT,
+      offset
+    )
+    onFlow(
+      flow = { flow },
+      doAction = {
+        setState { TransactionsState(it) }
+      },
+      onError = { error, _ ->
+        Timber.e(error)
+        setState { UIState.Failed() }
+      }
+    )
+  }
 
-    fun refresh() = action {
-        offset = 0
-        sendEvent(UIEvent.Loading)
-        loadTransactions()
-    }
+  fun refresh() = action {
+    offset = 0
+    sendEvent(UIEvent.Loading)
+    loadTransactions()
+  }
 
-    fun loadMore() = action {
-        offset += PAGE_LIMIT * (offset + 1)
-        loadTransactions()
-    }
+  fun loadMore() = action {
+    offset += PAGE_LIMIT * (offset + 1)
+    loadTransactions()
+  }
 
-    fun address() = coinProvider.getAddress(false)
+  fun address() = coinProvider.getAddress(false)
 }

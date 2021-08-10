@@ -17,30 +17,30 @@ import kotlinx.coroutines.MainScope
 @SuppressLint("NonConstantResourceId")
 @EpoxyModelClass(layout = R.layout.rv_item_nft_asset)
 abstract class NFTAssetModel : EpoxyModelWithHolder<Holder>() {
-    @EpoxyAttribute
-    lateinit var infoData: NFTAssetDataModel
+  @EpoxyAttribute
+  lateinit var infoData: NFTAssetDataModel
 
-    @EpoxyAttribute
-    lateinit var onItemClick: () -> Unit
+  @EpoxyAttribute
+  lateinit var onItemClick: () -> Unit
 
-    private val scope = MainScope()
+  private val scope = MainScope()
 
-    override fun bind(holder: Holder) {
-        holder.ivNFTAssetImage.load(infoData.imagePreviewUrl) {
-            allowHardware(false)
-        }
-        holder.tvNFTAssetName.text = infoData.name
-        holder.tvNFTAssetDesc.text = infoData.description
-
-        holder.nftAssetCard.onSingleClick(scope) {
-            onItemClick.invoke()
-        }
+  override fun bind(holder: Holder) {
+    holder.ivNFTAssetImage.load(infoData.imagePreviewUrl) {
+      allowHardware(false)
     }
+    holder.tvNFTAssetName.text = infoData.name
+    holder.tvNFTAssetDesc.text = infoData.description
+
+    holder.nftAssetCard.onSingleClick(scope) {
+      onItemClick.invoke()
+    }
+  }
 }
 
 class Holder : KotlinEpoxyHolder() {
-    val nftAssetCard by bind<MaterialCardView>(R.id.nftAssetCard)
-    val ivNFTAssetImage by bind<ShapeableImageView>(R.id.ivNFTAssetImage)
-    val tvNFTAssetName by bind<MaterialTextView>(R.id.tvNFTAssetName)
-    val tvNFTAssetDesc by bind<MaterialTextView>(R.id.tvNFTAssetDesc)
+  val nftAssetCard by bind<MaterialCardView>(R.id.nftAssetCard)
+  val ivNFTAssetImage by bind<ShapeableImageView>(R.id.ivNFTAssetImage)
+  val tvNFTAssetName by bind<MaterialTextView>(R.id.tvNFTAssetName)
+  val tvNFTAssetDesc by bind<MaterialTextView>(R.id.tvNFTAssetDesc)
 }

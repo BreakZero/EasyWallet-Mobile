@@ -6,17 +6,17 @@ import android.content.Intent
 import com.easy.wallet.feature.wallectconnet.data.WCDataWrap
 
 class WCBroadcastReceiver(
-    private val callback: (WCDataWrap) -> Unit
+  private val callback: (WCDataWrap) -> Unit
 ) : BroadcastReceiver() {
 
-    companion object {
-        const val WC_ACTION_FILTER_ACTION = "wallet.connect.action"
-    }
+  companion object {
+    const val WC_ACTION_FILTER_ACTION = "wallet.connect.action"
+  }
 
-    override fun onReceive(context: Context, intent: Intent) {
-        val data = intent.getParcelableExtra<WCDataWrap>(WalletConnectService.KEY_WC_DATA)
-        data?.also {
-            callback.invoke(data)
-        }
+  override fun onReceive(context: Context, intent: Intent) {
+    val data = intent.getParcelableExtra<WCDataWrap>(WalletConnectService.KEY_WC_DATA)
+    data?.also {
+      callback.invoke(data)
     }
+  }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:contentPadding="@dimen/spacing_12"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:contentPadding="@dimen/spacing_12">
 
     <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/chainRadioButton"

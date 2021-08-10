@@ -10,13 +10,13 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_home_to_settings"
-            app:destination="@id/setChainFragment"/>
+            app:destination="@id/setChainFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/setChainFragment"
         android:name="com.easy.wallet.feature.settings.chain.SetChainFragment"
-        tools:layout="@layout/fragment_settings_chain"/>
+        tools:layout="@layout/fragment_settings_chain" />
 
     <include app:graph="@navigation/global_scan" />
 
@@ -27,7 +27,7 @@
     <include app:graph="@navigation/global_walletconnect" />
     <action
         android:id="@+id/action_show_wallet_connect_action"
-        app:destination="@id/show_wc_action_view" >
+        app:destination="@id/show_wc_action_view">
         <argument
             android:name="wrapData"
             app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />

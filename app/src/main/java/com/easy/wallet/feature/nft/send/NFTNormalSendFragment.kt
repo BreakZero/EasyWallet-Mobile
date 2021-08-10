@@ -5,5 +5,5 @@ import com.easy.wallet.R
 import com.google.android.material.appbar.MaterialToolbar
 
 class NFTNormalSendFragment : BaseFragment(R.layout.fragment_nft_asset) {
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 }

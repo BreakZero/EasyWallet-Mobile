@@ -26,80 +26,80 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class TxPreviewFragment : BaseBottomSheetFragment() {
-    private val args: TxPreviewFragmentArgs by navArgs()
+  private val args: TxPreviewFragmentArgs by navArgs()
 
-    private val binding by viewBinding(FragmentTxPreviewBinding::bind)
+  private val binding by viewBinding(FragmentTxPreviewBinding::bind)
 
-    private val cryptographyManager: CryptographyManager = CryptographyManager()
-    private val viewModel by viewModel<TxPreviewViewModel> {
-        parametersOf(args.currencyInfo)
+  private val cryptographyManager: CryptographyManager = CryptographyManager()
+  private val viewModel by viewModel<TxPreviewViewModel> {
+    parametersOf(args.currencyInfo)
+  }
+
+  override fun layout(): Int = R.layout.fragment_tx_preview
+
+  @SuppressLint("SetTextI18n")
+  override fun setupView() {
+    super.setupView()
+
+    onEvents(viewModel) {
+      when (it) {
+        is SendPreviewEvent.EventBroadcast -> {
+          if (BiometricManager.from(requireContext().applicationContext)
+              .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+          ) {
+            val cipher =
+              cryptographyManager.getInitializedCipherForEncryption("test-name")
+            BiometricPromptUtils.createBiometricPrompt(
+              requireActivity()
+            ) {
+              viewModel.broadcastTransaction(args.previewModel.rawData)
+            }.authenticate(
+              BiometricPromptUtils.createPromptInfo(),
+              BiometricPrompt.CryptoObject(cipher)
+            )
+          }
+        }
+        is UIEvent.Loading -> {
+          binding.btnContinue.isEnabled = false
+          binding.btnContinue.showProgress {
+            buttonText = getString(R.string.text_send)
+            progressColor = Color.WHITE
+          }
+        }
+      }
     }
 
-    override fun layout(): Int = R.layout.fragment_tx_preview
-
-    @SuppressLint("SetTextI18n")
-    override fun setupView() {
-        super.setupView()
-
-        onEvents(viewModel) {
-            when (it) {
-                is SendPreviewEvent.EventBroadcast -> {
-                    if (BiometricManager.from(requireContext().applicationContext)
-                            .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
-                    ) {
-                        val cipher =
-                            cryptographyManager.getInitializedCipherForEncryption("test-name")
-                        BiometricPromptUtils.createBiometricPrompt(
-                            requireActivity()
-                        ) {
-                            viewModel.broadcastTransaction(args.previewModel.rawData)
-                        }.authenticate(
-                            BiometricPromptUtils.createPromptInfo(),
-                            BiometricPrompt.CryptoObject(cipher)
-                        )
-                    }
-                }
-                is UIEvent.Loading -> {
-                    binding.btnContinue.isEnabled = false
-                    binding.btnContinue.showProgress {
-                        buttonText = getString(R.string.text_send)
-                        progressColor = Color.WHITE
-                    }
-                }
-            }
+    onStates(viewModel) {
+      when (it) {
+        is UIState.Success -> {
+          binding.btnContinue.isEnabled = true
+          binding.btnContinue.hideProgress("Continue")
+          findNavController().popBackStack(
+            findNavController().graph.startDestination,
+            false
+          )
         }
-
-        onStates(viewModel) {
-            when (it) {
-                is UIState.Success -> {
-                    binding.btnContinue.isEnabled = true
-                    binding.btnContinue.hideProgress("Continue")
-                    findNavController().popBackStack(
-                        findNavController().graph.startDestination,
-                        false
-                    )
-                }
-                is UIState.Failed -> {
-                    binding.btnContinue.isEnabled = true
-                    binding.btnContinue.hideProgress("Send")
-                }
-            }
+        is UIState.Failed -> {
+          binding.btnContinue.isEnabled = true
+          binding.btnContinue.hideProgress("Send")
         }
-
-        binding.ivClose.onSingleClick(lifecycleScope) {
-            findNavController().navigateUp()
-        }
-
-        binding.btnContinue.onSingleClick(lifecycleScope) {
-            viewModel.actionBroadcast()
-        }
-
-        with(args.previewModel) {
-            binding.tvSendAmount.text = amount.strByDecimal()
-            binding.tvSendSymbol.text = symbol
-            binding.tvTo.text = to
-            binding.tvFrom.text = from
-            binding.tvFees.text = feeWithSymbol()
-        }
+      }
     }
+
+    binding.ivClose.onSingleClick(lifecycleScope) {
+      findNavController().navigateUp()
+    }
+
+    binding.btnContinue.onSingleClick(lifecycleScope) {
+      viewModel.actionBroadcast()
+    }
+
+    with(args.previewModel) {
+      binding.tvSendAmount.text = amount.strByDecimal()
+      binding.tvSendSymbol.text = symbol
+      binding.tvTo.text = to
+      binding.tvFrom.text = from
+      binding.tvFees.text = feeWithSymbol()
+    }
+  }
 }

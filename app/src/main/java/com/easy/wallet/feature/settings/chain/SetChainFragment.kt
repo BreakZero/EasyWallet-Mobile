@@ -18,48 +18,48 @@ import org.koin.androidx.scope.requireScopeActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SetChainFragment : BaseFragment(R.layout.fragment_settings_chain) {
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    private val binding by viewBinding(FragmentSettingsChainBinding::bind)
-    private val viewModel by viewModel<SetChainViewModel>()
+  private val binding by viewBinding(FragmentSettingsChainBinding::bind)
+  private val viewModel by viewModel<SetChainViewModel>()
 
-    private val chainsController by lazy {
-        ChainsController {
-            viewModel.updateChain(it)
-        }
+  private val chainsController by lazy {
+    ChainsController {
+      viewModel.updateChain(it)
+    }
+  }
+
+  private fun triggerRestart(context: AppCompatActivity) {
+    Intent(context, StartActivity::class.java).apply {
+      addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+      context.startActivity(this)
+      WalletDataSDK.notifyChainChanged()
+      context.finishAffinity()
+    }
+  }
+
+  override fun setupView() {
+    super.setupView()
+    inflateMenu(R.menu.menu_done) {
+      viewModel.done()
     }
 
-    private fun triggerRestart(context: AppCompatActivity) {
-        Intent(context, StartActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(this)
-            WalletDataSDK.notifyChainChanged()
-            context.finishAffinity()
+    binding.chainList.setController(chainsController)
+
+    onEvents(viewModel) {
+      when (it) {
+        is UIEvent.Success -> {
+          triggerRestart(requireScopeActivity())
         }
+      }
     }
 
-    override fun setupView() {
-        super.setupView()
-        inflateMenu(R.menu.menu_done) {
-            viewModel.done()
+    onStates(viewModel) {
+      when (it) {
+        is ChainState -> {
+          chainsController.setData(it.list)
         }
-
-        binding.chainList.setController(chainsController)
-
-        onEvents(viewModel) {
-            when (it) {
-                is UIEvent.Success -> {
-                    triggerRestart(requireScopeActivity())
-                }
-            }
-        }
-
-        onStates(viewModel) {
-            when (it) {
-                is ChainState -> {
-                    chainsController.setData(it.list)
-                }
-            }
-        }
+      }
     }
+  }
 }

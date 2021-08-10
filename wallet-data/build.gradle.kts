@@ -10,7 +10,6 @@ plugins {
     id("com.squareup.sqldelight")
     id("version-plugin")
     id("kotlin-parcelize")
-    id("org.jmailen.kotlinter")
 }
 
 sqldelight {
@@ -63,19 +62,6 @@ android {
             buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_11.toString() }
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 2
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
 }
 
 dependencies {

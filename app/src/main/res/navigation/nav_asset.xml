@@ -109,7 +109,7 @@
             app:argType="string" />
     </action>
 
-    <include app:graph="@navigation/global_loading"/>
+    <include app:graph="@navigation/global_loading" />
     <action
         android:id="@+id/action_loading"
         app:destination="@id/show_loading" />
@@ -122,7 +122,7 @@
     <include app:graph="@navigation/global_walletconnect" />
     <action
         android:id="@+id/action_show_wallet_connect_action"
-        app:destination="@id/show_wc_action_view" >
+        app:destination="@id/show_wc_action_view">
         <argument
             android:name="wrapData"
             app:argType="com.easy.wallet.feature.wallectconnet.data.WCDataWrap" />

@@ -10,6 +10,6 @@
         </shape>
     </item>
     <item
-        android:gravity="center"
-        android:drawable="@drawable/ic_receive"/>
+        android:drawable="@drawable/ic_receive"
+        android:gravity="center" />
 </layer-list>

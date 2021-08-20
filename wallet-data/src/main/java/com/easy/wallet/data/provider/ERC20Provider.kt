@@ -178,7 +178,7 @@ class ERC20Provider(
           }.build()
         }
 
-        val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
+        val signer = AnySigner.sign(signingInput.build(), CoinType.SMARTCHAIN, Ethereum.SigningOutput.parser())
         SendPlanModel(
           amount = sendModel.amount.toBigDecimal().movePointLeft(decimals),
           fromAddress = getAddress(false),
@@ -187,7 +187,7 @@ class ERC20Provider(
           gas = sendModel.feeByte.toBigDecimal(),
           feeDecimals = 9,
           memo = sendModel.memo,
-          rawData = Numeric.toHexString(encoded)
+          rawData = Numeric.toHexString(signer.encoded.toByteArray())
         )
       } ?: kotlin.run {
         throw NetworkError()

@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.utils.Numeric
-import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
@@ -92,8 +91,9 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
           }.build()
         }.build()
       }
-      val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
-      val rawData = Numeric.toHexString(encoded)
+      val signer =
+        AnySigner.sign(signingInput.build(), CoinType.SMARTCHAIN, Ethereum.SigningOutput.parser())
+      val rawData = Numeric.toHexString(signer.encoded.toByteArray())
       rawData
     }
   }
@@ -139,7 +139,6 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
       val encoded = output.encoded.toByteArray()
       val rawData = Numeric.toHexString(encoded)
-      Timber.d(String(AnySigner.decode(rawData.toHexByteArray(), CoinType.ETHEREUM)))
       SendPlanModel(
         amount = sendModel.amount.toBigDecimal().movePointLeft(18),
         fromAddress = getAddress(false),

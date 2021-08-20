@@ -87,9 +87,8 @@ class BinanceSmartProvider : BaseProvider(WalletDataSDK.currWallet()) {
         transaction = txBuild.build()
       }
 
-      val encoded = AnySigner.encode(signingInput.build(), CoinType.SMARTCHAIN)
-      val rawData = Numeric.toHexString(encoded)
-      Timber.d(String(AnySigner.decode(rawData.toHexByteArray(), CoinType.SMARTCHAIN)))
+      val signer = AnySigner.sign(signingInput.build(), CoinType.SMARTCHAIN, Ethereum.SigningOutput.parser())
+      val rawData = Numeric.toHexString(signer.encoded.toByteArray())
       SendPlanModel(
         amount = sendModel.amount.toBigDecimal().movePointLeft(18),
         fromAddress = getAddress(false),

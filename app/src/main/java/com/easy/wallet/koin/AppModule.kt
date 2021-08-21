@@ -34,6 +34,7 @@ import com.easy.wallet.feature.settings.chain.SetChainViewModel
 import com.easy.wallet.feature.sharing.BrowserFragment
 import com.easy.wallet.feature.sharing.QRCodeFragment
 import com.easy.wallet.feature.sharing.ScannerFragment
+import com.easy.wallet.feature.sharing.dapp.DAppBrowserFragment
 import com.easy.wallet.feature.start.StartActivity
 import com.easy.wallet.feature.start.StartViewModel
 import com.easy.wallet.feature.start.restore.ImportWalletFragment
@@ -154,6 +155,8 @@ val scopeModule = module {
     }
   }
   scope<BrowserFragment> {
+  }
+  scope<DAppBrowserFragment> {
   }
   scope<SplashFragment> {
     viewModel { SplashViewModel() }

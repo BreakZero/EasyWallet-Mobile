@@ -3,10 +3,10 @@ package com.easy.wallet.data
 import android.content.Context
 import com.easy.framework.common.BasicStore
 import com.easy.wallet.WalletDatabase
+import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.CHAINID_STORE_KEY
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.defi.NFTManager
-import com.easy.wallet.data.error.InvalidMnemonicException
 import com.easy.wallet.data.provider.*
 import com.easy.wallet.multi.MultiWalletConfig
 import com.easy.wallet.multi.model.WalletInfo
@@ -45,6 +45,16 @@ object WalletDataSDK {
         }
     }
 
+    fun dAppRPC(): String {
+        return when (chainId()) {
+            ChainId.MAINNET -> "https://mainnet.infura.io/v3/${APIKey.INFURA_API_KEY}"
+            ChainId.RINKEBY -> "https://rinkeby.infura.io/v3/${APIKey.INFURA_API_KEY}"
+            ChainId.KOVAN -> "https://kovan.infura.io/v3/${APIKey.INFURA_API_KEY}"
+            ChainId.GÖRLI -> "https://goerli.infura.io/v3/${APIKey.INFURA_API_KEY}"
+            else -> "https://ropsten.infura.io/v3/${APIKey.INFURA_API_KEY}"
+        }
+    }
+
     fun updateChain(name: String) {
         basicStore.putString(CHAINID_STORE_KEY, name)
     }
@@ -57,7 +67,7 @@ object WalletDataSDK {
 
     suspend fun injectWallet(walletName: String, mnemonic: String?, passphrase: String = ""): Boolean {
         val newWallet = mnemonic?.let {
-            if (!HDWallet.isValid(mnemonic)) throw InvalidMnemonicException()
+            // if (!HDWallet.isValid(mnemonic)) throw InvalidMnemonicException()
             HDWallet(it, passphrase)
         } ?: HDWallet(128, passphrase)
         this.hdWallet = newWallet

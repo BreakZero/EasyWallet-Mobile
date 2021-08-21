@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.map
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.utils.Numeric
-import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.CoinType
 import wallet.core.jni.proto.Ethereum

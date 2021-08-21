@@ -2,7 +2,7 @@ package com.easy.version.dependencies
 
 object Other {
   const val material = "com.google.android.material:material:1.2.1"
-  const val flexbox = "com.google.android:flexbox:2.0.1"
+  const val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
   const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
   const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
 

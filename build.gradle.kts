@@ -24,9 +24,8 @@ allprojects {
         mavenCentral()
         maven(url = uri("https://jitpack.io"))
 
-        maven(
-            url = uri("https://maven.pkg.github.com/trustwallet/wallet-core"),
-        ) {
+        maven {
+            url = uri("https://maven.pkg.github.com/trustwallet/wallet-core")
             credentials {
                 username = gradleLocalProperties(rootDir).getProperty("gpr.user")
                 password = gradleLocalProperties(rootDir).getProperty("gpr.key")

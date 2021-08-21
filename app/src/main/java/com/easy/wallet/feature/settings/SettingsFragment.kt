@@ -46,6 +46,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     binding.flChainNetwork.onSingleClick(lifecycleScope) {
       start(R.id.action_home_to_settings)
     }
+    binding.tvPreferences.onSingleClick(lifecycleScope) {
+      start(R.id.fragmentUniswap)
+    }
 
     binding.swtEnableBiometric.setOnCheckedChangeListener { view, _ ->
       if (!view.isPressed) {

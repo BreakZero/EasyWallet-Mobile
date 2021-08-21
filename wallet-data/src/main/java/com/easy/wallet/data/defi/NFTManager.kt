@@ -172,7 +172,7 @@ class NFTManager(private val hdWallet: HDWallet, chainId: ChainId) {
           }
         }.build()
       }
-      val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
+      val encoded = AnySigner.sign(signingInput.build(), CoinType.ETHEREUM, Ethereum.SigningOutput.parser())
       emit(
         SendPlanModel(
           amount = BigDecimal.ZERO,
@@ -181,7 +181,7 @@ class NFTManager(private val hdWallet: HDWallet, chainId: ChainId) {
           gasLimit = DEFAULT_GAS_LIMIT.toBigInteger(),
           gas = gasPrice.toBigDecimal(),
           feeDecimals = 9,
-          rawData = Numeric.toHexString(encoded)
+          rawData = Numeric.toHexString(encoded.encoded.toByteArray())
         )
       )
     }

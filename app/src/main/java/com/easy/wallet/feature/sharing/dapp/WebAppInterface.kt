@@ -2,6 +2,7 @@ package com.easy.wallet.feature.sharing.dapp
 
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.widget.Toast
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -17,6 +18,9 @@ class WebAppInterface(private val context: WebView) {
       "requestAccounts" -> {
         val callback = "window.ethereum.sendResponse($id, [\"$addr\"])"
         context.post {
+          context.evaluateJavascript("window.ethereum.setAddress(\"$addr\");") {
+            Timber.d("===== $it")
+          }
           context.evaluateJavascript(callback) { value ->
             Timber.d("======= $value")
           }

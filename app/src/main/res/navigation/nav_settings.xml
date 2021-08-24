@@ -14,11 +14,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/fragmentUniswap"
-        android:name="com.easy.wallet.feature.sharing.dapp.DAppBrowserFragment"
-        tools:layout="@layout/fragment_webview" />
-
-    <fragment
         android:id="@+id/setChainFragment"
         android:name="com.easy.wallet.feature.settings.chain.SetChainFragment"
         tools:layout="@layout/fragment_settings_chain" />

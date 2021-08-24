@@ -13,8 +13,8 @@ import com.easy.wallet.feature.MainActivity
 import com.easy.wallet.feature.MainViewModel
 import com.easy.wallet.feature.coin.CoinListFragment
 import com.easy.wallet.feature.coin.CoinListViewModel
-import com.easy.wallet.feature.defi.TestDefiFragment
-import com.easy.wallet.feature.defi.TestDefiViewModel
+import com.easy.wallet.feature.defi.DefiMainFragment
+import com.easy.wallet.feature.defi.DefiMainViewModel
 import com.easy.wallet.feature.home.HomeFragment
 import com.easy.wallet.feature.home.HomeViewModel
 import com.easy.wallet.feature.nft.NFTCollectionsFragment
@@ -149,9 +149,9 @@ val scopeModule = module {
   scope<QRCodeFragment> {
   }
 
-  scope<TestDefiFragment> {
+  scope<DefiMainFragment> {
     viewModel {
-      TestDefiViewModel()
+      DefiMainViewModel()
     }
   }
   scope<BrowserFragment> {

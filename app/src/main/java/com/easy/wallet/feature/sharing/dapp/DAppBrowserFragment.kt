@@ -3,6 +3,7 @@ package com.easy.wallet.feature.sharing.dapp
 import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
@@ -12,6 +13,8 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
   override fun ownerToolbar(): MaterialToolbar? = null
+
+  private val args by navArgs<DAppBrowserFragmentArgs>()
 
   private val binding by viewBinding(FragmentWebviewBinding::bind)
 
@@ -23,7 +26,6 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
       WalletDataSDK.chainId().id,
       WalletDataSDK.dAppRPC()
     )
-    println("file lenght: ${provderJs.length}")
     WebView.setWebContentsDebuggingEnabled(true)
     binding.webView.settings.javaScriptEnabled = true
     binding.webView.addJavascriptInterface(WebAppInterface(binding.webView), "_tw_")
@@ -36,7 +38,7 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
       }
     }
     binding.webView.webViewClient = webViewClient
-    binding.webView.loadUrl("https://app.uniswap.org/#/swap")
+    binding.webView.loadUrl(args.link)
   }
 
   private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min).bufferedReader().use {
@@ -44,7 +46,7 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
   }
 
   private fun loadInitJs(chainId: Int, rpcUrl: String): String {
-    val source = """
+    return """
         (function() {
             var config = {
                 chainId: $chainId,
@@ -58,6 +60,5 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
             }
         })();
         """
-    return source
   }
 }

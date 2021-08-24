@@ -1,66 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/assetCardView"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/defiList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_48"
-        android:layout_marginTop="@dimen/spacing_48"
-        android:layout_marginEnd="@dimen/spacing_48"
-        app:cardCornerRadius="8dp"
-        app:contentPadding="@dimen/spacing_4">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivNFTAssetImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="156dp"
-                android:scaleType="fitXY"
-                tools:src="@drawable/ic_launcher_foreground" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvNFTAssetName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Musky Doge - 1st Edition (Gray Stamp) *Ultra Moon Rainbow Rare Holo*" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvNFTAssetDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="This is Musky Doge, the 3rd original character of hopefully many trading cards in the Ultra Moon series that I will spend way too much time on creating. Made from scratch, and as a TCG fan I tried putting a ton of attention to detail. Enjoy the gray stamps while they last!\n\nOnly 39 of these Musky Doge Rainbow Rare Holo's will ever be minted. Only 0 of these will probably ever be sold.\n\nYou will unlock the full high resolution MP4 file upon purchase." />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonGen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_48"
-        android:layout_marginTop="@dimen/spacing_16"
-        android:layout_marginEnd="@dimen/spacing_48"
-        android:text="GenImage" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivPreview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_48"
-        android:minHeight="256dp"
-        android:padding="@dimen/spacing_8" />
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </androidx.appcompat.widget.LinearLayoutCompat>

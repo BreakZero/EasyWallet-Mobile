@@ -4,115 +4,101 @@ import com.easy.version.dependencies.Other
 import com.easy.version.keyStoreProperties
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("com.squareup.sqldelight")
-    id("androidx.navigation.safeargs.kotlin")
-    id("org.jmailen.kotlinter")
-    id("kotlin-parcelize")
-    id("version-plugin")
+  id("com.android.application")
+  kotlin("android")
+  kotlin("kapt")
+  id("com.squareup.sqldelight")
+  id("androidx.navigation.safeargs.kotlin")
+  id("kotlin-parcelize")
+  id("version-plugin")
 }
 
 android {
-    compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
+  compileSdk = BuildConfig.compileSdkVersion
+  buildToolsVersion = BuildConfig.buildToolsVersion
 
-    defaultConfig {
-        applicationId = "com.easy.wallet"
-        minSdkVersion(BuildConfig.minSdkVersion)
-        targetSdkVersion(BuildConfig.targetSdkVersion)
-        versionCode = BuildConfig.versionCode
-        versionName = BuildConfig.versionName
+  val keyProperties = keyStoreProperties()
+  defaultConfig {
+    applicationId = "com.easy.wallet"
+    minSdk = BuildConfig.minSdkVersion
+    targetSdk = BuildConfig.targetSdkVersion
+    versionCode = BuildConfig.versionCode
+    versionName = BuildConfig.versionName
 
-        setProperty("archivesBaseName", applicationId + versionName)
+    setProperty("archivesBaseName", applicationId + versionName)
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  signingConfigs {
+    getByName("debug") {
+      storeFile = rootProject.file(keyProperties.getProperty("storeFile"))
+      storePassword = keyProperties.getProperty("storePassword")
+      keyAlias = keyProperties.getProperty("keyAlias")
+      keyPassword = keyProperties.getProperty("keyPassword")
     }
-
-    val keyProperties = keyStoreProperties()
-    signingConfigs {
-        getByName("debug") {
-            storeFile = rootProject.file(keyProperties.getProperty("storeFile"))
-            storePassword = keyProperties.getProperty("storePassword")
-            keyAlias = keyProperties.getProperty("keyAlias")
-            keyPassword = keyProperties.getProperty("keyPassword")
-        }
-        create("release") {
-            storeFile = rootProject.file(keyProperties.getProperty("storeFile"))
-            storePassword = keyProperties.getProperty("storePassword")
-            keyAlias = keyProperties.getProperty("keyAlias")
-            keyPassword = keyProperties.getProperty("keyPassword")
-        }
+    create("release") {
+      storeFile = rootProject.file(keyProperties.getProperty("storeFile"))
+      storePassword = keyProperties.getProperty("storePassword")
+      keyAlias = keyProperties.getProperty("keyAlias")
+      keyPassword = keyProperties.getProperty("keyPassword")
     }
+  }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
-            isDebuggable = false
-        }
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-            isDebuggable = true
-        }
+  buildTypes {
+    getByName("release") {
+      isMinifyEnabled = false
+      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+      signingConfig = signingConfigs.getByName("release")
+      isDebuggable = false
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    getByName("debug") {
+      signingConfig = signingConfigs.getByName("debug")
+      isDebuggable = true
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    android.buildFeatures.viewBinding= true
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 4
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
+  }
+  lint {
+    isAbortOnError = false
+  }
+  android.buildFeatures.viewBinding = true
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8", BuildConfig.kotlinVersion))
+  implementation(kotlin("stdlib-jdk8", BuildConfig.kotlinVersion))
 
-    implementation(project(":framework-core"))
-    implementation(project(":wallet-data"))
-    implementation(project(":walletconnect"))
+  implementation(project(":framework-core"))
+  implementation(project(":wallet-data"))
+  implementation(project(":walletconnect"))
 
-    implementation(AndroidX.paging)
-    implementation(AndroidX.biometric)
+  implementation(AndroidX.paging)
+  implementation(AndroidX.biometric)
 
-    implementation(AndroidX.webkit)
+  implementation(AndroidX.webkit)
 
-    implementation(Other.button)
+  implementation(Other.button)
 
-    implementation(Other.Coil.coil)
-    implementation(Other.Coil.coilGif)
-    implementation(Other.zxing)
-    implementation(Other.zxingEmbedded)
-    implementation(Other.Epoxy.epoxy)
-    implementation(Other.Epoxy.epoxyPaging)
-    implementation(Other.Exoplayer.exoplayerCore)
-    implementation(Other.Exoplayer.exoplayerUI)
+  implementation(Other.Coil.coil)
+  implementation(Other.Coil.coilGif)
+  implementation(Other.zxing)
+  implementation(Other.zxingEmbedded)
+  implementation(Other.Epoxy.epoxy)
+  implementation(Other.Epoxy.epoxyPaging)
+  implementation(Other.Exoplayer.exoplayerCore)
+  implementation(Other.Exoplayer.exoplayerUI)
 
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+  implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    implementation(Other.SQLDelight.sqlDelight)
-    implementation(Other.SQLDelight.sqlCoroutine)
+  implementation(Other.SQLDelight.sqlDelight)
+  implementation(Other.SQLDelight.sqlCoroutine)
 
-    implementation(Other.UniFlow.uniflowCore)
-    implementation(Other.UniFlow.uniflowAndroid)
+  implementation(Other.UniFlow.uniflowCore)
+  implementation(Other.UniFlow.uniflowAndroid)
 
-    implementation(Other.flexbox)
-    implementation(AndroidX.securityCrypto)
-    kapt(Other.Epoxy.epoxyProcessor)
+  implementation(Other.flexbox)
+  implementation(AndroidX.securityCrypto)
+  kapt(Other.Epoxy.epoxyProcessor)
 
-    testImplementation("junit:junit:4.13.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+  testImplementation("junit:junit:4.13.1")
+  androidTestImplementation("androidx.test.ext:junit:1.1.2")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }

@@ -22,35 +22,35 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class WalletApplication : Application(), ImageLoaderFactory {
-    @KoinExperimentalAPI
-    override fun onCreate() {
-        super.onCreate()
-        AndroidThreeTen.init(this)
-        CrashCollection.handleCrash()
-        UniFlowLogger.init(AndroidMessageLogger(showDebug = BuildConfig.DEBUG))
+  @KoinExperimentalAPI
+  override fun onCreate() {
+    super.onCreate()
+    AndroidThreeTen.init(this)
+    CrashCollection.handleCrash()
+    UniFlowLogger.init(AndroidMessageLogger(showDebug = BuildConfig.DEBUG))
 
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@WalletApplication)
-            fragmentFactory()
-            koin.loadModules(listOf(appModule, scopeModule))
+    startKoin {
+      androidLogger(Level.DEBUG)
+      androidContext(this@WalletApplication)
+      fragmentFactory()
+      koin.loadModules(listOf(appModule, scopeModule))
+    }
+  }
+
+  override fun newImageLoader(): ImageLoader {
+    return ImageLoader.Builder(applicationContext)
+      .crossfade(true)
+      .componentRegistry {
+        if (SDK_INT >= 28) {
+          add(ImageDecoderDecoder(this@WalletApplication))
+        } else {
+          add(GifDecoder())
         }
-    }
-
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(applicationContext)
-            .crossfade(true)
-            .componentRegistry {
-                if (SDK_INT >= 28) {
-                    add(ImageDecoderDecoder(this@WalletApplication))
-                } else {
-                    add(GifDecoder())
-                }
-            }
-            .okHttpClient {
-                OkHttpClient.Builder()
-                    .cache(CoilUtils.createDefaultCache(applicationContext))
-                    .build()
-            }.build()
-    }
+      }
+      .okHttpClient {
+        OkHttpClient.Builder()
+          .cache(CoilUtils.createDefaultCache(applicationContext))
+          .build()
+      }.build()
+  }
 }

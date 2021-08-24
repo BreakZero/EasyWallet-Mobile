@@ -20,54 +20,54 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class CoinListFragment : BaseFragment(R.layout.fragment_coin_list) {
-    private val binding by viewBinding(FragmentCoinListBinding::bind)
-    private val viewModel: CoinListViewModel by viewModel()
+  private val binding by viewBinding(FragmentCoinListBinding::bind)
+  private val viewModel: CoinListViewModel by viewModel()
 
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    private val coinController by lazy {
-        CoinController {
-            viewModel.onChange(it)
-        }
+  private val coinController by lazy {
+    CoinController {
+      viewModel.onChange(it)
+    }
+  }
+
+  @ExperimentalCoroutinesApi
+  override fun setupView() {
+    super.setupView()
+    setTitle("Coin List")
+    inflateMenu(R.menu.menu_done) {
+      viewModel.done()
     }
 
-    @ExperimentalCoroutinesApi
-    override fun setupView() {
-        super.setupView()
-        setTitle("Coin List")
-        inflateMenu(R.menu.menu_done) {
-            viewModel.done()
-        }
+    binding.rvCoinList.setController(coinController)
 
-        binding.rvCoinList.setController(coinController)
-
-        onStates(viewModel) {
-            when (it) {
-                is SupportCoinState -> {
-                    coinController.setData(it.list)
-                }
-                is UIState.Failed -> {
-                    Timber.d("====== ${it.message.orEmpty()}")
-                }
-            }
+    onStates(viewModel) {
+      when (it) {
+        is SupportCoinState -> {
+          coinController.setData(it.list)
         }
+        is UIState.Failed -> {
+          Timber.d("====== ${it.message.orEmpty()}")
+        }
+      }
     }
+  }
 
-    override fun initEvents() {
-        super.initEvents()
-        onEvents(viewModel) {
-            when (it) {
-                is SetCoinUIEvent.UpdateState -> {
-                    Timber.d("====== state updated")
-                }
-                is SetCoinUIEvent.DoneEvent -> {
-                    setFragmentResult(
-                        HomeFragment.SET_RESULT_CODE,
-                        bundleOf(HomeFragment.KEY_SETUP_RESULT to it.result)
-                    )
-                    findNavController().navigateUp()
-                }
-            }
+  override fun initEvents() {
+    super.initEvents()
+    onEvents(viewModel) {
+      when (it) {
+        is SetCoinUIEvent.UpdateState -> {
+          Timber.d("====== state updated")
         }
+        is SetCoinUIEvent.DoneEvent -> {
+          setFragmentResult(
+            HomeFragment.SET_RESULT_CODE,
+            bundleOf(HomeFragment.KEY_SETUP_RESULT to it.result)
+          )
+          findNavController().navigateUp()
+        }
+      }
     }
+  }
 }

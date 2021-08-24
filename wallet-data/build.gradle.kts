@@ -10,7 +10,6 @@ plugins {
     id("com.squareup.sqldelight")
     id("version-plugin")
     id("kotlin-parcelize")
-    id("org.jmailen.kotlinter")
 }
 
 sqldelight {
@@ -20,14 +19,12 @@ sqldelight {
 }
 
 android {
-    compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
+    compileSdk = BuildConfig.compileSdkVersion
+    buildToolsVersion = BuildConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion(BuildConfig.minSdkVersion)
-        targetSdkVersion(BuildConfig.targetSdkVersion)
-        versionCode = BuildConfig.versionCode
-        versionName = BuildConfig.versionName
+        minSdk = BuildConfig.minSdkVersion
+        targetSdk = BuildConfig.targetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
@@ -65,19 +62,6 @@ android {
             buildConfigField("String", "BSCSCAN_APIKEY", bscscanApikey)
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 4
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
 }
 
 dependencies {
@@ -86,7 +70,7 @@ dependencies {
 
     api(project(":framework-core"))
     api(project(":multi-wallet"))
-    api("com.trustwallet:wallet-core:2.6.1")
+    api("com.trustwallet:wallet-core:2.6.19")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.1.0")
 

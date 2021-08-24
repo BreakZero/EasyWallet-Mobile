@@ -3,7 +3,9 @@ package com.easy.wallet.feature.home
 import android.annotation.SuppressLint
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.easy.wallet.data.*
+import com.easy.wallet.data.Asset
+import com.easy.wallet.data.CurrencyInfo
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.ext.downDecimal
 import com.easy.wallet.feature.home.uimodel.AssetListState
 import com.easy.wallet.feature.home.uimodel.AssetListUIEvent
@@ -23,88 +25,88 @@ import org.koin.core.component.KoinComponent
 import java.math.BigDecimal
 
 class HomeViewModel(
-    private val state: SavedStateHandle
+  private val state: SavedStateHandle
 ) : AndroidDataFlow(), KoinComponent {
 
-    companion object {
-        private const val SAVE_KEY_BALANCE = "balance"
+  companion object {
+    private const val SAVE_KEY_BALANCE = "balance"
+  }
+
+  private val _assets = mutableListOf<Asset>()
+
+  private val bChannel = Channel<Asset>()
+
+  init {
+    action {
+      loadBalances()
     }
+  }
 
-    private val _assets = mutableListOf<Asset>()
-
-    private val bChannel = Channel<Asset>()
-
-    init {
-        action {
-            loadBalances()
+  private suspend fun loadBalances() {
+    setState { UIState.Loading }
+    WalletDataSDK.activeAssets()
+      .map {
+        Asset(
+          coinInfo = CurrencyInfo.mapping(it),
+          provider = WalletDataSDK.injectProvider(
+            it.coin_slug,
+            it.coin_symbol,
+            it.coin_decimal
+          )
+        )
+      }.let {
+        _assets.apply {
+          clear()
+          addAll(it)
         }
-    }
+        setState { AssetListState(_assets) }
+        it.forEach { item ->
+          item.provider.getBalance(item.provider.getAddress(false)).map {
+            bChannel.send(
+              item.copy(
+                balance = it.toBigDecimal().downDecimal(item.coinInfo.decimal)
+              )
+            )
+          }.catch {
+            bChannel.send(item.copy(balance = BigDecimal.ZERO))
+          }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
+        }
+        state.set(SAVE_KEY_BALANCE, true)
+        it
+      }
 
-    private suspend fun loadBalances() {
-        setState { UIState.Loading }
-        WalletDataSDK.activeAssets()
-            .map {
-                Asset(
-                    coinInfo = CurrencyInfo.mapping(it),
-                    provider = WalletDataSDK.injectProvider(
-                        it.coin_slug,
-                        it.coin_symbol,
-                        it.coin_decimal
-                    )
-                )
-            }.let {
-                _assets.apply {
-                    clear()
-                    addAll(it)
-                }
-                setState { AssetListState(_assets) }
-                it.forEach { item ->
-                    item.provider.getBalance(item.provider.getAddress(false)).map {
-                        bChannel.send(
-                            item.copy(
-                                balance = it.toBigDecimal().downDecimal(item.coinInfo.decimal)
-                            )
-                        )
-                    }.catch {
-                        bChannel.send(item.copy(balance = BigDecimal.ZERO))
-                    }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
-                }
-                state.set(SAVE_KEY_BALANCE, true)
-                it
+    viewModelScope.launch {
+      while (isActive && !bChannel.isClosedForReceive) {
+        select<Unit> {
+          bChannel.onReceiveCatching {
+            updateItem(it.getOrNull())
+            action {
+              setState { AssetListState(_assets) }
             }
-
-        viewModelScope.launch {
-            while (isActive && !bChannel.isClosedForReceive) {
-                select<Unit> {
-                    bChannel.onReceiveCatching {
-                        updateItem(it.getOrNull())
-                        action {
-                            setState { AssetListState(_assets) }
-                        }
-                    }
-                }
-            }
+          }
         }
+      }
     }
+  }
 
-    fun refresh() = actionOn<AssetListState>(
-        onAction = {
-            sendEvent(AssetListUIEvent.RefreshEvent)
-            loadBalances()
-        }
-    )
-
-    private fun updateItem(asset: Asset?) {
-        asset?.also {
-            _assets.indexOfFirst { asset.coinInfo == it.coinInfo }.let {
-                if (it >= 0) _assets[it] = asset
-            }
-        }
+  fun refresh() = actionOn<AssetListState>(
+    onAction = {
+      sendEvent(AssetListUIEvent.RefreshEvent)
+      loadBalances()
     }
+  )
 
-    @SuppressLint("MissingSuperCall")
-    override fun onCleared() {
-        bChannel.close()
-        super.onCleared()
+  private fun updateItem(asset: Asset?) {
+    asset?.also {
+      _assets.indexOfFirst { asset.coinInfo == it.coinInfo }.let {
+        if (it >= 0) _assets[it] = asset
+      }
     }
+  }
+
+  @SuppressLint("MissingSuperCall")
+  override fun onCleared() {
+    bChannel.close()
+    super.onCleared()
+  }
 }

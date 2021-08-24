@@ -7,27 +7,27 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 
 internal object SolanaClient {
-    private const val BASE_URL = "https://api.testnet.solana.com"
-    private const val TAG = "Solana Tag"
-    private val builder: OkHttpClient.Builder = OkHttpClient.Builder().apply {
-        addInterceptor(
-            HttpLoggingInterceptor(
-                object : HttpLoggingInterceptor.Logger {
-                    override fun log(message: String) {
-                        Timber.tag(TAG).d(message)
-                    }
-                }
-            ).apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-        )
-    }
+  private const val BASE_URL = "https://api.testnet.solana.com"
+  private const val TAG = "Solana Tag"
+  private val builder: OkHttpClient.Builder = OkHttpClient.Builder().apply {
+    addInterceptor(
+      HttpLoggingInterceptor(
+        object : HttpLoggingInterceptor.Logger {
+          override fun log(message: String) {
+            Timber.tag(TAG).d(message)
+          }
+        }
+      ).apply {
+        level = HttpLoggingInterceptor.Level.BODY
+      }
+    )
+  }
 
-    fun client(): Retrofit {
-        return Retrofit.Builder()
-            .client(builder.build())
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-    }
+  fun client(): Retrofit {
+    return Retrofit.Builder()
+      .client(builder.build())
+      .baseUrl(BASE_URL)
+      .addConverterFactory(MoshiConverterFactory.create())
+      .build()
+  }
 }

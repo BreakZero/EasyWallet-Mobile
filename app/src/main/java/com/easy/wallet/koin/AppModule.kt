@@ -34,6 +34,7 @@ import com.easy.wallet.feature.settings.chain.SetChainViewModel
 import com.easy.wallet.feature.sharing.BrowserFragment
 import com.easy.wallet.feature.sharing.QRCodeFragment
 import com.easy.wallet.feature.sharing.ScannerFragment
+import com.easy.wallet.feature.sharing.dapp.DAppBrowserFragment
 import com.easy.wallet.feature.start.StartActivity
 import com.easy.wallet.feature.start.StartViewModel
 import com.easy.wallet.feature.start.restore.ImportWalletFragment
@@ -52,131 +53,133 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    single {
-        BasicStore(androidApplication())
-    }
-    single {
-        val builder = KeyGenParameterSpec.Builder(
-            MasterKey.DEFAULT_MASTER_KEY_ALIAS,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-        ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .setKeySize(MasterKey.DEFAULT_AES_GCM_MASTER_KEY_SIZE)
+  single {
+    BasicStore(androidApplication())
+  }
+  single {
+    val builder = KeyGenParameterSpec.Builder(
+      MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+      KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+    ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+      .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+      .setKeySize(MasterKey.DEFAULT_AES_GCM_MASTER_KEY_SIZE)
 
-        val masterKeyAlias = MasterKey.Builder(androidContext())
-            .setKeyGenParameterSpec(builder.build())
-            .build()
+    val masterKeyAlias = MasterKey.Builder(androidContext())
+      .setKeyGenParameterSpec(builder.build())
+      .build()
 
-        EncryptedSharedPreferences.create(
-            androidContext(),
-            "wallet_crypto_file",
-            masterKeyAlias,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-    }
+    EncryptedSharedPreferences.create(
+      androidContext(),
+      "wallet_crypto_file",
+      masterKeyAlias,
+      EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+      EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+  }
 
-    factory { (currency: CurrencyInfo) ->
-        WalletDataSDK.injectProvider(
-            currency.slug,
-            currency.symbol,
-            currency.decimal
-        )
-    } bind IProvider::class
+  factory { (currency: CurrencyInfo) ->
+    WalletDataSDK.injectProvider(
+      currency.slug,
+      currency.symbol,
+      currency.decimal
+    )
+  } bind IProvider::class
 }
 
 val scopeModule = module {
-    scope<MainActivity> {
-        viewModel { MainViewModel() }
-    }
+  scope<MainActivity> {
+    viewModel { MainViewModel() }
+  }
 
-    scope<StartActivity> {
-        viewModel { StartViewModel() }
-    }
+  scope<StartActivity> {
+    viewModel { StartViewModel() }
+  }
 
-    scope<HomeFragment> {
-        viewModel { HomeViewModel(get()) }
-    }
+  scope<HomeFragment> {
+    viewModel { HomeViewModel(get()) }
+  }
 
-    scope<TransactionsFragment> {
-        viewModel { (asset: CurrencyInfo) ->
-            TransactionsViewModel(
-                WalletDataSDK.injectProvider(
-                    asset.slug,
-                    asset.symbol,
-                    asset.decimal
-                )
-            )
-        }
+  scope<TransactionsFragment> {
+    viewModel { (asset: CurrencyInfo) ->
+      TransactionsViewModel(
+        WalletDataSDK.injectProvider(
+          asset.slug,
+          asset.symbol,
+          asset.decimal
+        )
+      )
     }
+  }
 
-    scope<TransactionDetailFragment> {
-        viewModel {
-            TransactionDetailViewModel()
-        }
+  scope<TransactionDetailFragment> {
+    viewModel {
+      TransactionDetailViewModel()
     }
+  }
 
-    scope<CoinListFragment> {
-        viewModel {
-            CoinListViewModel()
-        }
+  scope<CoinListFragment> {
+    viewModel {
+      CoinListViewModel()
     }
+  }
 
-    scope<SendFragment> {
-        viewModel { (state: SavedStateHandle, currencyInfo: CurrencyInfo) ->
-            SendViewModel(
-                state = state,
-                currencyInfo = currencyInfo
-            )
-        }
+  scope<SendFragment> {
+    viewModel { (state: SavedStateHandle, currencyInfo: CurrencyInfo) ->
+      SendViewModel(
+        state = state,
+        currencyInfo = currencyInfo
+      )
     }
+  }
 
-    scope<ImportWalletFragment> {
-        viewModel { ImportWalletViewModel() }
-    }
+  scope<ImportWalletFragment> {
+    viewModel { ImportWalletViewModel() }
+  }
 
-    scope<SettingsFragment> {
-        viewModel { SettingsViewModel() }
-    }
-    scope<SetChainFragment> {
-        viewModel { SetChainViewModel() }
-    }
+  scope<SettingsFragment> {
+    viewModel { SettingsViewModel() }
+  }
+  scope<SetChainFragment> {
+    viewModel { SetChainViewModel() }
+  }
 
-    scope<ScannerFragment> {
-    }
+  scope<ScannerFragment> {
+  }
 
-    scope<QRCodeFragment> {
-    }
+  scope<QRCodeFragment> {
+  }
 
-    scope<TestDefiFragment> {
-        viewModel {
-            TestDefiViewModel()
-        }
+  scope<TestDefiFragment> {
+    viewModel {
+      TestDefiViewModel()
     }
-    scope<BrowserFragment> {
+  }
+  scope<BrowserFragment> {
+  }
+  scope<DAppBrowserFragment> {
+  }
+  scope<SplashFragment> {
+    viewModel { SplashViewModel() }
+  }
+  scope<TxPreviewFragment> {
+    viewModel { (currencyInfo: CurrencyInfo) ->
+      TxPreviewViewModel(currencyInfo)
     }
-    scope<SplashFragment> {
-        viewModel { SplashViewModel() }
-    }
-    scope<TxPreviewFragment> {
-        viewModel { (currencyInfo: CurrencyInfo) ->
-            TxPreviewViewModel(currencyInfo)
-        }
-    }
+  }
 
-    scope<NFTCollectionsFragment> {
-        viewModel {
-            NFTCollectionsViewModel()
-        }
+  scope<NFTCollectionsFragment> {
+    viewModel {
+      NFTCollectionsViewModel()
     }
-    scope<NFTAssetsFragment> {
-        viewModel {
-            NFTAssetsViewModel()
-        }
+  }
+  scope<NFTAssetsFragment> {
+    viewModel {
+      NFTAssetsViewModel()
     }
-    scope<NFTAssetFragment> {
-        viewModel {
-            NFTAssetViewModel()
-        }
+  }
+  scope<NFTAssetFragment> {
+    viewModel {
+      NFTAssetViewModel()
     }
+  }
 }

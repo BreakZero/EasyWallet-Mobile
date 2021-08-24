@@ -7,10 +7,10 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 class NFTCollectionDataModel(
-    val slug: String,
-    val name: String,
-    val contractAddress: String,
-    val imageUrl: String,
-    val description: String,
-    val ownedAssetCount: Int
+  val slug: String,
+  val name: String,
+  val contractAddress: String,
+  val imageUrl: String,
+  val description: String,
+  val ownedAssetCount: Int
 ) : Parcelable

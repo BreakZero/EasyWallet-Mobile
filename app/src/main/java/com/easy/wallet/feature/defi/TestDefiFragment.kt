@@ -15,29 +15,29 @@ import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TestDefiFragment : BaseFragment(R.layout.fragment_defi_index) {
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    private val viewModel by viewModel<TestDefiViewModel>()
+  private val viewModel by viewModel<TestDefiViewModel>()
 
-    private val binding by viewBinding(FragmentDefiIndexBinding::bind)
+  private val binding by viewBinding(FragmentDefiIndexBinding::bind)
 
-    override fun setupView() {
-        super.setupView()
-        updateStatusBarColor(ActivityCompat.getColor(requireContext(), R.color.md_white_1000))
+  override fun setupView() {
+    super.setupView()
+    updateStatusBarColor(ActivityCompat.getColor(requireContext(), R.color.md_white_1000))
 
-        binding.ivNFTAssetImage.load("https://lh3.googleusercontent.com/0sIks4cV4hPPXAyA0KFkT32osPX4uQJmifFkIDDGvEkYtdp_R9EaUiJ0SL-HJK-57wW4tPjt7689nMVn_EoV-KNwcCP2RDSbVeDLNw")
+    binding.ivNFTAssetImage.load("https://lh3.googleusercontent.com/0sIks4cV4hPPXAyA0KFkT32osPX4uQJmifFkIDDGvEkYtdp_R9EaUiJ0SL-HJK-57wW4tPjt7689nMVn_EoV-KNwcCP2RDSbVeDLNw")
 
-        binding.buttonGen.onSingleClick(lifecycleScope) {
-            binding.ivPreview.setImageBitmap(createBitmap(binding.assetCardView))
-        }
+    binding.buttonGen.onSingleClick(lifecycleScope) {
+      binding.ivPreview.setImageBitmap(createBitmap(binding.assetCardView))
     }
+  }
 
-    private fun createBitmap(view: View): Bitmap {
-        val width = view.width
-        val height = view.height
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-        return bitmap
-    }
+  private fun createBitmap(view: View): Bitmap {
+    val width = view.width
+    val height = view.height
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
+  }
 }

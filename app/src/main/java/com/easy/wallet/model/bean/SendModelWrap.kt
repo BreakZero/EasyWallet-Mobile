@@ -8,17 +8,17 @@ import java.math.BigInteger
 
 @Parcelize
 data class SendModelWrap(
-    val gasLimit: BigInteger,
-    val gas: BigDecimal,
-    val to: String,
-    val from: String,
-    val amount: BigDecimal,
-    val symbol: String,
-    val feeDecimals: Int,
-    val memo: String,
-    val rawData: String
+  val gasLimit: BigInteger,
+  val gas: BigDecimal,
+  val to: String,
+  val from: String,
+  val amount: BigDecimal,
+  val symbol: String,
+  val feeDecimals: Int,
+  val memo: String,
+  val rawData: String
 ) : Parcelable {
-    fun feeWithSymbol(): String {
-        return "${gasLimit.toBigDecimal().times(gas).movePointLeft(feeDecimals).strByDecimal()} $symbol"
-    }
+  fun feeWithSymbol(): String {
+    return "${gasLimit.toBigDecimal().times(gas).movePointLeft(feeDecimals).strByDecimal()} $symbol"
+  }
 }

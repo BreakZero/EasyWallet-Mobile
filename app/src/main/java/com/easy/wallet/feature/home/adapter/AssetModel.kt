@@ -18,41 +18,41 @@ import kotlinx.coroutines.cancel
 @SuppressLint("NonConstantResourceId")
 @EpoxyModelClass(layout = R.layout.rv_item_home_asset)
 abstract class AssetModel : EpoxyModelWithHolder<Holder>() {
-    @EpoxyAttribute
-    lateinit var assetData: Asset
+  @EpoxyAttribute
+  lateinit var assetData: Asset
 
-    @EpoxyAttribute
-    lateinit var onItemClick: () -> Unit
+  @EpoxyAttribute
+  lateinit var onItemClick: () -> Unit
 
-    @EpoxyAttribute
-    lateinit var onReceive: (String) -> Unit
+  @EpoxyAttribute
+  lateinit var onReceive: (String) -> Unit
 
-    private val scope = MainScope()
+  private val scope = MainScope()
 
-    override fun bind(holder: Holder) {
-        holder.assetCard.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(assetData.coinInfo.accentColor)))
-        holder.assetCard.onSingleClick(scope) {
-            onItemClick.invoke()
-        }
-        holder.tvAddress.text = assetData.provider.getAddress(false)
-        holder.tvCoinName.text = assetData.coinInfo.name
-        holder.tvBalance.text = assetData.balance?.let {
-            "${it.toPlainString()} ${assetData.coinInfo.symbol}"
-        } ?: "loading"
-        holder.tvAddress.onSingleClick(scope) {
-            onReceive.invoke(assetData.provider.getAddress(false))
-        }
+  override fun bind(holder: Holder) {
+    holder.assetCard.setCardBackgroundColor(ColorStateList.valueOf(Color.parseColor(assetData.coinInfo.accentColor)))
+    holder.assetCard.onSingleClick(scope) {
+      onItemClick.invoke()
     }
-
-    override fun unbind(holder: Holder) {
-        scope.cancel()
-        super.unbind(holder)
+    holder.tvAddress.text = assetData.provider.getAddress(false)
+    holder.tvCoinName.text = assetData.coinInfo.name
+    holder.tvBalance.text = assetData.balance?.let {
+      "${it.toPlainString()} ${assetData.coinInfo.symbol}"
+    } ?: "loading"
+    holder.tvAddress.onSingleClick(scope) {
+      onReceive.invoke(assetData.provider.getAddress(false))
     }
+  }
+
+  override fun unbind(holder: Holder) {
+    scope.cancel()
+    super.unbind(holder)
+  }
 }
 
 class Holder : KotlinEpoxyHolder() {
-    val assetCard by bind<MaterialCardView>(R.id.assetCard)
-    val tvCoinName by bind<MaterialTextView>(R.id.tvCoinName)
-    val tvAddress by bind<MaterialTextView>(R.id.tvAddress)
-    val tvBalance by bind<MaterialTextView>(R.id.tvBalance)
+  val assetCard by bind<MaterialCardView>(R.id.assetCard)
+  val tvCoinName by bind<MaterialTextView>(R.id.tvCoinName)
+  val tvAddress by bind<MaterialTextView>(R.id.tvAddress)
+  val tvBalance by bind<MaterialTextView>(R.id.tvBalance)
 }

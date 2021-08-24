@@ -9,26 +9,26 @@ import io.uniflow.core.flow.data.UIEvent
 import io.uniflow.core.flow.data.UIState
 
 class TxPreviewViewModel(
-    currencyInfo: CurrencyInfo
+  currencyInfo: CurrencyInfo
 ) : AndroidDataFlow() {
-    private val coinProvider =
-        WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
+  private val coinProvider =
+    WalletDataSDK.injectProvider(currencyInfo.slug, currencyInfo.symbol, currencyInfo.decimal)
 
-    fun broadcastTransaction(rawData: String) = action {
-        sendEvent(UIEvent.Loading)
-        val flow = coinProvider.broadcastTransaction(rawData)
-        onFlow(
-            flow = { flow },
-            doAction = {
-                setState { UIState.Success }
-            },
-            onError = { error, _ ->
-                setState { UIState.Failed(error = error) }
-            }
-        )
-    }
+  fun broadcastTransaction(rawData: String) = action {
+    sendEvent(UIEvent.Loading)
+    val flow = coinProvider.broadcastTransaction(rawData)
+    onFlow(
+      flow = { flow },
+      doAction = {
+        setState { UIState.Success }
+      },
+      onError = { error, _ ->
+        setState { UIState.Failed(error = error) }
+      }
+    )
+  }
 
-    fun actionBroadcast() = action {
-        sendEvent(SendPreviewEvent.EventBroadcast)
-    }
+  fun actionBroadcast() = action {
+    sendEvent(SendPreviewEvent.EventBroadcast)
+  }
 }

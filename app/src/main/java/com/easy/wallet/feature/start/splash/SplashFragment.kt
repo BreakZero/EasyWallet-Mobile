@@ -11,31 +11,31 @@ import io.uniflow.core.flow.data.UIState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
-    private val viewModel by viewModel<SplashViewModel>()
+  private val viewModel by viewModel<SplashViewModel>()
 
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    override fun setupView() {
-        super.setupView()
+  override fun setupView() {
+    super.setupView()
 
-        onStates(viewModel) {
-            when (it) {
-                is UIState.Success -> {
-                    toMainScreen()
-                }
-                is UIState.Failed -> {
-                    toImport()
-                }
-            }
+    onStates(viewModel) {
+      when (it) {
+        is UIState.Success -> {
+          toMainScreen()
         }
+        is UIState.Failed -> {
+          toImport()
+        }
+      }
     }
+  }
 
-    private fun toImport() {
-        start(R.id.action_import)
-    }
+  private fun toImport() {
+    start(R.id.action_import)
+  }
 
-    private fun toMainScreen() {
-        startActivity(Intent(requireActivity(), MainActivity::class.java))
-        requireActivity().finish()
-    }
+  private fun toMainScreen() {
+    startActivity(Intent(requireActivity(), MainActivity::class.java))
+    requireActivity().finish()
+  }
 }

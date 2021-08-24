@@ -1,7 +1,6 @@
 import com.easy.version.BuildConfig
 import com.easy.version.dependencies.Other
 import com.easy.version.dependencies.Special
-import com.easy.version.keyStoreProperties
 
 plugins {
     id("com.android.library")
@@ -10,7 +9,6 @@ plugins {
     id("com.squareup.sqldelight")
     id("version-plugin")
     id("kotlin-parcelize")
-    id("org.jmailen.kotlinter")
 }
 
 sqldelight {
@@ -20,14 +18,12 @@ sqldelight {
 }
 
 android {
-    compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
+    compileSdk = BuildConfig.compileSdkVersion
+    buildToolsVersion = BuildConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion(BuildConfig.minSdkVersion)
-        targetSdkVersion(BuildConfig.targetSdkVersion)
-        versionCode = BuildConfig.versionCode
-        versionName = BuildConfig.versionName
+        minSdk = BuildConfig.minSdkVersion
+        targetSdk = BuildConfig.targetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("consumer-rules.pro")
@@ -48,19 +44,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
-}
-
-kotlinter {
-    ignoreFailures = false
-    indentSize = 4
-    reporters = arrayOf("checkstyle", "plain")
-    experimentalRules = false
-    disabledRules = arrayOf("no-wildcard-imports")
 }
 
 dependencies {

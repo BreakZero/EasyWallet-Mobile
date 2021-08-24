@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="TextAppearance.Wallet.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline5" >
+    <style name="TextAppearance.Wallet.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 </resources>

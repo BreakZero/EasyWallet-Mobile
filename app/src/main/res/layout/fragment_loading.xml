@@ -6,8 +6,8 @@
 
     <androidx.core.widget.ContentLoadingProgressBar
         style="?android:attr/progressBarStyleInverse"
-        android:padding="@dimen/spacing_32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:padding="@dimen/spacing_32" />
 </FrameLayout>

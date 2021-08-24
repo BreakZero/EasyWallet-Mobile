@@ -8,7 +8,7 @@ import com.easy.wallet.R
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LoadMoreFooter(context: Context) : FrameLayout(context) {
-    init {
-        View.inflate(context, R.layout.loading_footer, this)
-    }
+  init {
+    View.inflate(context, R.layout.loading_footer, this)
+  }
 }

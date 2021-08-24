@@ -8,15 +8,15 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 internal interface EthRpcCall {
-    @POST("{apikey}")
-    suspend fun tokenBalanceOf(
-        @Path("apikey") apikey: String,
-        @Body body: BaseRPCReq<Any>
-    ): BaseRPCResp<String>
+  @POST("{apikey}")
+  suspend fun tokenBalanceOf(
+    @Path("apikey") apikey: String,
+    @Body body: BaseRPCReq<Any>
+  ): BaseRPCResp<String>
 
-    @POST("{apikey}")
-    suspend fun ethBalance(
-        @Path("apikey") apikey: String,
-        @Body body: RequestBody
-    ): BaseRPCResp<String>
+  @POST("{apikey}")
+  suspend fun ethBalance(
+    @Path("apikey") apikey: String,
+    @Body body: RequestBody
+  ): BaseRPCResp<String>
 }

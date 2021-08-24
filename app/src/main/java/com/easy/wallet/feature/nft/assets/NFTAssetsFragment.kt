@@ -15,50 +15,50 @@ import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NFTAssetsFragment : BaseFragment(R.layout.fragment_nft_asset_list) {
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    private val args: NFTAssetsFragmentArgs by navArgs()
+  private val args: NFTAssetsFragmentArgs by navArgs()
 
-    private val viewModel by viewModel<NFTAssetsViewModel>()
+  private val viewModel by viewModel<NFTAssetsViewModel>()
 
-    private val binding by viewBinding(FragmentNftAssetListBinding::bind)
-    private val listController by lazy {
-        NFTAssetsController {
-            val actionToAsset =
-                NFTAssetsFragmentDirections.actionToAssetDetail(
-                    NFTAssetParameter(
-                        contractAddress = it.contractAddress,
-                        tokenId = it.tokenId,
-                        permalink = it.permalink
-                    )
-                )
-            start(actionToAsset)
-        }.apply {
-            spanCount = 2
-        }
+  private val binding by viewBinding(FragmentNftAssetListBinding::bind)
+  private val listController by lazy {
+    NFTAssetsController {
+      val actionToAsset =
+        NFTAssetsFragmentDirections.actionToAssetDetail(
+          NFTAssetParameter(
+            contractAddress = it.contractAddress,
+            tokenId = it.tokenId,
+            permalink = it.permalink
+          )
+        )
+      start(actionToAsset)
+    }.apply {
+      spanCount = 2
+    }
+  }
+
+  override fun setupView() {
+    super.setupView()
+    setTitle(String.format(getString(R.string.text_nft_collection), args.collectionInfo.name))
+
+    val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
+      spanSizeLookup = listController.spanSizeLookup
+    }
+    binding.gridAssets.layoutManager = gridLayoutManager
+
+    binding.gridAssets.setController(listController)
+    binding.nftAssetSwipeRefreshLayout.setOnRefreshListener {
+      viewModel.loadAssets(args.collectionInfo)
     }
 
-    override fun setupView() {
-        super.setupView()
-        setTitle(String.format(getString(R.string.text_nft_collection), args.collectionInfo.name))
-
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
-            spanSizeLookup = listController.spanSizeLookup
-        }
-        binding.gridAssets.layoutManager = gridLayoutManager
-
-        binding.gridAssets.setController(listController)
-        binding.nftAssetSwipeRefreshLayout.setOnRefreshListener {
-            viewModel.loadAssets(args.collectionInfo)
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.loadAssets(args.collectionInfo)
-            binding.nftAssetSwipeRefreshLayout.isRefreshing = true
-            viewModel.assets().collect {
-                binding.nftAssetSwipeRefreshLayout.isRefreshing = it.isEmpty()
-                listController.setData(it)
-            }
-        }
+    lifecycleScope.launchWhenStarted {
+      viewModel.loadAssets(args.collectionInfo)
+      binding.nftAssetSwipeRefreshLayout.isRefreshing = true
+      viewModel.assets().collect {
+        binding.nftAssetSwipeRefreshLayout.isRefreshing = it.isEmpty()
+        listController.setData(it)
+      }
     }
+  }
 }

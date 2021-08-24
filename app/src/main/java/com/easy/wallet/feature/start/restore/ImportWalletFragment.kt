@@ -21,65 +21,65 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.getKoin
 
 class ImportWalletFragment : BaseFragment(R.layout.fragment_start_import) {
-    private val binding by viewBinding(FragmentStartImportBinding::bind)
-    private val viewModel: ImportWalletViewModel by viewModel()
+  private val binding by viewBinding(FragmentStartImportBinding::bind)
+  private val viewModel: ImportWalletViewModel by viewModel()
 
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getKoin().logger.debug("Open Fragment Scope: $scope")
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    getKoin().logger.debug("Open Fragment Scope: $scope")
+  }
+
+  @ExperimentalStdlibApi
+  override fun setupView() {
+    super.setupView()
+
+    setTitle("Import Wallet")
+    binding.edtImportWord.doAfterTextChanged {
+      it?.let { editable ->
+        if (it.endsWith(" ", true)
+          and editable.isNotBlank()
+        ) {
+          addNewChip(editable.trim().toString(), binding.flexBox)
+          editable.clear()
+        }
+      }
+    }
+    binding.edtImportWord.setOnKeyListener { _, keyCode, event ->
+      if ((keyCode == KeyEvent.KEYCODE_DEL)
+        and (event.action == KeyEvent.ACTION_UP)
+        and (binding.flexBox.childCount >= 2)
+      ) {
+        viewModel.deleteLast()
+        binding.flexBox.removeViewAt(binding.flexBox.childCount - 2)
+      }
+      false
     }
 
-    @ExperimentalStdlibApi
-    override fun setupView() {
-        super.setupView()
-
-        setTitle("Import Wallet")
-        binding.edtImportWord.doAfterTextChanged {
-            it?.let { editable ->
-                if (it.endsWith(" ", true)
-                    and editable.isNotBlank()
-                ) {
-                    addNewChip(editable.trim().toString(), binding.flexBox)
-                    editable.clear()
-                }
-            }
-        }
-        binding.edtImportWord.setOnKeyListener { _, keyCode, event ->
-            if ((keyCode == KeyEvent.KEYCODE_DEL)
-                and (event.action == KeyEvent.ACTION_UP)
-                and (binding.flexBox.childCount >= 2)
-            ) {
-                viewModel.deleteLast()
-                binding.flexBox.removeViewAt(binding.flexBox.childCount - 2)
-            }
-            false
-        }
-
-        binding.btnDone.setOnClickListener {
-            viewModel.done()
-        }
-        binding.edtImportWord.requestFocus()
-
-        onStates(viewModel) {
-            when (it) {
-                is UIState.Success -> {
-                    startActivity(Intent(requireActivity(), MainActivity::class.java))
-                    requireActivity().finish()
-                }
-                is UIState.Failed -> {
-                    Snackbar.make(binding.btnDone, "please try again", LENGTH_SHORT).show()
-                }
-            }
-        }
+    binding.btnDone.setOnClickListener {
+      viewModel.done()
     }
+    binding.edtImportWord.requestFocus()
 
-    private fun addNewChip(content: String, parent: FlexboxLayout) {
-        val chip = Chip(requireContext()).apply {
-            text = content
+    onStates(viewModel) {
+      when (it) {
+        is UIState.Success -> {
+          startActivity(Intent(requireActivity(), MainActivity::class.java))
+          requireActivity().finish()
         }
-        viewModel.addWord(content)
-        parent.addView(chip as View, parent.childCount - 1)
+        is UIState.Failed -> {
+          Snackbar.make(binding.btnDone, "please try again", LENGTH_SHORT).show()
+        }
+      }
     }
+  }
+
+  private fun addNewChip(content: String, parent: FlexboxLayout) {
+    val chip = Chip(requireContext()).apply {
+      text = content
+    }
+    viewModel.addWord(content)
+    parent.addView(chip as View, parent.childCount - 1)
+  }
 }

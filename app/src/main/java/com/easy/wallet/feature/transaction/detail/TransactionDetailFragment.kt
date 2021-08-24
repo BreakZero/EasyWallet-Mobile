@@ -13,28 +13,28 @@ import com.easy.wallet.ext.downDecimal
 import com.google.android.material.appbar.MaterialToolbar
 
 class TransactionDetailFragment : BaseFragment(R.layout.fragment_transaction_detail) {
-    override fun ownerToolbar(): MaterialToolbar? = null
+  override fun ownerToolbar(): MaterialToolbar? = null
 
-    private val binding by viewBinding(FragmentTransactionDetailBinding::bind)
-    private val args: TransactionDetailFragmentArgs by navArgs()
+  private val binding by viewBinding(FragmentTransactionDetailBinding::bind)
+  private val args: TransactionDetailFragmentArgs by navArgs()
 
-    @SuppressLint("SetTextI18n")
-    override fun setupView() {
-        super.setupView()
-        with(args.txModel) {
-            binding.tvTxDetailStatus.text = status.toString()
-            binding.tvTxDetailTime.text = time
-            binding.valueAmount.text = "${amount.downDecimal(decimal, 8).toPlainString()} $symbol"
-            binding.valueHash.text = txHash
-            binding.valueToAddress.text = recipient
-            binding.valueFromAddress.text = sender
-            binding.valueFee.text = fee
-        }
+  @SuppressLint("SetTextI18n")
+  override fun setupView() {
+    super.setupView()
+    with(args.txModel) {
+      binding.tvTxDetailStatus.text = status.toString()
+      binding.tvTxDetailTime.text = time
+      binding.valueAmount.text = "${amount.downDecimal(decimal, 8).toPlainString()} $symbol"
+      binding.valueHash.text = txHash
+      binding.valueToAddress.text = recipient
+      binding.valueFromAddress.text = sender
+      binding.valueFee.text = fee
     }
+  }
 
-    override fun initEvents() {
-        binding.tvSeeMore.onSingleClick(lifecycleScope) {
-            Toast.makeText(requireContext(), args.txModel.toString(), Toast.LENGTH_SHORT).show()
-        }
+  override fun initEvents() {
+    binding.tvSeeMore.onSingleClick(lifecycleScope) {
+      Toast.makeText(requireContext(), args.txModel.toString(), Toast.LENGTH_SHORT).show()
     }
+  }
 }

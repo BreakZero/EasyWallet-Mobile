@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class NFTAssetParameter(
-    val contractAddress: String,
-    val tokenId: String,
-    val permalink: String
+  val contractAddress: String,
+  val tokenId: String,
+  val permalink: String
 ) : Parcelable

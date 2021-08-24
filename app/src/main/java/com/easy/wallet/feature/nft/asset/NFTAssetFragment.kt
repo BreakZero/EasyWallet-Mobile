@@ -18,66 +18,66 @@ import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NFTAssetFragment : BaseFragment(R.layout.fragment_nft_asset) {
-    private val args: NFTAssetFragmentArgs by navArgs()
-    private val viewModel by viewModel<NFTAssetViewModel>()
-    private val binding by viewBinding(FragmentNftAssetBinding::bind)
+  private val args: NFTAssetFragmentArgs by navArgs()
+  private val viewModel by viewModel<NFTAssetViewModel>()
+  private val binding by viewBinding(FragmentNftAssetBinding::bind)
 
-    private var player: SimpleExoPlayer? = null
+  private var player: SimpleExoPlayer? = null
 
-    override fun ownerToolbar(): MaterialToolbar = binding.toolbar
+  override fun ownerToolbar(): MaterialToolbar = binding.toolbar
 
-    override fun setupView() {
-        super.setupView()
-        setTitle(getString(R.string.text_nft))
-        inflateMenu(R.menu.menu_nft_detail) {
-            viewModel.send()
-            createShareIntent()
+  override fun setupView() {
+    super.setupView()
+    setTitle(getString(R.string.text_nft))
+    inflateMenu(R.menu.menu_nft_detail) {
+      viewModel.send()
+      createShareIntent()
+    }
+    updateStatusBarColor(ActivityCompat.getColor(requireContext(), R.color.zxing_transparent))
+
+    lifecycleScope.launchWhenStarted {
+      viewModel.loadAssetDetail(args.nftAssetParam)
+      viewModel.asset().collect {
+        binding.ivNFTAssetImage.load(it.imagePreviewUrl)
+        binding.tvAssetDescription.text = it.description.orEmpty()
+        binding.tvNFTAssetName.text = it.name
+
+        it.animationUrl?.let {
+          player?.setMediaItem(MediaItem.fromUri(it))
+          player?.prepare()
         }
-        updateStatusBarColor(ActivityCompat.getColor(requireContext(), R.color.zxing_transparent))
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.loadAssetDetail(args.nftAssetParam)
-            viewModel.asset().collect {
-                binding.ivNFTAssetImage.load(it.imagePreviewUrl)
-                binding.tvAssetDescription.text = it.description.orEmpty()
-                binding.tvNFTAssetName.text = it.name
-
-                it.animationUrl?.let {
-                    player?.setMediaItem(MediaItem.fromUri(it))
-                    player?.prepare()
-                }
-            }
-        }
-        initializePlayer()
+      }
     }
+    initializePlayer()
+  }
 
-    private fun initializePlayer() {
-        val mediaSourceFactory = DefaultMediaSourceFactory(requireContext())
-            .setAdViewProvider(binding.videoPreview)
-        player = SimpleExoPlayer.Builder(requireContext())
-            .setMediaSourceFactory(mediaSourceFactory)
-            .build()
-        binding.videoPreview.player = player
-    }
+  private fun initializePlayer() {
+    val mediaSourceFactory = DefaultMediaSourceFactory(requireContext())
+      .setAdViewProvider(binding.videoPreview)
+    player = SimpleExoPlayer.Builder(requireContext())
+      .setMediaSourceFactory(mediaSourceFactory)
+      .build()
+    binding.videoPreview.player = player
+  }
 
-    override fun onStart() {
-        super.onStart()
-        binding.videoPreview.onResume()
-    }
+  override fun onStart() {
+    super.onStart()
+    binding.videoPreview.onResume()
+  }
 
-    override fun onPause() {
-        binding.videoPreview.onPause()
-        player?.release()
-        super.onPause()
-    }
+  override fun onPause() {
+    binding.videoPreview.onPause()
+    player?.release()
+    super.onPause()
+  }
 
-    private fun createShareIntent() {
-        val shareText = args.nftAssetParam.permalink
-        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
-            .setText(shareText)
-            .setType("text/plain")
-            .createChooserIntent()
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        startActivity(shareIntent)
-    }
+  private fun createShareIntent() {
+    val shareText = args.nftAssetParam.permalink
+    val shareIntent = ShareCompat.IntentBuilder(requireActivity())
+      .setText(shareText)
+      .setType("text/plain")
+      .createChooserIntent()
+      .addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+    startActivity(shareIntent)
+  }
 }

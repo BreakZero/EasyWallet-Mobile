@@ -34,7 +34,7 @@ class DefiMainFragment : BaseFragment(R.layout.fragment_defi_index) {
 
   override fun setupView() {
     super.setupView()
-    updateStatusBarColor(ActivityCompat.getColor(requireContext(), R.color.md_white_1000))
+    setTitle(getString(R.string.defi))
     binding.defiList.setController(dappController)
   }
 

@@ -22,7 +22,7 @@ object Other {
   const val sqlcipher = "net.zetetic:android-database-sqlcipher:4.4.3"
 
   object Coil {
-    private const val coil_version = "1.2.0"
+    private const val coil_version = "1.3.2"
     const val coil = "io.coil-kt:coil:$coil_version"
     const val coilGif = "io.coil-kt:coil-gif:$coil_version"
   }

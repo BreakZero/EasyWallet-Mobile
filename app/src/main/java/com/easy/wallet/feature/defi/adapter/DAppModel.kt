@@ -24,7 +24,9 @@ abstract class DAppModel : EpoxyModelWithHolder<Holder>() {
   lateinit var toDApp: (link: String) -> Unit
 
   override fun bind(holder: Holder) {
-    holder.icon.load(dAppInfo.icon)
+    holder.icon.load(dAppInfo.icon) {
+      crossfade(true)
+    }
     holder.name.text = dAppInfo.name
 
     holder.rootLayout.onSingleClick(GlobalScope) {

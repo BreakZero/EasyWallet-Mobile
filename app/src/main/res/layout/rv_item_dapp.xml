@@ -4,6 +4,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="@dimen/spacing_64"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:paddingTop="@dimen/spacing_8"
     android:paddingBottom="@dimen/spacing_8">
 

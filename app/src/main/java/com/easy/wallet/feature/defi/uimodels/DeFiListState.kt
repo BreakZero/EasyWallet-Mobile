@@ -9,5 +9,7 @@ data class DeFiListState(
 data class DAppInfo(
   val icon: String,
   val name: String,
-  val link: String
+  val link: String,
+  val chainId: Int,
+  val rpcUrl: String
 )

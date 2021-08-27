@@ -21,7 +21,7 @@ abstract class DAppModel : EpoxyModelWithHolder<Holder>() {
   lateinit var dAppInfo: DAppInfo
 
   @EpoxyAttribute
-  lateinit var toDApp: (link: String) -> Unit
+  lateinit var toDApp: (dapp: DAppInfo) -> Unit
 
   override fun bind(holder: Holder) {
     holder.icon.load(dAppInfo.icon) {
@@ -30,7 +30,7 @@ abstract class DAppModel : EpoxyModelWithHolder<Holder>() {
     holder.name.text = dAppInfo.name
 
     holder.rootLayout.onSingleClick(GlobalScope) {
-      toDApp.invoke(dAppInfo.link)
+      toDApp.invoke(dAppInfo)
     }
   }
 }

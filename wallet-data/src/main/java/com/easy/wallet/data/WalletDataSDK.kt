@@ -45,13 +45,10 @@ object WalletDataSDK {
         }
     }
 
-    fun dAppRPC(): String {
-        return when (chainId()) {
-            ChainId.MAINNET -> "https://mainnet.infura.io/v3/${APIKey.INFURA_API_KEY}"
-            ChainId.RINKEBY -> "https://rinkeby.infura.io/v3/${APIKey.INFURA_API_KEY}"
-            ChainId.KOVAN -> "https://kovan.infura.io/v3/${APIKey.INFURA_API_KEY}"
-            ChainId.GÖRLI -> "https://goerli.infura.io/v3/${APIKey.INFURA_API_KEY}"
-            else -> "https://ropsten.infura.io/v3/${APIKey.INFURA_API_KEY}"
+    fun dAppRPC(chainId: Int): String {
+        return when(chainId) {
+            56 -> "https://bsc-mainnet.web3api.com/v1/${APIKey.BSCRPC_APIKEY}"
+            else -> "https://mainnet.infura.io/v3/${APIKey.INFURA_API_KEY}"
         }
     }
 

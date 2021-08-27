@@ -23,11 +23,14 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
     super.setupView()
     val provderJs = loadProviderJs()
     val initJs = loadInitJs(
-      WalletDataSDK.chainId().id,
-      WalletDataSDK.dAppRPC()
+      args.appInfo.chainId,
+      args.appInfo.rpc
     )
     WebView.setWebContentsDebuggingEnabled(true)
-    binding.webView.settings.javaScriptEnabled = true
+    binding.webView.run {
+      settings.javaScriptEnabled = true
+      settings.domStorageEnabled = true
+    }
     binding.webView.addJavascriptInterface(WebAppInterface(binding.webView), "_tw_")
 
     val webViewClient = object : WebViewClient() {
@@ -38,7 +41,7 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
       }
     }
     binding.webView.webViewClient = webViewClient
-    binding.webView.loadUrl(args.link)
+    binding.webView.loadUrl(args.appInfo.appUrl)
   }
 
   private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min).bufferedReader().use {

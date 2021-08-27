@@ -16,8 +16,8 @@
         android:id="@+id/action_to_dapp"
         app:destination="@id/show_dapp">
         <argument
-            android:name="link"
-            app:argType="string" />
+            android:name="appInfo"
+            app:argType="com.easy.wallet.feature.sharing.dapp.DAppConnectInfo" />
     </action>
 
     <fragment

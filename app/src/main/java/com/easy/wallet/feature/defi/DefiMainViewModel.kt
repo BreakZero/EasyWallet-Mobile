@@ -1,5 +1,6 @@
 package com.easy.wallet.feature.defi
 
+import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.feature.defi.uimodels.DAppInfo
 import com.easy.wallet.feature.defi.uimodels.DeFiListState
 import io.uniflow.android.AndroidDataFlow
@@ -10,8 +11,20 @@ class DefiMainViewModel : AndroidDataFlow() {
       setState {
         DeFiListState(
           listOf(
-            DAppInfo("https://pbs.twimg.com/profile_images/1155018549510852610/ioEfq7r4.jpg", "Uni Swap", "https://app.uniswap.org/#/swap"),
-            DAppInfo("https://www.chaoniu520.com/content/top15img/202010//65e7f6fa739d863acc79dfc4d6141733.jpg", "DeFi Swap", "https://crypto.com/defi/swap/"),
+            DAppInfo(
+              "https://cryptologos.cc/logos/uniswap-uni-logo.png",
+              "Uni Swap",
+              "https://app.uniswap.org/#/swap",
+              1,
+              WalletDataSDK.dAppRPC(1)
+            ),
+            DAppInfo(
+              "https://gblobscdn.gitbook.com/spaces%2F-MHREX7DHcljbY5IkjgJ%2Favatar-1602750187173.png",
+              "Pancake swap",
+              "https://pancakeswap.finance/swap",
+              56,
+              WalletDataSDK.dAppRPC(56)
+            )
           )
         )
       }

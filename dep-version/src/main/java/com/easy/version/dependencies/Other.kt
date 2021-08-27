@@ -34,7 +34,7 @@ object Other {
   }
 
   object Epoxy {
-    private const val epoxy_version = "4.2.0"
+    private const val epoxy_version = "4.6.2"
     const val epoxyPaging = "com.airbnb.android:epoxy-paging3:$epoxy_version"
     const val epoxy = "com.airbnb.android:epoxy:$epoxy_version"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:$epoxy_version"

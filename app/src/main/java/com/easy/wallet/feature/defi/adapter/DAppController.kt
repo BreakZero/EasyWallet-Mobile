@@ -11,7 +11,7 @@ class DAppController(private val onChecked: (DAppInfo) -> Unit) :
         id(entity.hashCode())
         dAppInfo(entity)
         toDApp {
-          onChecked.invoke(it)
+          this@DAppController.onChecked.invoke(it)
         }
       }
     }

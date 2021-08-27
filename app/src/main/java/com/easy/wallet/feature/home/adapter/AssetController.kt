@@ -13,10 +13,10 @@ class AssetController(
         id(asset.coinInfo.hashCode())
         assetData(asset)
         onItemClick {
-          onItemClick.invoke(asset)
+          this@AssetController.onItemClick.invoke(asset)
         }
         onReceive {
-          onReceive.invoke(it)
+          this@AssetController.onReceive.invoke(it)
         }
       }
     }

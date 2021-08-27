@@ -1,6 +1,7 @@
 package com.easy.wallet.feature.defi
 
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
@@ -40,6 +41,12 @@ class DefiMainFragment : BaseFragment(R.layout.fragment_defi_index) {
   override fun setupView() {
     super.setupView()
     setTitle(getString(R.string.defi))
+    val spanCount = 3
+    GridLayoutManager(context, spanCount).run {
+      dappController.spanCount = spanCount
+      spanSizeLookup = dappController.spanSizeLookup
+      binding.defiList.layoutManager = this
+    }
     binding.defiList.setController(dappController)
   }
 

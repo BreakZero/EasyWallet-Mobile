@@ -31,7 +31,7 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
       settings.javaScriptEnabled = true
       settings.domStorageEnabled = true
     }
-    binding.webView.addJavascriptInterface(WebAppInterface(binding.webView), "_tw_")
+    binding.webView.addJavascriptInterface(WebAppInterface(requireContext(), binding.webView, args.appInfo.appUrl), "_tw_")
 
     val webViewClient = object : WebViewClient() {
       override fun onPageFinished(view: WebView?, url: String?) {

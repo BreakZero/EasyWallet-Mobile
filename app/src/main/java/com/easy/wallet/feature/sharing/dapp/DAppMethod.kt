@@ -1,14 +1,15 @@
 package com.easy.wallet.feature.sharing.dapp
 
-enum class DAppMethod(value: String) {
-  SIGNTRANSACTION("signTransaction"),
-  SIGNPERSONALMESSAGE("signPersonalMessage"),
-  SIGNMESSAGE("signMessage"),
-  SIGNTYPEDMESSAGE("signTypedMessage"),
-  ECRECOVER("ecRecover"),
-  REQUESTACCOUNTS("requestAccounts"),
-  WATCHASSET("watchAsset"),
-  ADDETHEREUMCHAIN("addEthereumChain");
+enum class DAppMethod {
+  SIGNTRANSACTION,
+  SIGNPERSONALMESSAGE,
+  SIGNMESSAGE,
+  SIGNTYPEDMESSAGE,
+  ECRECOVER,
+  REQUESTACCOUNTS,
+  WATCHASSET,
+  ADDETHEREUMCHAIN,
+  UNKNOWN;
 
   companion object {
     fun fromValue(value: String): DAppMethod {
@@ -20,7 +21,8 @@ enum class DAppMethod(value: String) {
         "ecRecover" -> ECRECOVER
         "requestAccounts" -> REQUESTACCOUNTS
         "watchAsset" -> WATCHASSET
-        else -> ADDETHEREUMCHAIN
+        "addEthereumChain" -> ADDETHEREUMCHAIN
+        else -> UNKNOWN
       }
     }
   }

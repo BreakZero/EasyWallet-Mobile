@@ -7,6 +7,7 @@ import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.CHAINID_STORE_KEY
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.defi.NFTManager
+import com.easy.wallet.data.network.web3j.Web3JService
 import com.easy.wallet.data.provider.*
 import com.easy.wallet.multi.MultiWalletConfig
 import com.easy.wallet.multi.model.WalletInfo
@@ -48,6 +49,7 @@ object WalletDataSDK {
     fun dAppRPC(chainId: Int): String {
         return when(chainId) {
             56 -> "https://bsc-mainnet.web3api.com/v1/${APIKey.BSCRPC_APIKEY}"
+            3 -> "https://ropsten.infura.io/v3/${APIKey.INFURA_API_KEY}"
             else -> "https://mainnet.infura.io/v3/${APIKey.INFURA_API_KEY}"
         }
     }

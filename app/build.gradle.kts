@@ -87,7 +87,8 @@ dependencies {
   implementation(Other.Exoplayer.exoplayerUI)
 
   implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-  implementation("com.github.TrustWallet:trust-web3-provider:1.0.4")
+  implementation("com.github.trustwallet:trust-web3-provider:1.0.4")
+  implementation("com.louiscad.splitties:splitties-alertdialog-material:3.0.0")
 
   implementation(Other.SQLDelight.sqlDelight)
   implementation(Other.SQLDelight.sqlCoroutine)

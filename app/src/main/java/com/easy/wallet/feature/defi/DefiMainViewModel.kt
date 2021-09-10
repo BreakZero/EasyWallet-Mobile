@@ -19,11 +19,25 @@ class DefiMainViewModel : AndroidDataFlow() {
               WalletDataSDK.dAppRPC(1)
             ),
             DAppInfo(
-              "https://gblobscdn.gitbook.com/spaces%2F-MHREX7DHcljbY5IkjgJ%2Favatar-1602750187173.png",
+              "https://cryptologos.cc/logos/uniswap-uni-logo.png",
+              "Uni Swap",
+              "https://app.uniswap.org/#/swap",
+              3,
+              WalletDataSDK.dAppRPC(3)
+            ),
+            DAppInfo(
+              "https://img2.baidu.com/it/u=3117495242,168525747&fm=26&fmt=auto&gp=0.jpg",
               "Pancake swap",
               "https://pancakeswap.finance/swap",
               56,
               WalletDataSDK.dAppRPC(56)
+            ),
+            DAppInfo(
+              "https://img2.baidu.com/it/u=3117495242,168525747&fm=26&fmt=auto&gp=0.jpg",
+              "Simple Link",
+              "https://js-eth-sign.surge.sh",
+              56,
+              "https://bsc-dataseed2.binance.org"
             )
           )
         )

@@ -6,12 +6,19 @@
     app:startDestination="@id/fragmentDefiIndex">
     <fragment
         android:id="@+id/fragmentDefiIndex"
-        android:name="com.easy.wallet.feature.defi.TestDefiFragment"
+        android:name="com.easy.wallet.feature.defi.DefiMainFragment"
         tools:layout="@layout/fragment_defi_index">
-        <action
-            android:id="@+id/action_to_uniswap"
-            app:destination="@id/fragmentUniswap" />
+
     </fragment>
+
+    <include app:graph="@navigation/global_dapp"/>
+    <action
+        android:id="@+id/action_to_dapp"
+        app:destination="@id/show_dapp">
+        <argument
+            android:name="appInfo"
+            app:argType="com.easy.wallet.feature.sharing.dapp.DAppConnectInfo" />
+    </action>
 
     <fragment
         android:id="@+id/fragmentUniswap"

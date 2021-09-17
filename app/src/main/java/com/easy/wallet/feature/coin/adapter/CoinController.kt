@@ -12,7 +12,7 @@ class CoinController(private val checkedChange: (String) -> Unit) :
         check(entity.is_active)
         coinName(entity.coin_name)
         onCheckChanged {
-          checkedChange.invoke(entity.coin_slug)
+          this@CoinController.checkedChange.invoke(entity.coin_slug)
         }
       }
     }

@@ -12,7 +12,7 @@ class TransactionHistoryController(
         id(transaction.txHash)
         itemData(transaction)
         onItemClick {
-          onItemClick.invoke(transaction)
+          this@TransactionHistoryController.onItemClick.invoke(transaction)
         }
       }
     }

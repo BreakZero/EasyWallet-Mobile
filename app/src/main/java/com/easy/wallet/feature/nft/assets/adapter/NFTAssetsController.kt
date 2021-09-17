@@ -13,7 +13,7 @@ class NFTAssetsController(
           infoData(item)
           id(item.hashCode())
           onItemClick {
-            itemListener.invoke(item)
+            this@NFTAssetsController.itemListener.invoke(item)
           }
         }
       }

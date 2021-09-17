@@ -71,10 +71,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     val navGraphIds = listOf(
       R.navigation.nav_asset,
+      R.navigation.nav_defi,
       R.navigation.nav_settings
     )
     val mainScreenIds = listOf(
       R.id.homeFragment,
+      R.id.fragmentDefiIndex,
       R.id.settingsFragment
     )
 

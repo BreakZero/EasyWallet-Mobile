@@ -1,17 +1,20 @@
 package com.easy.wallet.feature.sharing.dapp
 
 import android.annotation.SuppressLint
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.graphics.Bitmap
+import android.webkit.*
+import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
-import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.databinding.FragmentWebviewBinding
 import com.google.android.material.appbar.MaterialToolbar
+import timber.log.Timber
 
 class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
   override fun ownerToolbar(): MaterialToolbar? = null
+
+  private val args by navArgs<DAppBrowserFragmentArgs>()
 
   private val binding by viewBinding(FragmentWebviewBinding::bind)
 
@@ -20,31 +23,40 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
     super.setupView()
     val provderJs = loadProviderJs()
     val initJs = loadInitJs(
-      WalletDataSDK.chainId().id,
-      WalletDataSDK.dAppRPC()
+      args.appInfo.chainId,
+      args.appInfo.rpc
     )
-    println("file lenght: ${provderJs.length}")
     WebView.setWebContentsDebuggingEnabled(true)
-    binding.webView.settings.javaScriptEnabled = true
-    binding.webView.addJavascriptInterface(WebAppInterface(binding.webView), "_tw_")
+    binding.webView.run {
+      settings.javaScriptEnabled = true
+      settings.domStorageEnabled = true
+    }
+    binding.webView.addJavascriptInterface(WebAppInterface(requireContext(), binding.webView, args.appInfo.appUrl), "_tw_")
 
     val webViewClient = object : WebViewClient() {
-      override fun onPageFinished(view: WebView?, url: String?) {
-        super.onPageFinished(view, url)
+      override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
         view?.evaluateJavascript(provderJs, null)
         view?.evaluateJavascript(initJs, null)
       }
+
+      override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+      ): WebResourceResponse? {
+        return super.shouldInterceptRequest(view, request)
+      }
     }
     binding.webView.webViewClient = webViewClient
-    binding.webView.loadUrl("https://app.uniswap.org/#/swap")
+    binding.webView.loadUrl(args.appInfo.appUrl)
   }
 
-  private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min).bufferedReader().use {
+  private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min_new).bufferedReader().use {
     it.readText()
   }
 
   private fun loadInitJs(chainId: Int, rpcUrl: String): String {
-    val source = """
+    return """
         (function() {
             var config = {
                 chainId: $chainId,
@@ -58,6 +70,5 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
             }
         })();
         """
-    return source
   }
 }

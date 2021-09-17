@@ -13,7 +13,7 @@ class NFTCollectionController(
           infoData(item)
           id(item.hashCode())
           onItemClick {
-            itemListener.invoke(item)
+            this@NFTCollectionController.itemListener.invoke(item)
           }
         }
       }

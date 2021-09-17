@@ -47,7 +47,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
       start(R.id.action_home_to_settings)
     }
     binding.tvPreferences.onSingleClick(lifecycleScope) {
-      start(R.id.fragmentUniswap)
     }
 
     binding.swtEnableBiometric.setOnCheckedChangeListener { view, _ ->

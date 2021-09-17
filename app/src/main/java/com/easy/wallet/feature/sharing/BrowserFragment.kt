@@ -15,7 +15,11 @@ class BrowserFragment : BaseFragment(R.layout.fragment_webview) {
   @SuppressLint("SetJavaScriptEnabled")
   override fun setupView() {
     super.setupView()
-    binding.webView.settings.javaScriptEnabled = true
-    binding.webView.loadUrl("https://app.uniswap.org/#/swap")
+    binding.webView.run {
+      settings.javaScriptEnabled = true
+      settings.domStorageEnabled = true
+    }
+
+    binding.webView.loadUrl("https://pancakeswap.finance/swap")
   }
 }

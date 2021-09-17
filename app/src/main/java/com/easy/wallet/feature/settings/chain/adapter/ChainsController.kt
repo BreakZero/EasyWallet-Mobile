@@ -10,7 +10,7 @@ class ChainsController(private val checkedChange: (String) -> Unit) :
         id(entity.name)
         item(entity)
         onCheckChanged {
-          checkedChange.invoke(entity.name)
+          this@ChainsController.checkedChange.invoke(entity.name)
         }
       }
     }

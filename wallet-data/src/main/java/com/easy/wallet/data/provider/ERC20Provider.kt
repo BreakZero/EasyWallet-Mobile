@@ -178,7 +178,7 @@ class ERC20Provider(
           }.build()
         }
 
-        val signer = AnySigner.sign(signingInput.build(), CoinType.SMARTCHAIN, Ethereum.SigningOutput.parser())
+        val signer = AnySigner.sign(signingInput.build(), CoinType.ETHEREUM, Ethereum.SigningOutput.parser())
         SendPlanModel(
           amount = sendModel.amount.toBigDecimal().movePointLeft(decimals),
           fromAddress = getAddress(false),

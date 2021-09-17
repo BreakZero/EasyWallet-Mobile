@@ -92,7 +92,7 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
         }.build()
       }
       val signer =
-        AnySigner.sign(signingInput.build(), CoinType.SMARTCHAIN, Ethereum.SigningOutput.parser())
+        AnySigner.sign(signingInput.build(), CoinType.ETHEREUM, Ethereum.SigningOutput.parser())
       val rawData = Numeric.toHexString(signer.encoded.toByteArray())
       rawData
     }

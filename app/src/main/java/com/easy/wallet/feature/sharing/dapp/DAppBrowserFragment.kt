@@ -1,15 +1,15 @@
 package com.easy.wallet.feature.sharing.dapp
 
 import android.annotation.SuppressLint
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.graphics.Bitmap
+import android.webkit.*
 import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
 import com.easy.wallet.R
-import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.databinding.FragmentWebviewBinding
 import com.google.android.material.appbar.MaterialToolbar
+import timber.log.Timber
 
 class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
   override fun ownerToolbar(): MaterialToolbar? = null
@@ -34,17 +34,24 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
     binding.webView.addJavascriptInterface(WebAppInterface(requireContext(), binding.webView, args.appInfo.appUrl), "_tw_")
 
     val webViewClient = object : WebViewClient() {
-      override fun onPageFinished(view: WebView?, url: String?) {
-        super.onPageFinished(view, url)
+      override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
         view?.evaluateJavascript(provderJs, null)
         view?.evaluateJavascript(initJs, null)
+      }
+
+      override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+      ): WebResourceResponse? {
+        return super.shouldInterceptRequest(view, request)
       }
     }
     binding.webView.webViewClient = webViewClient
     binding.webView.loadUrl(args.appInfo.appUrl)
   }
 
-  private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min).bufferedReader().use {
+  private fun loadProviderJs() = resources.openRawResource(R.raw.trust_min_new).bufferedReader().use {
     it.readText()
   }
 

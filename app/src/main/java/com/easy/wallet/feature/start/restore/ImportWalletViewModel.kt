@@ -4,6 +4,7 @@ import com.easy.wallet.data.WalletDataSDK
 import io.uniflow.android.AndroidDataFlow
 import io.uniflow.core.flow.data.UIState
 import org.koin.core.component.KoinComponent
+import timber.log.Timber
 
 class ImportWalletViewModel : AndroidDataFlow(), KoinComponent {
   private val words = mutableListOf<String>()
@@ -26,6 +27,7 @@ class ImportWalletViewModel : AndroidDataFlow(), KoinComponent {
       }
     },
     onError = { error, _ ->
+      Timber.d(error)
       setState { UIState.Failed(error = error) }
     }
   )

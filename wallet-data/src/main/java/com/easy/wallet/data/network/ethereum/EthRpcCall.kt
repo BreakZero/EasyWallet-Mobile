@@ -2,6 +2,7 @@ package com.easy.wallet.data.network.ethereum
 
 import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
 import com.easy.wallet.data.data.remote.rpc.BaseRPCResp
+import com.easy.wallet.data.data.remote.rpc.FeeHistory
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -19,4 +20,10 @@ internal interface EthRpcCall {
     @Path("apikey") apikey: String,
     @Body body: RequestBody
   ): BaseRPCResp<String>
+
+  @POST("{apikey}")
+  suspend fun ethFeeHistory(
+    @Path("apikey") apikey: String,
+    @Body body: BaseRPCReq<Any>
+  ): BaseRPCResp<FeeHistory>
 }

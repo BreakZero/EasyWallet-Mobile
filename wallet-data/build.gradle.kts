@@ -70,7 +70,7 @@ dependencies {
 
     api(project(":framework-core"))
     api(project(":multi-wallet"))
-    api("com.trustwallet:wallet-core:2.6.23")
+    api("com.trustwallet:wallet-core:2.6.30")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.1.0")
 
@@ -80,7 +80,7 @@ dependencies {
     api(Special.ERC20)
 
     testImplementation("junit:junit:4.13")
-    androidTestImplementation("io.mockk:mockk-android:1.10.0")
+    androidTestImplementation("io.mockk:mockk-android:1.12.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }

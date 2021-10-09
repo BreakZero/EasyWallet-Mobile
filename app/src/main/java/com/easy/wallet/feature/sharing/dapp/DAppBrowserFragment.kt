@@ -2,7 +2,10 @@ package com.easy.wallet.feature.sharing.dapp
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.webkit.*
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.easy.framework.base.BaseFragment
 import com.easy.framework.delegate.viewBinding
@@ -38,6 +41,10 @@ class DAppBrowserFragment : BaseFragment(R.layout.fragment_webview) {
         super.onPageStarted(view, url, favicon)
         view?.evaluateJavascript(provderJs, null)
         view?.evaluateJavascript(initJs, null)
+        /*val script = "window.ethereum.request({method: \"eth_requestAccounts\"})"
+        view?.evaluateJavascript(script) {
+          Timber.d("======== $it")
+        }*/
       }
 
       override fun shouldInterceptRequest(

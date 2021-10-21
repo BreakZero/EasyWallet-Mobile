@@ -3,11 +3,11 @@ package com.easy.wallet.data.provider
 import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.ChainId
-import com.easy.wallet.data.data.model.SendModel
-import com.easy.wallet.data.data.model.SendPlanModel
-import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.constant.RPCMethodConstant
+import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.data.remote.rpc.BalanceReq
 import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
+import com.easy.wallet.data.data.remote.rpc.FeeHistory
 import com.easy.wallet.data.error.NetworkError
 import com.easy.wallet.data.error.NotEthereumException
 import com.easy.wallet.data.error.UnSupportTokenException
@@ -16,6 +16,7 @@ import com.easy.wallet.data.network.ethereum.EthRpcCall
 import com.easy.wallet.data.network.ethereum.EthRpcClient
 import com.easy.wallet.data.network.web3j.Web3JService
 import com.google.protobuf.ByteString
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,9 +26,11 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction
 import org.web3j.utils.Numeric
+import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
+import wallet.core.jni.EthereumFee
 import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
@@ -68,7 +71,7 @@ class ERC20Provider(
   private val decimals: Int = 8
 ) : BaseProvider(WalletDataSDK.currWallet()) {
   companion object {
-    private const val GAS_LIMIT = 50000
+    private const val GAS_LIMIT = 210000
     private const val apiKey = APIKey.INFURA_API_KEY
   }
 
@@ -77,15 +80,14 @@ class ERC20Provider(
     TokenAddress.address(symbol, currChainId) ?: throw UnSupportTokenException(symbol)
   private val rpcClient: EthRpcCall =
     EthRpcClient.client(currChainId).create(EthRpcCall::class.java)
-
   override fun getBalance(address: String): Flow<BigInteger> {
     return flow {
       val balance = rpcClient.tokenBalanceOf(
         apikey = apiKey,
         body = BaseRPCReq(
-          id = 1,
-          jsonrpc = "2.0",
-          method = "eth_call",
+          id = currChainId.id,
+          jsonrpc = RPCMethodConstant.ETH_VERSION,
+          method = RPCMethodConstant.ETH_CALL,
           params = listOf(
             BalanceReq(
               from = address,
@@ -132,15 +134,17 @@ class ERC20Provider(
     gasPrice: BigInteger,
     payload: String
   ): BigInteger {
-    return if (isContract) "21000".toBigInteger()
-    else web3JService.ethEstimateGas(
-      Transaction.createContractTransaction(
-        toAddress,
-        nonce,
-        gasPrice,
-        payload
-      )
-    ).sendAsync().get().amountUsed
+    return if (isContract) GAS_LIMIT.toBigInteger()
+    else kotlin.runCatching {
+      web3JService.ethEstimateGas(
+        Transaction.createContractTransaction(
+          toAddress,
+          nonce,
+          gasPrice,
+          payload
+        )
+      ).sendAsync().get().amountUsed
+    }.getOrNull() ?: GAS_LIMIT.toBigInteger()
   }
 
   override fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel> {
@@ -154,21 +158,43 @@ class ERC20Provider(
         getAddress(false),
         DefaultBlockParameterName.LATEST
       ).sendAsync().get().transactionCount
-      emit(nonce)
-    }.map {
-      it?.let {
+      val feeHistory = rpcClient.ethFeeHistory(
+        apikey = APIKey.INFURA_API_KEY,
+        body = BaseRPCReq(
+          id = currChainId.id,
+          jsonrpc = RPCMethodConstant.ETH_VERSION,
+          method = RPCMethodConstant.ETH_FEE_HISTORY,
+          params = listOf("0x15", "latest", listOf(50))
+        )
+      ).result
+      // val gasLimit = estimateGasLimitNeed(true, contractAddress, nonce, )
+      Moshi.Builder().build().run {
+        val feeJson = EthereumFee.suggest(adapter(FeeHistory::class.java).toJson(feeHistory))
+        adapter(EIP1559Fee::class.java).fromJson(feeJson)
+      }?.let {
+        emit(Pair(nonce, it))
+      } ?: throw IllegalArgumentException("get fee history error")
+    }.map { (nonce, fee) ->
+      Timber.d("====== nonce: $nonce, fee: $fee")
+      nonce?.let {
+        val isEnvelopedModel = sendModel.txModel == TxModel.Enveloped
         val prvKey = ByteString.copyFrom(hdWallet.getKeyForCoin(CoinType.ETHEREUM).data())
+        val maxPriorityFee = fee.maxPriorityFee.toBigInteger()
         val signingInput = Ethereum.SigningInput.newBuilder().apply {
-          privateKey = prvKey
-          toAddress = sendModel.to
-          chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
-          nonce = ByteString.copyFrom((it).toHexByteArray())
-          gasPrice = ByteString.copyFrom(
+          this.privateKey = prvKey
+          this.toAddress = contractAddress
+          this.txMode = if (isEnvelopedModel) Ethereum.TransactionMode.Enveloped
+          else Ethereum.TransactionMode.Legacy
+          this.chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
+          this.gasPrice = if (isEnvelopedModel) null else ByteString.copyFrom(
             sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()
               .toHexByteArray()
           )
-          gasLimit = ByteString.copyFrom(GAS_LIMIT.toHexByteArray())
-          transaction = Ethereum.Transaction.newBuilder().apply {
+          this.nonce = ByteString.copyFrom((it).toHexByteArray())
+          this.maxFeePerGas = ByteString.copyFrom(maxPriorityFee.toHexByteArray())
+          this.maxInclusionFeePerGas = ByteString.copyFrom(maxPriorityFee.toHexByteArray())
+          this.gasLimit = ByteString.copyFrom(GAS_LIMIT.toHexByteArray())
+          this.transaction = Ethereum.Transaction.newBuilder().apply {
             erc20Transfer = Ethereum.Transaction.ERC20Transfer.newBuilder().apply {
               to = sendModel.to
               amount = ByteString.copyFrom(

@@ -1,15 +1,19 @@
 package com.easy.wallet.data.provider
 
 import com.easy.wallet.data.WalletDataSDK
+import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.ChainId
-import com.easy.wallet.data.data.model.DAppSendModel
-import com.easy.wallet.data.data.model.SendModel
-import com.easy.wallet.data.data.model.SendPlanModel
-import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.constant.RPCMethodConstant
+import com.easy.wallet.data.data.model.*
+import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
+import com.easy.wallet.data.data.remote.rpc.FeeHistory
 import com.easy.wallet.data.error.InsufficientBalanceException
 import com.easy.wallet.data.etx.toHexByteArray
+import com.easy.wallet.data.network.ethereum.EthRpcCall
+import com.easy.wallet.data.network.ethereum.EthRpcClient
 import com.easy.wallet.data.network.web3j.Web3JService
 import com.google.protobuf.ByteString
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,14 +22,18 @@ import kotlinx.coroutines.flow.map
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.utils.Numeric
+import timber.log.Timber
 import wallet.core.java.AnySigner
 import wallet.core.jni.AnyAddress
 import wallet.core.jni.CoinType
+import wallet.core.jni.EthereumFee
 import wallet.core.jni.proto.Ethereum
 import java.math.BigInteger
 
 class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
   private val web3JService: Web3j = Web3JService.web3jClient(currChainId)
+  private val rpcClient: EthRpcCall =
+    EthRpcClient.client(currChainId).create(EthRpcCall::class.java)
 
   companion object {
     private const val GAS_LIMIT = 21000
@@ -107,9 +115,24 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
         getAddress(false),
         DefaultBlockParameterName.LATEST
       ).sendAsync().get().transactionCount
-      emit(Pair(balance, nonce))
-    }.map {
-      if (it.first < sendModel.amount) throw InsufficientBalanceException()
+      val feeHistory = rpcClient.ethFeeHistory(
+        apikey = APIKey.INFURA_API_KEY,
+        body = BaseRPCReq(
+          id = currChainId.id,
+          jsonrpc = "2.0",
+          method = RPCMethodConstant.ETH_FEE_HISTORY,
+          params = listOf("0x15", "latest", listOf(50))
+        )
+      ).result
+      Moshi.Builder().build().run {
+        val feeJson = EthereumFee.suggest(adapter(FeeHistory::class.java).toJson(feeHistory))
+        adapter(EIP1559Fee::class.java).fromJson(feeJson)
+      }?.let {
+        emit(Triple(balance, nonce, it))
+      } ?: throw IllegalArgumentException("get fee history error")
+    }.map { (balance, nonce, fee) ->
+      Timber.d("===== $fee")
+      if (balance < sendModel.amount) throw InsufficientBalanceException()
       val prvKey = ByteString.copyFrom(hdWallet.getKeyForCoin(CoinType.ETHEREUM).data())
       val txBuild = Ethereum.Transaction.newBuilder().apply {
         transfer = Ethereum.Transaction.Transfer.newBuilder().apply {
@@ -118,17 +141,23 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
           )
         }.build()
       }
+      val isEnvelopedModel = sendModel.txModel == TxModel.Enveloped
       val signingInput = Ethereum.SigningInput.newBuilder().apply {
-        privateKey = prvKey
-        toAddress = sendModel.to
-        chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
-        nonce = ByteString.copyFrom(it.second.toHexByteArray())
-        gasPrice = ByteString.copyFrom(
+        this.privateKey = prvKey
+        this.toAddress = sendModel.to
+        this.chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
+        this.nonce = ByteString.copyFrom(nonce.toHexByteArray())
+        this.txMode = if (isEnvelopedModel) Ethereum.TransactionMode.Enveloped else
+          Ethereum.TransactionMode.Legacy
+        this.gasPrice = if (isEnvelopedModel) null else ByteString.copyFrom(
           sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()
             .toHexByteArray()
         )
-        gasLimit = ByteString.copyFrom(GAS_LIMIT.toHexByteArray())
-        transaction = txBuild.build()
+        this.maxFeePerGas = ByteString.copyFrom(fee.maxPriorityFee.toBigInteger().toHexByteArray())
+        this.maxInclusionFeePerGas =
+          ByteString.copyFrom(fee.maxPriorityFee.toBigInteger().toHexByteArray())
+        this.gasLimit = ByteString.copyFrom(GAS_LIMIT.toHexByteArray())
+        this.transaction = txBuild.build()
       }
 
       val output = AnySigner.sign(
@@ -166,30 +195,5 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
 
   override fun validateAddress(address: String): Boolean {
     return AnyAddress.isValid(address, CoinType.ETHEREUM)
-  }
-
-  private fun genFun(
-    nonce: Int,
-    gasPrice: String,
-    gas: String,
-    to: String,
-    value: String,
-    v: String,
-    r: String,
-    s: String
-  ) {
-    """
-            {
-                "nonce":$nonce,
-                "gasPrice":$gasPrice,
-                "gas": $gas,
-                "to": $to,
-                "value":$value,
-                "input":"0x",
-                "v":$v,
-                "r":$r,
-                "s":$s,
-            }
-        """.trimIndent()
   }
 }

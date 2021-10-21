@@ -26,11 +26,30 @@ allprojects {
 
         maven(url = uri("https://maven.pkg.github.com/trustwallet/wallet-core")) {
             credentials {
-                username = gradleLocalProperties(rootDir).getProperty("gpr.user")
-                password = gradleLocalProperties(rootDir).getProperty("gpr.key")
+                username = gradleLocalProperties(rootDir).getProperty("gpr.user").also {
+                    println("${this@repositories} user ====== $it")
+                }
+                password = gradleProperties(rootDir, com.android.SdkConstants.FN_LOCAL_PROPERTIES).getProperty("gpr.key").also {
+                    println("${this@repositories} key ====== $it")
+                }
             }
         }
     }
+}
+
+fun gradleProperties(projectRootDir : File, fileName: String) : java.util.Properties {
+    val properties = java.util.Properties()
+    val localProperties = File(projectRootDir, fileName)
+
+    if (localProperties.isFile) {
+        java.io.InputStreamReader(
+            java.io.FileInputStream(localProperties),
+            com.google.common.base.Charsets.UTF_8
+        ).use { reader ->
+            properties.load(reader)
+        }
+    }
+    return properties
 }
 
 tasks.register("clean", Delete::class.java) {

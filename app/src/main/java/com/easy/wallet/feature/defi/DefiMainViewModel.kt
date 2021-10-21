@@ -38,6 +38,13 @@ class DefiMainViewModel : AndroidDataFlow() {
               "https://js-eth-sign.surge.sh",
               56,
               "https://bsc-dataseed2.binance.org"
+            ),
+            DAppInfo(
+              "https://img2.baidu.com/it/u=3117495242,168525747&fm=26&fmt=auto&gp=0.jpg",
+              "Simple Link",
+              "https://pancakeswap.finance/swap#/swap",
+              56,
+              "https://bsc-dataseed.binance.org"
             )
           )
         )

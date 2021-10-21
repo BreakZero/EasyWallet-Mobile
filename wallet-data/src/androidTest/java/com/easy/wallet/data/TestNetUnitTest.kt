@@ -74,7 +74,7 @@ class TestNetUnitTest {
         )
         coEvery { mockTestNetService.ethBalance(address) } returns response
 
-        val ethProvider = EthereumProvider(ChainId.MAINNET)
+        val ethProvider = EthereumProvider()
         ethProvider.testNetService = mockTestNetService
 
         val flow = ethProvider.getBalance(address)
@@ -205,8 +205,10 @@ class TestNetUnitTest {
         }
 
         val output = AnySigner.sign(signingInput.build(), CoinType.ETHEREUM, Ethereum.SigningOutput.parser())
-        val encoded = AnySigner.encode(signingInput.build(), CoinType.ETHEREUM)
+        val signer =
+            AnySigner.sign(signingInput.build(), CoinType.ETHEREUM, Ethereum.SigningOutput.parser())
+        val rawData = Numeric.toHexString(signer.encoded.toByteArray())
 
-        println(Numeric.toHexString(encoded))
+        println(rawData)
     }
 }

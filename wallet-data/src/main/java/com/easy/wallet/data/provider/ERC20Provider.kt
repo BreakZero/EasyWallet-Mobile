@@ -4,10 +4,7 @@ import com.easy.wallet.data.WalletDataSDK
 import com.easy.wallet.data.constant.APIKey
 import com.easy.wallet.data.constant.ChainId
 import com.easy.wallet.data.constant.RPCMethodConstant
-import com.easy.wallet.data.data.model.EIP1559Fee
-import com.easy.wallet.data.data.model.SendModel
-import com.easy.wallet.data.data.model.SendPlanModel
-import com.easy.wallet.data.data.model.TransactionDataModel
+import com.easy.wallet.data.data.model.*
 import com.easy.wallet.data.data.remote.rpc.BalanceReq
 import com.easy.wallet.data.data.remote.rpc.BaseRPCReq
 import com.easy.wallet.data.data.remote.rpc.FeeHistory
@@ -83,7 +80,6 @@ class ERC20Provider(
     TokenAddress.address(symbol, currChainId) ?: throw UnSupportTokenException(symbol)
   private val rpcClient: EthRpcCall =
     EthRpcClient.client(currChainId).create(EthRpcCall::class.java)
-
   override fun getBalance(address: String): Flow<BigInteger> {
     return flow {
       val balance = rpcClient.tokenBalanceOf(
@@ -138,15 +134,17 @@ class ERC20Provider(
     gasPrice: BigInteger,
     payload: String
   ): BigInteger {
-    return if (isContract) "21000".toBigInteger()
-    else web3JService.ethEstimateGas(
-      Transaction.createContractTransaction(
-        toAddress,
-        nonce,
-        gasPrice,
-        payload
-      )
-    ).sendAsync().get().amountUsed
+    return if (isContract) GAS_LIMIT.toBigInteger()
+    else kotlin.runCatching {
+      web3JService.ethEstimateGas(
+        Transaction.createContractTransaction(
+          toAddress,
+          nonce,
+          gasPrice,
+          payload
+        )
+      ).sendAsync().get().amountUsed
+    }.getOrNull() ?: GAS_LIMIT.toBigInteger()
   }
 
   override fun buildTransactionPlan(sendModel: SendModel): Flow<SendPlanModel> {
@@ -169,6 +167,7 @@ class ERC20Provider(
           params = listOf("0x15", "latest", listOf(50))
         )
       ).result
+      // val gasLimit = estimateGasLimitNeed(true, contractAddress, nonce, )
       Moshi.Builder().build().run {
         val feeJson = EthereumFee.suggest(adapter(FeeHistory::class.java).toJson(feeHistory))
         adapter(EIP1559Fee::class.java).fromJson(feeJson)
@@ -178,13 +177,19 @@ class ERC20Provider(
     }.map { (nonce, fee) ->
       Timber.d("====== nonce: $nonce, fee: $fee")
       nonce?.let {
+        val isEnvelopedModel = sendModel.txModel == TxModel.Enveloped
         val prvKey = ByteString.copyFrom(hdWallet.getKeyForCoin(CoinType.ETHEREUM).data())
         val maxPriorityFee = fee.maxPriorityFee.toBigInteger()
         val signingInput = Ethereum.SigningInput.newBuilder().apply {
           this.privateKey = prvKey
           this.toAddress = contractAddress
-          this.txMode = Ethereum.TransactionMode.Enveloped
+          this.txMode = if (isEnvelopedModel) Ethereum.TransactionMode.Enveloped
+          else Ethereum.TransactionMode.Legacy
           this.chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
+          this.gasPrice = if (isEnvelopedModel) null else ByteString.copyFrom(
+            sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()
+              .toHexByteArray()
+          )
           this.nonce = ByteString.copyFrom((it).toHexByteArray())
           this.maxFeePerGas = ByteString.copyFrom(maxPriorityFee.toHexByteArray())
           this.maxInclusionFeePerGas = ByteString.copyFrom(maxPriorityFee.toHexByteArray())

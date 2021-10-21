@@ -141,12 +141,18 @@ class EthereumProvider : BaseProvider(WalletDataSDK.currWallet()) {
           )
         }.build()
       }
+      val isEnvelopedModel = sendModel.txModel == TxModel.Enveloped
       val signingInput = Ethereum.SigningInput.newBuilder().apply {
         this.privateKey = prvKey
         this.toAddress = sendModel.to
         this.chainId = ByteString.copyFrom(currChainId.id.toBigInteger().toByteArray())
         this.nonce = ByteString.copyFrom(nonce.toHexByteArray())
-        this.txMode = Ethereum.TransactionMode.Enveloped
+        this.txMode = if (isEnvelopedModel) Ethereum.TransactionMode.Enveloped else
+          Ethereum.TransactionMode.Legacy
+        this.gasPrice = if (isEnvelopedModel) null else ByteString.copyFrom(
+          sendModel.feeByte.toBigDecimal().movePointRight(9).toBigInteger()
+            .toHexByteArray()
+        )
         this.maxFeePerGas = ByteString.copyFrom(fee.maxPriorityFee.toBigInteger().toHexByteArray())
         this.maxInclusionFeePerGas =
           ByteString.copyFrom(fee.maxPriorityFee.toBigInteger().toHexByteArray())

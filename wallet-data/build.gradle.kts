@@ -70,7 +70,7 @@ dependencies {
 
     api(project(":framework-core"))
     api(project(":multi-wallet"))
-    api("com.trustwallet:wallet-core:2.6.30")
+    api("com.trustwallet:wallet-core:2.6.35")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.1.0")
 

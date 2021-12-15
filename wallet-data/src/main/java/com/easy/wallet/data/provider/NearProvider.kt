@@ -7,7 +7,11 @@ import com.easy.wallet.data.data.model.TransactionDataModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
+import wallet.core.jni.AnyAddress
+import wallet.core.jni.Base58
 import wallet.core.jni.CoinType
+import wallet.core.jni.PrivateKey
+import wallet.core.jni.proto.NEAR
 import java.math.BigInteger
 
 class NearProvider : BaseProvider(WalletDataSDK.currWallet()) {
@@ -39,6 +43,10 @@ class NearProvider : BaseProvider(WalletDataSDK.currWallet()) {
   }
 
   override fun getAddress(isLegacy: Boolean): String {
+    val key = hdWallet.getKeyForCoin(CoinType.NEAR)
+    val pubkey = key.publicKeyEd25519
+    val address = AnyAddress(pubkey, CoinType.NEAR)
+    Timber.d("===== ${pubkey.description()}, ${address.description()}")
     return hdWallet.getAddressForCoin(CoinType.NEAR)
   }
 

@@ -43,7 +43,8 @@ object Other {
   object Retrofit {
     private const val retrofit_version = "2.9.0"
     const val retrofit = "com.squareup.retrofit2:retrofit:$retrofit_version"
-    const val moshi = "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    const val moshiConvert = "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    const val moshi = "com.squareup.moshi:moshi-kotlin:1.9.1"
   }
 
   object Koin {

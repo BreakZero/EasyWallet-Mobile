@@ -85,6 +85,7 @@ dependencies {
   implementation(Other.Epoxy.epoxyPaging)
   implementation(Other.Exoplayer.exoplayerCore)
   implementation(Other.Exoplayer.exoplayerUI)
+  implementation("com.github.WalletConnect-Labs:WalletConnectKotlinV2:1.0.0-test04")
 
   implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
   implementation("com.github.trustwallet:trust-web3-provider:1.0.5")

@@ -41,7 +41,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     binding.tvAbout.onSingleClick(lifecycleScope) {
-      Timber.d("Hello world")
+      start(R.id.action_to_testing)
     }
     binding.flChainNetwork.onSingleClick(lifecycleScope) {
       start(R.id.action_home_to_settings)

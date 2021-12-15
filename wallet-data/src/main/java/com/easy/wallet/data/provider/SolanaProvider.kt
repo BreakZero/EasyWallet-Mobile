@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import wallet.core.java.AnySigner
 import wallet.core.jni.CoinType
+import wallet.core.jni.HDWallet
 import wallet.core.jni.proto.Solana
 import java.math.BigInteger
 

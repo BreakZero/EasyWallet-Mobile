@@ -20,6 +20,9 @@ import org.koin.androidx.fragment.koin.fragmentFactory
 import org.koin.core.KoinExperimentalAPI
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.walletconnect.walletconnectv2.WalletConnectClient
+import org.walletconnect.walletconnectv2.client.ClientTypes
+import org.walletconnect.walletconnectv2.common.AppMetaData
 
 class WalletApplication : Application(), ImageLoaderFactory {
   @KoinExperimentalAPI
@@ -28,13 +31,25 @@ class WalletApplication : Application(), ImageLoaderFactory {
     AndroidThreeTen.init(this)
     CrashCollection.handleCrash()
     UniFlowLogger.init(AndroidMessageLogger(showDebug = BuildConfig.DEBUG))
-
     startKoin {
       androidLogger(Level.DEBUG)
       androidContext(this@WalletApplication)
       fragmentFactory()
       koin.loadModules(listOf(appModule, scopeModule))
     }
+
+    val initParams = ClientTypes.InitialParams(
+      application = this,
+      hostName = "relay.walletconnect.org",
+      metadata = AppMetaData(
+        name = "Kotlin Wallet",
+        description = "Wallet description",
+        url = "example.wallet",
+        icons = listOf("https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media")
+      )
+    )
+
+    // WalletConnectClient.initialize(initParams)
   }
 
   override fun newImageLoader(): ImageLoader {

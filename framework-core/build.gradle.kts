@@ -57,6 +57,7 @@ dependencies {
 
     api(Other.Retrofit.retrofit)
     api(Other.Retrofit.moshi)
+    api(Other.Retrofit.moshiConvert)
     api(Other.okHttpLogger)
     api(Other.coroutineCore)
     api(Other.coroutineAndroid)

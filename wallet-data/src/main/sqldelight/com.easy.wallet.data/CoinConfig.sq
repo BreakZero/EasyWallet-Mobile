@@ -64,3 +64,5 @@ INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display
 VALUES ('matic-main','MATIC', 'Polygon', 9, 8, '#00FFD4', 'MAIN_COIN', 0);
 INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
 VALUES ('near-main','NEAR', 'NEAR', 24, 8, '#00FFD4', 'MAIN_COIN', 0);
+INSERT INTO coinConfig (coin_slug, coin_symbol, coin_name, coin_decimal, display_decimal, accent_color, token_type, is_active)
+VALUES ('terra-main','LUNA', 'LUNA', 6, 6, '#00FFD4', 'MAIN_COIN', 0);

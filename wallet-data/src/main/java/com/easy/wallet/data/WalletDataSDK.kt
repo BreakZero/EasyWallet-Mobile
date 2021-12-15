@@ -108,6 +108,7 @@ object WalletDataSDK {
                 "sol-main" -> SolanaProvider()
                 "matic-main" -> PolygonProvider()
                 "near-main" -> NearProvider()
+                "terra-main" -> TerraProvider()
                 else -> ERC20Provider(
                     symbol = symbol,
                     decimals = decimals

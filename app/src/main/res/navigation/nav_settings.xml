@@ -11,7 +11,15 @@
         <action
             android:id="@+id/action_home_to_settings"
             app:destination="@id/setChainFragment" />
+        <action
+            android:id="@+id/action_to_testing"
+            app:destination="@id/testing" />
     </fragment>
+
+    <fragment
+        android:id="@+id/testing"
+        android:name="com.easy.wallet.feature.TestFragment"
+        tools:layout="@layout/fragment_test" />
 
     <fragment
         android:id="@+id/setChainFragment"
